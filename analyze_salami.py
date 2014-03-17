@@ -27,11 +27,11 @@ Where salami_path points to the SALAMI folder formatted as follows:
 
 """
 
-__author__ = "Oriol Nieto"
-__copyright__ = "Copyright 2014, Music and Audio Research Lab (MARL)"
-__license__ = "GPLv3"
-__version__ = "1.0"
-__email__ = "oriol@nyu.edu"
+__author__      = "Oriol Nieto"
+__copyright__   = "Copyright 2014, Music and Audio Research Lab (MARL)"
+__license__     = "GPLv3"
+__version__     = "1.0"
+__email__       = "oriol@nyu.edu"
 
 import argparse
 import glob
@@ -113,7 +113,7 @@ def write_results(results, out_file):
         f.write(out_str)
 
 
-def process(in_path, out_file):
+def process(in_path, out_file, trim):
     """Main process to analyze SALAMI."""
     prefix = "SALAMI_"
     annot_files = glob.glob(os.path.join(in_path, "annotations", 
@@ -122,7 +122,7 @@ def process(in_path, out_file):
     logging.info("Analyzing the SALAMI dataset located in %s ..." % in_path)
     all_res = []
     for annot_file in annot_files:
-        curr_res = evaluate_annotations(annot_file)
+        curr_res = evaluate_annotations(annot_file, trim=trim)
         if curr_res is None:
             continue
         all_res.append(curr_res)
@@ -145,6 +145,11 @@ def main():
                         dest="out_file",
                         help="Output file to save the results",
                         default="salami_results.txt")
+    parser.add_argument("-t", 
+                        action="store_true",
+                        dest="trim",
+                        help="Trims the first and last boundaries",
+                        default=False)
 
     args = parser.parse_args()
     start_time = time.time()
@@ -154,7 +159,7 @@ def main():
         level=logging.INFO)
 
     # Run the process
-    process(args.in_path, args.out_file)
+    process(args.in_path, args.out_file, args.trim)
 
     # Done!
     logging.info("Done! Took %.2f seconds." % (time.time() - start_time))
