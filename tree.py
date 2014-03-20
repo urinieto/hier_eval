@@ -48,70 +48,78 @@ import librosa
 import mir_eval
 
 class Segment(object):
-	"""Musical segment.
+    """Musical segment.
 
-	Represented by a start and end times, a label, and their associated
-	confident values.
-	"""
-	def __init__(self, start, end, label, start_conf=None, 
-			end_conf=None, label_conf=None):
-		self._start = start
-		self._end = end
-		self._label = label
-		self._start_conf = start_conf
-		self._end_conf = end_conf
-		self._label_conf = label_conf
-	
-	@property
-	def start(self):
-		return self._start
+    Represented by a start and end times, a label, and their associated
+    confident values.
+    """
+    def __init__(self, start, end, label, start_conf=None, 
+            end_conf=None, label_conf=None):
+        self._start = start
+        self._end = end
+        self._label = label
+        self._start_conf = start_conf
+        self._end_conf = end_conf
+        self._label_conf = label_conf
 
-	@property
-	def end(self):
-		return self._end
+    @property
+    def start(self):
+        return self._start
 
-	@property
-	def label(self):
-		return self._label
+    @property
+    def end(self):
+        return self._end
 
-	@property
-	def start_conf(self):
-		return self._start_conf
+    @property
+    def label(self):
+        return self._label
 
-	@property
-	def end_conf(self):
-		return self._end_conf
+    @property
+    def start_conf(self):
+        return self._start_conf
 
-	@property
-	def label_conf(self):
-		return self._label_conf
+    @property
+    def end_conf(self):
+        return self._end_conf
 
-	def __str__(self):
-		"""Render the object as a readable string."""
-		s = "Segment at %s:\n" % hex(id(self))
-		s += "\tstart:\t%.2f\n" % self.start
-		s += "\tend:\t%.2f\n" % self.end
-		s += "\tlabel:\t%s" % self.label
-		return s
-		
+    @property
+    def label_conf(self):
+        return self._label_conf
+
+    def __str__(self):
+        """Render the object as a readable string."""
+        s = "Segment at %s:\n" % hex(id(self))
+        s += "\tstart:\t%.2f\n" % self.start
+        s += "\tend:\t%.2f\n" % self.end
+        s += "\tlabel:\t%s" % self.label
+        return s
+            
 
 class SegmentTree(object):
-	"""A hierarchical segmentation of a musical piece.
-	"""
-	def __init__(self, jam_file, annotation_id=0):
-		"""Initialize a segment tree using a jam annotation file and a
-		specific annotation id in case the jam file contains multiple
-		annotations."""
-		self.jam = jams.load(jam_file)
+    """A hierarchical segmentation of a musical piece.
+    """
+    def __init__(self, jam_file, annotation_id=0):
+        """Initialize a segment tree using a jam annotation file and a
+        specific annotation id in case the jam file contains multiple
+        annotations."""
+        self.jam = jams.load(jam_file)
 
-		def get_levels():
-			levels = []
-			annotation = self.jam.sections[annotation_id]
-			[levels.append(segment.label.context) for segment in \
-					annotation.data if segment.label.context not in levels]
-			return levels
+        def get_levels():
+            """Obtains the set of unique levels contained in the jams."""
+            levels = []
+            annotation = self.jam.sections[annotation_id]
+            [levels.append(segment.label.context) for segment in \
+                    annotation.data if segment.label.context not in levels]
+            return levels
 
-		levels = get_levels()
-		print levels
+        def sort_levels():
+            """TODO"""
+        
+        def build_tree(level):
+            """TODO"""
 
-		
+
+        levels = get_levels()
+        print levels
+
+            
