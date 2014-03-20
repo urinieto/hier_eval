@@ -24,7 +24,7 @@ Usage:
 
     To work with the nodes of the tree:
         >> node = st.root               # Access the root of the tree.
-        >> child = node.children[0]     # Access the first child of a node    
+        >> child = node.children[0]     # Access the first child of a node.
         >> parent = child.parent        # This is redundant, but it shows
                                         # the ability to access the parent
                                         # of a node.
@@ -51,10 +51,7 @@ import argparse
 import glob
 import logging
 import os
-import pylab as plt
 import numpy as np
-import time
-from scipy.spatial import distance
 from collections import Counter
 
 # Not so common modules
