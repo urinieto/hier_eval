@@ -22,6 +22,15 @@ Usage:
     Print the tree:
         >> print st
 
+    To work with the nodes of the tree:
+        >> node = st.root               # Access the root of the tree.
+        >> child = node.children[0]     # Access the first child of a node    
+        >> parent = child.parent        # This is redundant, but it shows
+                                        # the ability to access the parent
+                                        # of a node.
+        >> segment = node.segment       # Access the segment of a given
+                                        # node.
+
 
 The segments are stored in a simple class called Segment. To print a Segment,
 simply:
