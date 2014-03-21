@@ -30,22 +30,35 @@ class TestSegmentTree(unittest.TestCase):
         # 2 levels: root and function
         self.assertEqual( len(self.flat_st.levels), 2 )
     
-    def test_hierarchical_segment_retrieval(self):
+    def test_hier_segment_retrieval(self):
         """Checks whether we are able to retrieve all segments of a 
             hierarchical tree."""
+        # Root level
         self.assertEqual( len(self.hier_st.get_segments_in_level("root")), 1 )
         self.assertEqual( len(self.hier_st.get_segments_in_level_idx(0)), 1 )
+        # Function level
         self.assertEqual( len(self.hier_st.get_segments_in_level("function")),
                           11 )
         self.assertEqual( len(self.hier_st.get_segments_in_level_idx(1)), 11 )
+        # Large scale level
         self.assertEqual( len(self.hier_st.get_segments_in_level( \
                             "large_scale")), 11 )
         self.assertEqual( len(self.hier_st.get_segments_in_level_idx(2)), 11 )
-        for segment in self.hier_st.get_segments_in_level("small_scale"):
-            print segment
+        # Small scale level
         self.assertEqual( len(self.hier_st.get_segments_in_level( \
-                            "small_scale")), 34 )
-        self.assertEqual( len(self.hier_st.get_segments_in_level_idx(3)), 34 )
+                            "small_scale")), 33 )
+        self.assertEqual( len(self.hier_st.get_segments_in_level_idx(3)), 33 )
+
+    def test_flat_segment_retrieval(self):
+        """Checks whether we are able to retrieve all segments of a 
+            flat tree."""
+        # Root level
+        self.assertEqual( len(self.flat_st.get_segments_in_level("root")), 1 )
+        self.assertEqual( len(self.flat_st.get_segments_in_level_idx(0)), 1 )
+        # Function level
+        self.assertEqual( len(self.flat_st.get_segments_in_level("function")),
+                          12 )
+        self.assertEqual( len(self.flat_st.get_segments_in_level_idx(1)), 12 )
 
 
 if __name__ == '__main__':
