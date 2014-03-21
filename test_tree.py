@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 """
-TODO
+A few unit tests to verify the implementationn of the SegmentTree.
 """
 
 __author__      = "Oriol Nieto"
