@@ -1,3 +1,8 @@
 .DS_Store
 *.pyc
 *.swp
+.ipynb_checkpoints
+.ropeproject
+salami_results.txt
+test/05_-_Dig_It.jams
+test/05_-_Dig_It.lab

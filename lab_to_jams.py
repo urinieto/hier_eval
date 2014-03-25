@@ -1,33 +1,9 @@
 #!/usr/bin/env python
 """
-Saves all the Isophonics dataset into a jams. The structure of the Isophonics
-dataset is:
-
-/Isophonics
-    /Artist Annotations
-        /feature
-            /Artist
-                /Album
-                    /lab (or text) files
+Converts a lab file to a jams file.
 
 Example:
 
-/Isophonics
-    /The Beatles Annotations
-        /seglab
-            /The Beatles
-                /01_-_Please_Please_Me
-                    /01_-_I_Saw_Her_Standing_There.lab
-        /beat
-            /The Beatles
-                /01_-_Please_Please_Me
-                    /01_-_I_Saw_Her_Standing_There.txt
-
-To parse the entire dataset, you simply need the path to the Isophonics dataset
-and an output folder.
-
-Example:
-./isohpnics_parser.py ~/datasets/Isophonics -o ~/datasets/Isophonics/outJAMS
 
 """
 
@@ -46,9 +22,9 @@ import time
 
 def fill_global_metadata(jam, lab_file):
     """Fills the global metada into the JAMS jam."""
-    jam.metadata.artist = lab_file.split("/")[-3]
-    jam.metadata.duration = -1  # In seconds
-    jam.metadata.title = "TODO"
+    jam.metadata.artist = "Unknown"
+    jam.metadata.duration = "Unknown"  # In seconds
+    jam.metadata.title = "Unknown"
 
     # TODO: extra info
     #jam.metadata.genre = metadata[14]
@@ -57,14 +33,14 @@ def fill_global_metadata(jam, lab_file):
 def fill_annoatation_metadata(annot, attribute):
     """Fills the annotation metadata."""
     annot.annotation_metadata.attribute = attribute
-    annot.annotation_metadata.corpus = "TODO"
+    annot.annotation_metadata.corpus = "Unknown"
     annot.annotation_metadata.version = "1.0"
-    annot.annotation_metadata.annotation_tools = "TODO"
-    annot.annotation_metadata.annotation_rules = "TODO"
-    annot.annotation_metadata.validation_and_reliability = "TODO"
-    annot.annotation_metadata.origin = "TODO"
-    annot.annotation_metadata.annotator.name = "TODO"
-    annot.annotation_metadata.annotator.email = "TODO"
+    annot.annotation_metadata.annotation_tools = "Unknown"
+    annot.annotation_metadata.annotation_rules = "Unknown"
+    annot.annotation_metadata.validation_and_reliability = "Unknown"
+    annot.annotation_metadata.origin = "Unknown"
+    annot.annotation_metadata.annotator.name = "Unknown"
+    annot.annotation_metadata.annotator.email = "Unknown"
 
 
 def fill_section_annotation(lab_file, annot):
@@ -94,7 +70,7 @@ def fill_section_annotation(lab_file, annot):
         section.end.confidence = 1.0
         section.label.value = label
         section.label.confidence = 1.0
-        section.level = "function"  # Only function level of annotation
+        section.label.context = "function"  # Only function level of annotation
 
     f.close()
 
@@ -122,7 +98,7 @@ def process(lab_file, jams_file=None):
     """Converts the lab file to a JAMS file."""
 
     if jams_file is None:
-        jams_file = lab_file.replace(lab_file.split["."][-1], ".jams")
+        jams_file = lab_file.replace(lab_file.split(".")[-1], "jams")
 
     #Create a JAMS file for this track
     create_JAMS(lab_file, jams_file)
@@ -131,8 +107,9 @@ def process(lab_file, jams_file=None):
 def main():
     """Main function to convert lab file to JAMS."""
     parser = argparse.ArgumentParser(description=
-        "Converts a lab file to JAMS.",
-        formatter_class=argparse.ArgumentDefaultsHelpFormatter)
+                                     "Converts a lab file to JAMS.",
+                                     formatter_class=
+                                     argparse.ArgumentDefaultsHelpFormatter)
     parser.add_argument("lab_file",
                         action="store",
                         help="Input lab file")
@@ -155,4 +132,3 @@ def main():
 
 if __name__ == '__main__':
     main()
-

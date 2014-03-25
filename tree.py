@@ -2,7 +2,7 @@
 """
 Implementation of a hierarchical segment annotation using a rooted tree.
 
-The root of the tree has always one segment representing the entire track. The 
+The root of the tree has always one segment representing the entire track. The
 label of this segment is "all" and the level is called "root".
 
 Usage:
@@ -10,10 +10,10 @@ Usage:
     Initialize tree from JAMS file:
         >> import tree as T
         >> st = T.SegmentTree("path/to/SALAMI_636.jams")
-    
-    Get all the segment in the first level of the tree: 
+
+    Get all the segment in the first level of the tree:
         >> segments = st.get_segments_in_level("root")
-        >> segments = st.get_segments_in_level_idx[0] # Same as above
+        >> segments = st.get_segments_in_level(0)       # Same as above
 
     Get the available levels (note that a flat annotation will have 2 levels:
                               root + the annotated one):
@@ -31,6 +31,17 @@ Usage:
         >> segment = node.segment       # Access the segment of a given
                                         # node.
 
+    To prune the tree at level "small_scale":
+        >> st.prune_to_level("small_scale")
+
+    To prune at level 3:
+        >> st.prune_to_level(3)
+
+    To collapse the tree at level "large_scale":
+        >> st.collapse_to_level("large_scale")
+
+    To collapse the tree at level 2:
+        >> st.collapse_to_level(2)
 
 The segments are stored in a simple class called Segment. To print a Segment,
 simply:
@@ -47,10 +58,7 @@ __license__     = "GPLv3"
 __version__     = "1.0"
 __email__       = "oriol@nyu.edu"
 
-import argparse
-import glob
 import logging
-import os
 import numpy as np
 from collections import Counter
 
@@ -58,14 +66,15 @@ from collections import Counter
 import jams
 import mir_eval
 
+
 class Segment(object):
     """Musical segment.
 
     Represented by a start and end times, a label, and their associated
     confident values.
     """
-    def __init__(self, start, end, label, start_conf=None, 
-            end_conf=None, label_conf=None):
+    def __init__(self, start, end, label, start_conf=None,
+                 end_conf=None, label_conf=None):
         self._start = start
         self._end = end
         self._label = label
@@ -109,7 +118,7 @@ class Segment(object):
 class Node(object):
     """A node of a segment tree."""
     def __init__(self, segment, level, parent=None):
-        """Initialize a Node. If parent is None, then the node is the 
+        """Initialize a Node. If parent is None, then the node is the
         root of the tree."""
         self._segment = segment
         self._level = level
@@ -132,9 +141,9 @@ class Node(object):
     def children(self):
         return self._children
 
-    def add_child(self,child):
+    def add_child(self, child):
         self._children.append(child)
-            
+
 
 class SegmentTree(object):
     """A hierarchical segmentation of a musical piece.
@@ -146,24 +155,24 @@ class SegmentTree(object):
         self._jam = jams.load(jam_file)
 
         def get_levels():
-            """Obtains the set of unique levels contained in the jams 
+            """Obtains the set of unique levels contained in the jams
                sorted by the number of segments they contain."""
             levels = []
             annotation = self._jam.sections[annotation_id]
-            [levels.append(segment.label.context) \
-                                for segment in annotation.data]
-            c = Counter(levels) # Count frequency
-            return np.asarray(c.keys())[np.argsort(c.values())] # Sort
+            [levels.append(segment.label.context)
+             for segment in annotation.data]
+            c = Counter(levels)     # Count frequency
+            return np.asarray(c.keys())[np.argsort(c.values())]     # Sort
 
         def get_segments_in_range(start, end, level):
             """Gets the segments that are within a specific range at a certain
                 level."""
-            intervals, labels = mir_eval.input_output.load_jams_range(jam_file, 
+            intervals, labels = mir_eval.input_output.load_jams_range(jam_file,
                     "sections", annotator=annotation_id, context=level)
             segments = []
             for i, interval in enumerate(intervals):
                 if interval[0] >= start and interval[1] <= end:
-                    segments.append(Segment(interval[0], interval[1], 
+                    segments.append(Segment(interval[0], interval[1],
                                             labels[i]))
             return segments
 
@@ -172,11 +181,11 @@ class SegmentTree(object):
             if level_idx >= len(self._levels) - 1:
                 return
 
-            for segment in get_segments_in_range(node.segment.start, 
-                    node.segment.end, self._levels[level_idx+1]): 
-                new_node = Node(segment, self._levels[level_idx+1], node)
+            for segment in get_segments_in_range(node.segment.start,
+                    node.segment.end, self._levels[level_idx + 1]):
+                new_node = Node(segment, self._levels[level_idx + 1], node)
                 node.add_child(new_node)
-                build_tree_rec(new_node, level_idx+1)
+                build_tree_rec(new_node, level_idx + 1)
 
         def build_tree():
             """Build the segment tree"""
@@ -189,7 +198,6 @@ class SegmentTree(object):
             build_tree_rec(root_node, level_idx)
             return root_node
 
-    
         # Get the levels of the annotations in the jams file
         self._levels = get_levels()
 
@@ -202,25 +210,27 @@ class SegmentTree(object):
     @property
     def root(self):
         return self._root
-    
+
     @property
     def levels(self):
         return self._levels
 
+    def _is_level_correct(self, level=None, level_idx=None):
+        """Makes sure that the level provided is correct."""
+        if level is None and level_idx is None:
+            logging.error("Parameter level or level_idx must be set.")
+            return False
+        if level_idx is not None and level_idx >= len(self._levels):
+            logging.error("level_idx %d out of bounds." % level_idx)
+            return False
+        if level is not None and level not in self._levels:
+            logging.error("level %s does not exist." % level)
+            return False
+        return True
+
     def _get_segments_rec(self, node, segments, level=None, level_idx=None):
         """Appends the segments of the corresponding level or level index
             into the segments list."""
-        # Sanity Checks
-        if level is None and level_idx is None:
-            logging.error("Parameter level or level_idx must be set.")
-            return
-        if level_idx is not None and level_idx >= len(self._levels):
-            logging.error("level_idx %d out of bounds." % level_idx)
-            return
-        if level is not None and level not in self._levels:
-            logging.error("level %s does not exist." % level)
-            return
-        
         if level is None:
             level = self._levels[level_idx]
 
@@ -232,18 +242,56 @@ class SegmentTree(object):
         for child in node.children:
             self._get_segments_rec(child, segments, level, level_idx)
 
+    def _prune_to_level_rec(self, node, level=None, level_idx=None):
+        """Prunes the tree to the specific level recursively."""
+        if level is None:
+            level = self._levels[level_idx]
 
-    def get_segments_in_level_idx(self, level_idx):
-        """Return a list with all the segments in a certain level index."""
-        segments = []
-        self._get_segments_rec(self._root, segments, level_idx=level_idx)
-        return segments
+        # Prune tree if we are at the right level
+        if node.level == level:
+            node._children = []
 
-    def get_segments_in_level(self, level):
+        # Recursion
+        for child in node.children:
+            self._prune_to_level_rec(child, level, level_idx)
+
+    def get_segments_in_level(self, level=None, level_idx=None):
         """Return a list with all the segments in a certain level."""
+        if not self._is_level_correct(level, level_idx):
+            return []
+
         segments = []
-        self._get_segments_rec(self._root, segments, level=level)
+        self._get_segments_rec(self._root, segments, level=level,
+                               level_idx=level_idx)
         return segments
+
+    def prune_to_level(self, level=None, level_idx=None):
+        """Prunes to a specific level (included)."""
+        if not self._is_level_correct(level, level_idx):
+            return []
+
+        # Prune tree recursively
+        self._prune_to_level_rec(self._root, level, level_idx)
+
+    def collapse_to_level(self, level=None, level_idx=None):
+        """Collapses tree to a specifc level (included)."""
+        if not self._is_level_correct(level, level_idx):
+            return []
+
+        # Get the segments of the specific level we want
+        segments = self.get_segments_in_level(level, level_idx)
+
+        if level is None:
+            level = self._levels[level_idx]
+
+        # Reset tree
+        self._root._children = []
+        for segment in segments:
+            new_node = Node(segment, level, self._root)
+            self._root.add_child(new_node)
+
+        # Reset levels
+        self._levels = ["root", level]
 
     def print_tree(self, node):
         """Prints the tree recursively from top to bottom."""
@@ -258,5 +306,3 @@ class SegmentTree(object):
     def __str__(self):
         """Render the object as a readable string."""
         return self.print_tree(self._root)
-        
-            
