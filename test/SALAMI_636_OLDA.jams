@@ -1,0 +1,2514 @@
+{
+  "chords": [], 
+  "notes": [], 
+  "tags": [], 
+  "sandbox": {}, 
+  "sources": [], 
+  "beats": [], 
+  "pitch": [], 
+  "melody": [], 
+  "sections": [
+    {
+      "annotation_metadata": {
+        "origin": "", 
+        "annotation_rules": "", 
+        "validation_and_reliability": "", 
+        "attribute": "sections", 
+        "annotator": {
+          "name": "", 
+          "email": ""
+        }, 
+        "version": 0, 
+        "corpus": "", 
+        "annotation_tools": "OLDA"
+      }, 
+      "data": [
+        {
+          "start": {
+            "confidence": 1.0, 
+            "value": 0.0
+          }, 
+          "end": {
+            "confidence": 1.0, 
+            "value": 63.088616780045349
+          }, 
+          "label": {
+            "confidence": 1.0, 
+            "context": "level_004", 
+            "value": 0
+          }
+        }, 
+        {
+          "start": {
+            "confidence": 1.0, 
+            "value": 63.088616780045349
+          }, 
+          "end": {
+            "confidence": 1.0, 
+            "value": 114.31183673469388
+          }, 
+          "label": {
+            "confidence": 1.0, 
+            "context": "level_004", 
+            "value": 1
+          }
+        }, 
+        {
+          "start": {
+            "confidence": 1.0, 
+            "value": 114.31183673469388
+          }, 
+          "end": {
+            "confidence": 1.0, 
+            "value": 136.71909297052153
+          }, 
+          "label": {
+            "confidence": 1.0, 
+            "context": "level_004", 
+            "value": 2
+          }
+        }, 
+        {
+          "start": {
+            "confidence": 1.0, 
+            "value": 136.71909297052153
+          }, 
+          "end": {
+            "confidence": 1.0, 
+            "value": 187.79424036281179
+          }, 
+          "label": {
+            "confidence": 1.0, 
+            "context": "level_004", 
+            "value": 3
+          }
+        }, 
+        {
+          "start": {
+            "confidence": 1.0, 
+            "value": 0.0
+          }, 
+          "end": {
+            "confidence": 1.0, 
+            "value": 5.456689342403628
+          }, 
+          "label": {
+            "confidence": 1.0, 
+            "context": "level_005", 
+            "value": 0
+          }
+        }, 
+        {
+          "start": {
+            "confidence": 1.0, 
+            "value": 5.456689342403628
+          }, 
+          "end": {
+            "confidence": 1.0, 
+            "value": 63.088616780045349
+          }, 
+          "label": {
+            "confidence": 1.0, 
+            "context": "level_005", 
+            "value": 1
+          }
+        }, 
+        {
+          "start": {
+            "confidence": 1.0, 
+            "value": 63.088616780045349
+          }, 
+          "end": {
+            "confidence": 1.0, 
+            "value": 114.31183673469388
+          }, 
+          "label": {
+            "confidence": 1.0, 
+            "context": "level_005", 
+            "value": 2
+          }
+        }, 
+        {
+          "start": {
+            "confidence": 1.0, 
+            "value": 114.31183673469388
+          }, 
+          "end": {
+            "confidence": 1.0, 
+            "value": 136.71909297052153
+          }, 
+          "label": {
+            "confidence": 1.0, 
+            "context": "level_005", 
+            "value": 3
+          }
+        }, 
+        {
+          "start": {
+            "confidence": 1.0, 
+            "value": 136.71909297052153
+          }, 
+          "end": {
+            "confidence": 1.0, 
+            "value": 187.79424036281179
+          }, 
+          "label": {
+            "confidence": 1.0, 
+            "context": "level_005", 
+            "value": 4
+          }
+        }, 
+        {
+          "start": {
+            "confidence": 1.0, 
+            "value": 0.0
+          }, 
+          "end": {
+            "confidence": 1.0, 
+            "value": 5.456689342403628
+          }, 
+          "label": {
+            "confidence": 1.0, 
+            "context": "level_006", 
+            "value": 0
+          }
+        }, 
+        {
+          "start": {
+            "confidence": 1.0, 
+            "value": 5.456689342403628
+          }, 
+          "end": {
+            "confidence": 1.0, 
+            "value": 38.545124716553289
+          }, 
+          "label": {
+            "confidence": 1.0, 
+            "context": "level_006", 
+            "value": 1
+          }
+        }, 
+        {
+          "start": {
+            "confidence": 1.0, 
+            "value": 38.545124716553289
+          }, 
+          "end": {
+            "confidence": 1.0, 
+            "value": 63.088616780045349
+          }, 
+          "label": {
+            "confidence": 1.0, 
+            "context": "level_006", 
+            "value": 2
+          }
+        }, 
+        {
+          "start": {
+            "confidence": 1.0, 
+            "value": 63.088616780045349
+          }, 
+          "end": {
+            "confidence": 1.0, 
+            "value": 114.31183673469388
+          }, 
+          "label": {
+            "confidence": 1.0, 
+            "context": "level_006", 
+            "value": 3
+          }
+        }, 
+        {
+          "start": {
+            "confidence": 1.0, 
+            "value": 114.31183673469388
+          }, 
+          "end": {
+            "confidence": 1.0, 
+            "value": 136.71909297052153
+          }, 
+          "label": {
+            "confidence": 1.0, 
+            "context": "level_006", 
+            "value": 4
+          }
+        }, 
+        {
+          "start": {
+            "confidence": 1.0, 
+            "value": 136.71909297052153
+          }, 
+          "end": {
+            "confidence": 1.0, 
+            "value": 187.79424036281179
+          }, 
+          "label": {
+            "confidence": 1.0, 
+            "context": "level_006", 
+            "value": 5
+          }
+        }, 
+        {
+          "start": {
+            "confidence": 1.0, 
+            "value": 0.0
+          }, 
+          "end": {
+            "confidence": 1.0, 
+            "value": 5.456689342403628
+          }, 
+          "label": {
+            "confidence": 1.0, 
+            "context": "level_007", 
+            "value": 0
+          }
+        }, 
+        {
+          "start": {
+            "confidence": 1.0, 
+            "value": 5.456689342403628
+          }, 
+          "end": {
+            "confidence": 1.0, 
+            "value": 38.545124716553289
+          }, 
+          "label": {
+            "confidence": 1.0, 
+            "context": "level_007", 
+            "value": 1
+          }
+        }, 
+        {
+          "start": {
+            "confidence": 1.0, 
+            "value": 38.545124716553289
+          }, 
+          "end": {
+            "confidence": 1.0, 
+            "value": 63.088616780045349
+          }, 
+          "label": {
+            "confidence": 1.0, 
+            "context": "level_007", 
+            "value": 2
+          }
+        }, 
+        {
+          "start": {
+            "confidence": 1.0, 
+            "value": 63.088616780045349
+          }, 
+          "end": {
+            "confidence": 1.0, 
+            "value": 114.31183673469388
+          }, 
+          "label": {
+            "confidence": 1.0, 
+            "context": "level_007", 
+            "value": 3
+          }
+        }, 
+        {
+          "start": {
+            "confidence": 1.0, 
+            "value": 114.31183673469388
+          }, 
+          "end": {
+            "confidence": 1.0, 
+            "value": 136.71909297052153
+          }, 
+          "label": {
+            "confidence": 1.0, 
+            "context": "level_007", 
+            "value": 4
+          }
+        }, 
+        {
+          "start": {
+            "confidence": 1.0, 
+            "value": 136.71909297052153
+          }, 
+          "end": {
+            "confidence": 1.0, 
+            "value": 181.2085260770975
+          }, 
+          "label": {
+            "confidence": 1.0, 
+            "context": "level_007", 
+            "value": 5
+          }
+        }, 
+        {
+          "start": {
+            "confidence": 1.0, 
+            "value": 181.2085260770975
+          }, 
+          "end": {
+            "confidence": 1.0, 
+            "value": 187.79424036281179
+          }, 
+          "label": {
+            "confidence": 1.0, 
+            "context": "level_007", 
+            "value": 6
+          }
+        }, 
+        {
+          "start": {
+            "confidence": 1.0, 
+            "value": 0.0
+          }, 
+          "end": {
+            "confidence": 1.0, 
+            "value": 5.456689342403628
+          }, 
+          "label": {
+            "confidence": 1.0, 
+            "context": "level_008", 
+            "value": 0
+          }
+        }, 
+        {
+          "start": {
+            "confidence": 1.0, 
+            "value": 5.456689342403628
+          }, 
+          "end": {
+            "confidence": 1.0, 
+            "value": 38.545124716553289
+          }, 
+          "label": {
+            "confidence": 1.0, 
+            "context": "level_008", 
+            "value": 1
+          }
+        }, 
+        {
+          "start": {
+            "confidence": 1.0, 
+            "value": 38.545124716553289
+          }, 
+          "end": {
+            "confidence": 1.0, 
+            "value": 63.088616780045349
+          }, 
+          "label": {
+            "confidence": 1.0, 
+            "context": "level_008", 
+            "value": 2
+          }
+        }, 
+        {
+          "start": {
+            "confidence": 1.0, 
+            "value": 63.088616780045349
+          }, 
+          "end": {
+            "confidence": 1.0, 
+            "value": 91.207981859410424
+          }, 
+          "label": {
+            "confidence": 1.0, 
+            "context": "level_008", 
+            "value": 3
+          }
+        }, 
+        {
+          "start": {
+            "confidence": 1.0, 
+            "value": 91.207981859410424
+          }, 
+          "end": {
+            "confidence": 1.0, 
+            "value": 114.31183673469388
+          }, 
+          "label": {
+            "confidence": 1.0, 
+            "context": "level_008", 
+            "value": 4
+          }
+        }, 
+        {
+          "start": {
+            "confidence": 1.0, 
+            "value": 114.31183673469388
+          }, 
+          "end": {
+            "confidence": 1.0, 
+            "value": 136.71909297052153
+          }, 
+          "label": {
+            "confidence": 1.0, 
+            "context": "level_008", 
+            "value": 5
+          }
+        }, 
+        {
+          "start": {
+            "confidence": 1.0, 
+            "value": 136.71909297052153
+          }, 
+          "end": {
+            "confidence": 1.0, 
+            "value": 181.2085260770975
+          }, 
+          "label": {
+            "confidence": 1.0, 
+            "context": "level_008", 
+            "value": 6
+          }
+        }, 
+        {
+          "start": {
+            "confidence": 1.0, 
+            "value": 181.2085260770975
+          }, 
+          "end": {
+            "confidence": 1.0, 
+            "value": 187.79424036281179
+          }, 
+          "label": {
+            "confidence": 1.0, 
+            "context": "level_008", 
+            "value": 7
+          }
+        }, 
+        {
+          "start": {
+            "confidence": 1.0, 
+            "value": 0.0
+          }, 
+          "end": {
+            "confidence": 1.0, 
+            "value": 5.456689342403628
+          }, 
+          "label": {
+            "confidence": 1.0, 
+            "context": "level_009", 
+            "value": 0
+          }
+        }, 
+        {
+          "start": {
+            "confidence": 1.0, 
+            "value": 5.456689342403628
+          }, 
+          "end": {
+            "confidence": 1.0, 
+            "value": 38.545124716553289
+          }, 
+          "label": {
+            "confidence": 1.0, 
+            "context": "level_009", 
+            "value": 1
+          }
+        }, 
+        {
+          "start": {
+            "confidence": 1.0, 
+            "value": 38.545124716553289
+          }, 
+          "end": {
+            "confidence": 1.0, 
+            "value": 63.088616780045349
+          }, 
+          "label": {
+            "confidence": 1.0, 
+            "context": "level_009", 
+            "value": 2
+          }
+        }, 
+        {
+          "start": {
+            "confidence": 1.0, 
+            "value": 63.088616780045349
+          }, 
+          "end": {
+            "confidence": 1.0, 
+            "value": 91.207981859410424
+          }, 
+          "label": {
+            "confidence": 1.0, 
+            "context": "level_009", 
+            "value": 3
+          }
+        }, 
+        {
+          "start": {
+            "confidence": 1.0, 
+            "value": 91.207981859410424
+          }, 
+          "end": {
+            "confidence": 1.0, 
+            "value": 114.31183673469388
+          }, 
+          "label": {
+            "confidence": 1.0, 
+            "context": "level_009", 
+            "value": 4
+          }
+        }, 
+        {
+          "start": {
+            "confidence": 1.0, 
+            "value": 114.31183673469388
+          }, 
+          "end": {
+            "confidence": 1.0, 
+            "value": 136.71909297052153
+          }, 
+          "label": {
+            "confidence": 1.0, 
+            "context": "level_009", 
+            "value": 5
+          }
+        }, 
+        {
+          "start": {
+            "confidence": 1.0, 
+            "value": 136.71909297052153
+          }, 
+          "end": {
+            "confidence": 1.0, 
+            "value": 159.84616780045351
+          }, 
+          "label": {
+            "confidence": 1.0, 
+            "context": "level_009", 
+            "value": 6
+          }
+        }, 
+        {
+          "start": {
+            "confidence": 1.0, 
+            "value": 159.84616780045351
+          }, 
+          "end": {
+            "confidence": 1.0, 
+            "value": 181.2085260770975
+          }, 
+          "label": {
+            "confidence": 1.0, 
+            "context": "level_009", 
+            "value": 7
+          }
+        }, 
+        {
+          "start": {
+            "confidence": 1.0, 
+            "value": 181.2085260770975
+          }, 
+          "end": {
+            "confidence": 1.0, 
+            "value": 187.79424036281179
+          }, 
+          "label": {
+            "confidence": 1.0, 
+            "context": "level_009", 
+            "value": 8
+          }
+        }, 
+        {
+          "start": {
+            "confidence": 1.0, 
+            "value": 0.0
+          }, 
+          "end": {
+            "confidence": 1.0, 
+            "value": 5.456689342403628
+          }, 
+          "label": {
+            "confidence": 1.0, 
+            "context": "level_010", 
+            "value": 0
+          }
+        }, 
+        {
+          "start": {
+            "confidence": 1.0, 
+            "value": 5.456689342403628
+          }, 
+          "end": {
+            "confidence": 1.0, 
+            "value": 38.545124716553289
+          }, 
+          "label": {
+            "confidence": 1.0, 
+            "context": "level_010", 
+            "value": 1
+          }
+        }, 
+        {
+          "start": {
+            "confidence": 1.0, 
+            "value": 38.545124716553289
+          }, 
+          "end": {
+            "confidence": 1.0, 
+            "value": 63.088616780045349
+          }, 
+          "label": {
+            "confidence": 1.0, 
+            "context": "level_010", 
+            "value": 2
+          }
+        }, 
+        {
+          "start": {
+            "confidence": 1.0, 
+            "value": 63.088616780045349
+          }, 
+          "end": {
+            "confidence": 1.0, 
+            "value": 91.207981859410424
+          }, 
+          "label": {
+            "confidence": 1.0, 
+            "context": "level_010", 
+            "value": 3
+          }
+        }, 
+        {
+          "start": {
+            "confidence": 1.0, 
+            "value": 91.207981859410424
+          }, 
+          "end": {
+            "confidence": 1.0, 
+            "value": 114.31183673469388
+          }, 
+          "label": {
+            "confidence": 1.0, 
+            "context": "level_010", 
+            "value": 4
+          }
+        }, 
+        {
+          "start": {
+            "confidence": 1.0, 
+            "value": 114.31183673469388
+          }, 
+          "end": {
+            "confidence": 1.0, 
+            "value": 126.40943310657596
+          }, 
+          "label": {
+            "confidence": 1.0, 
+            "context": "level_010", 
+            "value": 5
+          }
+        }, 
+        {
+          "start": {
+            "confidence": 1.0, 
+            "value": 126.40943310657596
+          }, 
+          "end": {
+            "confidence": 1.0, 
+            "value": 136.71909297052153
+          }, 
+          "label": {
+            "confidence": 1.0, 
+            "context": "level_010", 
+            "value": 6
+          }
+        }, 
+        {
+          "start": {
+            "confidence": 1.0, 
+            "value": 136.71909297052153
+          }, 
+          "end": {
+            "confidence": 1.0, 
+            "value": 159.84616780045351
+          }, 
+          "label": {
+            "confidence": 1.0, 
+            "context": "level_010", 
+            "value": 7
+          }
+        }, 
+        {
+          "start": {
+            "confidence": 1.0, 
+            "value": 159.84616780045351
+          }, 
+          "end": {
+            "confidence": 1.0, 
+            "value": 181.2085260770975
+          }, 
+          "label": {
+            "confidence": 1.0, 
+            "context": "level_010", 
+            "value": 8
+          }
+        }, 
+        {
+          "start": {
+            "confidence": 1.0, 
+            "value": 181.2085260770975
+          }, 
+          "end": {
+            "confidence": 1.0, 
+            "value": 187.79424036281179
+          }, 
+          "label": {
+            "confidence": 1.0, 
+            "context": "level_010", 
+            "value": 9
+          }
+        }, 
+        {
+          "start": {
+            "confidence": 1.0, 
+            "value": 0.0
+          }, 
+          "end": {
+            "confidence": 1.0, 
+            "value": 0.48761904761904762
+          }, 
+          "label": {
+            "confidence": 1.0, 
+            "context": "level_011", 
+            "value": 0
+          }
+        }, 
+        {
+          "start": {
+            "confidence": 1.0, 
+            "value": 0.48761904761904762
+          }, 
+          "end": {
+            "confidence": 1.0, 
+            "value": 5.456689342403628
+          }, 
+          "label": {
+            "confidence": 1.0, 
+            "context": "level_011", 
+            "value": 1
+          }
+        }, 
+        {
+          "start": {
+            "confidence": 1.0, 
+            "value": 5.456689342403628
+          }, 
+          "end": {
+            "confidence": 1.0, 
+            "value": 38.545124716553289
+          }, 
+          "label": {
+            "confidence": 1.0, 
+            "context": "level_011", 
+            "value": 2
+          }
+        }, 
+        {
+          "start": {
+            "confidence": 1.0, 
+            "value": 38.545124716553289
+          }, 
+          "end": {
+            "confidence": 1.0, 
+            "value": 63.088616780045349
+          }, 
+          "label": {
+            "confidence": 1.0, 
+            "context": "level_011", 
+            "value": 3
+          }
+        }, 
+        {
+          "start": {
+            "confidence": 1.0, 
+            "value": 63.088616780045349
+          }, 
+          "end": {
+            "confidence": 1.0, 
+            "value": 91.207981859410424
+          }, 
+          "label": {
+            "confidence": 1.0, 
+            "context": "level_011", 
+            "value": 4
+          }
+        }, 
+        {
+          "start": {
+            "confidence": 1.0, 
+            "value": 91.207981859410424
+          }, 
+          "end": {
+            "confidence": 1.0, 
+            "value": 114.31183673469388
+          }, 
+          "label": {
+            "confidence": 1.0, 
+            "context": "level_011", 
+            "value": 5
+          }
+        }, 
+        {
+          "start": {
+            "confidence": 1.0, 
+            "value": 114.31183673469388
+          }, 
+          "end": {
+            "confidence": 1.0, 
+            "value": 126.40943310657596
+          }, 
+          "label": {
+            "confidence": 1.0, 
+            "context": "level_011", 
+            "value": 6
+          }
+        }, 
+        {
+          "start": {
+            "confidence": 1.0, 
+            "value": 126.40943310657596
+          }, 
+          "end": {
+            "confidence": 1.0, 
+            "value": 136.71909297052153
+          }, 
+          "label": {
+            "confidence": 1.0, 
+            "context": "level_011", 
+            "value": 7
+          }
+        }, 
+        {
+          "start": {
+            "confidence": 1.0, 
+            "value": 136.71909297052153
+          }, 
+          "end": {
+            "confidence": 1.0, 
+            "value": 159.84616780045351
+          }, 
+          "label": {
+            "confidence": 1.0, 
+            "context": "level_011", 
+            "value": 8
+          }
+        }, 
+        {
+          "start": {
+            "confidence": 1.0, 
+            "value": 159.84616780045351
+          }, 
+          "end": {
+            "confidence": 1.0, 
+            "value": 181.2085260770975
+          }, 
+          "label": {
+            "confidence": 1.0, 
+            "context": "level_011", 
+            "value": 9
+          }
+        }, 
+        {
+          "start": {
+            "confidence": 1.0, 
+            "value": 181.2085260770975
+          }, 
+          "end": {
+            "confidence": 1.0, 
+            "value": 187.79424036281179
+          }, 
+          "label": {
+            "confidence": 1.0, 
+            "context": "level_011", 
+            "value": 10
+          }
+        }, 
+        {
+          "start": {
+            "confidence": 1.0, 
+            "value": 0.0
+          }, 
+          "end": {
+            "confidence": 1.0, 
+            "value": 0.48761904761904762
+          }, 
+          "label": {
+            "confidence": 1.0, 
+            "context": "level_012", 
+            "value": 0
+          }
+        }, 
+        {
+          "start": {
+            "confidence": 1.0, 
+            "value": 0.48761904761904762
+          }, 
+          "end": {
+            "confidence": 1.0, 
+            "value": 5.456689342403628
+          }, 
+          "label": {
+            "confidence": 1.0, 
+            "context": "level_012", 
+            "value": 1
+          }
+        }, 
+        {
+          "start": {
+            "confidence": 1.0, 
+            "value": 5.456689342403628
+          }, 
+          "end": {
+            "confidence": 1.0, 
+            "value": 17.925804988662133
+          }, 
+          "label": {
+            "confidence": 1.0, 
+            "context": "level_012", 
+            "value": 2
+          }
+        }, 
+        {
+          "start": {
+            "confidence": 1.0, 
+            "value": 17.925804988662133
+          }, 
+          "end": {
+            "confidence": 1.0, 
+            "value": 38.545124716553289
+          }, 
+          "label": {
+            "confidence": 1.0, 
+            "context": "level_012", 
+            "value": 3
+          }
+        }, 
+        {
+          "start": {
+            "confidence": 1.0, 
+            "value": 38.545124716553289
+          }, 
+          "end": {
+            "confidence": 1.0, 
+            "value": 63.088616780045349
+          }, 
+          "label": {
+            "confidence": 1.0, 
+            "context": "level_012", 
+            "value": 4
+          }
+        }, 
+        {
+          "start": {
+            "confidence": 1.0, 
+            "value": 63.088616780045349
+          }, 
+          "end": {
+            "confidence": 1.0, 
+            "value": 91.207981859410424
+          }, 
+          "label": {
+            "confidence": 1.0, 
+            "context": "level_012", 
+            "value": 5
+          }
+        }, 
+        {
+          "start": {
+            "confidence": 1.0, 
+            "value": 91.207981859410424
+          }, 
+          "end": {
+            "confidence": 1.0, 
+            "value": 114.31183673469388
+          }, 
+          "label": {
+            "confidence": 1.0, 
+            "context": "level_012", 
+            "value": 6
+          }
+        }, 
+        {
+          "start": {
+            "confidence": 1.0, 
+            "value": 114.31183673469388
+          }, 
+          "end": {
+            "confidence": 1.0, 
+            "value": 126.40943310657596
+          }, 
+          "label": {
+            "confidence": 1.0, 
+            "context": "level_012", 
+            "value": 7
+          }
+        }, 
+        {
+          "start": {
+            "confidence": 1.0, 
+            "value": 126.40943310657596
+          }, 
+          "end": {
+            "confidence": 1.0, 
+            "value": 136.71909297052153
+          }, 
+          "label": {
+            "confidence": 1.0, 
+            "context": "level_012", 
+            "value": 8
+          }
+        }, 
+        {
+          "start": {
+            "confidence": 1.0, 
+            "value": 136.71909297052153
+          }, 
+          "end": {
+            "confidence": 1.0, 
+            "value": 159.84616780045351
+          }, 
+          "label": {
+            "confidence": 1.0, 
+            "context": "level_012", 
+            "value": 9
+          }
+        }, 
+        {
+          "start": {
+            "confidence": 1.0, 
+            "value": 159.84616780045351
+          }, 
+          "end": {
+            "confidence": 1.0, 
+            "value": 181.2085260770975
+          }, 
+          "label": {
+            "confidence": 1.0, 
+            "context": "level_012", 
+            "value": 10
+          }
+        }, 
+        {
+          "start": {
+            "confidence": 1.0, 
+            "value": 181.2085260770975
+          }, 
+          "end": {
+            "confidence": 1.0, 
+            "value": 187.79424036281179
+          }, 
+          "label": {
+            "confidence": 1.0, 
+            "context": "level_012", 
+            "value": 11
+          }
+        }, 
+        {
+          "start": {
+            "confidence": 1.0, 
+            "value": 0.0
+          }, 
+          "end": {
+            "confidence": 1.0, 
+            "value": 0.48761904761904762
+          }, 
+          "label": {
+            "confidence": 1.0, 
+            "context": "level_013", 
+            "value": 0
+          }
+        }, 
+        {
+          "start": {
+            "confidence": 1.0, 
+            "value": 0.48761904761904762
+          }, 
+          "end": {
+            "confidence": 1.0, 
+            "value": 5.456689342403628
+          }, 
+          "label": {
+            "confidence": 1.0, 
+            "context": "level_013", 
+            "value": 1
+          }
+        }, 
+        {
+          "start": {
+            "confidence": 1.0, 
+            "value": 5.456689342403628
+          }, 
+          "end": {
+            "confidence": 1.0, 
+            "value": 17.925804988662133
+          }, 
+          "label": {
+            "confidence": 1.0, 
+            "context": "level_013", 
+            "value": 2
+          }
+        }, 
+        {
+          "start": {
+            "confidence": 1.0, 
+            "value": 17.925804988662133
+          }, 
+          "end": {
+            "confidence": 1.0, 
+            "value": 38.545124716553289
+          }, 
+          "label": {
+            "confidence": 1.0, 
+            "context": "level_013", 
+            "value": 3
+          }
+        }, 
+        {
+          "start": {
+            "confidence": 1.0, 
+            "value": 38.545124716553289
+          }, 
+          "end": {
+            "confidence": 1.0, 
+            "value": 63.088616780045349
+          }, 
+          "label": {
+            "confidence": 1.0, 
+            "context": "level_013", 
+            "value": 4
+          }
+        }, 
+        {
+          "start": {
+            "confidence": 1.0, 
+            "value": 63.088616780045349
+          }, 
+          "end": {
+            "confidence": 1.0, 
+            "value": 91.207981859410424
+          }, 
+          "label": {
+            "confidence": 1.0, 
+            "context": "level_013", 
+            "value": 5
+          }
+        }, 
+        {
+          "start": {
+            "confidence": 1.0, 
+            "value": 91.207981859410424
+          }, 
+          "end": {
+            "confidence": 1.0, 
+            "value": 114.31183673469388
+          }, 
+          "label": {
+            "confidence": 1.0, 
+            "context": "level_013", 
+            "value": 6
+          }
+        }, 
+        {
+          "start": {
+            "confidence": 1.0, 
+            "value": 114.31183673469388
+          }, 
+          "end": {
+            "confidence": 1.0, 
+            "value": 126.40943310657596
+          }, 
+          "label": {
+            "confidence": 1.0, 
+            "context": "level_013", 
+            "value": 7
+          }
+        }, 
+        {
+          "start": {
+            "confidence": 1.0, 
+            "value": 126.40943310657596
+          }, 
+          "end": {
+            "confidence": 1.0, 
+            "value": 136.71909297052153
+          }, 
+          "label": {
+            "confidence": 1.0, 
+            "context": "level_013", 
+            "value": 8
+          }
+        }, 
+        {
+          "start": {
+            "confidence": 1.0, 
+            "value": 136.71909297052153
+          }, 
+          "end": {
+            "confidence": 1.0, 
+            "value": 159.84616780045351
+          }, 
+          "label": {
+            "confidence": 1.0, 
+            "context": "level_013", 
+            "value": 9
+          }
+        }, 
+        {
+          "start": {
+            "confidence": 1.0, 
+            "value": 159.84616780045351
+          }, 
+          "end": {
+            "confidence": 1.0, 
+            "value": 180.83700680272108
+          }, 
+          "label": {
+            "confidence": 1.0, 
+            "context": "level_013", 
+            "value": 10
+          }
+        }, 
+        {
+          "start": {
+            "confidence": 1.0, 
+            "value": 180.83700680272108
+          }, 
+          "end": {
+            "confidence": 1.0, 
+            "value": 181.2085260770975
+          }, 
+          "label": {
+            "confidence": 1.0, 
+            "context": "level_013", 
+            "value": 11
+          }
+        }, 
+        {
+          "start": {
+            "confidence": 1.0, 
+            "value": 181.2085260770975
+          }, 
+          "end": {
+            "confidence": 1.0, 
+            "value": 187.79424036281179
+          }, 
+          "label": {
+            "confidence": 1.0, 
+            "context": "level_013", 
+            "value": 12
+          }
+        }, 
+        {
+          "start": {
+            "confidence": 1.0, 
+            "value": 0.0
+          }, 
+          "end": {
+            "confidence": 1.0, 
+            "value": 0.48761904761904762
+          }, 
+          "label": {
+            "confidence": 1.0, 
+            "context": "level_014", 
+            "value": 0
+          }
+        }, 
+        {
+          "start": {
+            "confidence": 1.0, 
+            "value": 0.48761904761904762
+          }, 
+          "end": {
+            "confidence": 1.0, 
+            "value": 5.456689342403628
+          }, 
+          "label": {
+            "confidence": 1.0, 
+            "context": "level_014", 
+            "value": 1
+          }
+        }, 
+        {
+          "start": {
+            "confidence": 1.0, 
+            "value": 5.456689342403628
+          }, 
+          "end": {
+            "confidence": 1.0, 
+            "value": 17.925804988662133
+          }, 
+          "label": {
+            "confidence": 1.0, 
+            "context": "level_014", 
+            "value": 2
+          }
+        }, 
+        {
+          "start": {
+            "confidence": 1.0, 
+            "value": 17.925804988662133
+          }, 
+          "end": {
+            "confidence": 1.0, 
+            "value": 38.545124716553289
+          }, 
+          "label": {
+            "confidence": 1.0, 
+            "context": "level_014", 
+            "value": 3
+          }
+        }, 
+        {
+          "start": {
+            "confidence": 1.0, 
+            "value": 38.545124716553289
+          }, 
+          "end": {
+            "confidence": 1.0, 
+            "value": 63.088616780045349
+          }, 
+          "label": {
+            "confidence": 1.0, 
+            "context": "level_014", 
+            "value": 4
+          }
+        }, 
+        {
+          "start": {
+            "confidence": 1.0, 
+            "value": 63.088616780045349
+          }, 
+          "end": {
+            "confidence": 1.0, 
+            "value": 91.207981859410424
+          }, 
+          "label": {
+            "confidence": 1.0, 
+            "context": "level_014", 
+            "value": 5
+          }
+        }, 
+        {
+          "start": {
+            "confidence": 1.0, 
+            "value": 91.207981859410424
+          }, 
+          "end": {
+            "confidence": 1.0, 
+            "value": 114.31183673469388
+          }, 
+          "label": {
+            "confidence": 1.0, 
+            "context": "level_014", 
+            "value": 6
+          }
+        }, 
+        {
+          "start": {
+            "confidence": 1.0, 
+            "value": 114.31183673469388
+          }, 
+          "end": {
+            "confidence": 1.0, 
+            "value": 126.40943310657596
+          }, 
+          "label": {
+            "confidence": 1.0, 
+            "context": "level_014", 
+            "value": 7
+          }
+        }, 
+        {
+          "start": {
+            "confidence": 1.0, 
+            "value": 126.40943310657596
+          }, 
+          "end": {
+            "confidence": 1.0, 
+            "value": 136.71909297052153
+          }, 
+          "label": {
+            "confidence": 1.0, 
+            "context": "level_014", 
+            "value": 8
+          }
+        }, 
+        {
+          "start": {
+            "confidence": 1.0, 
+            "value": 136.71909297052153
+          }, 
+          "end": {
+            "confidence": 1.0, 
+            "value": 147.74857142857144
+          }, 
+          "label": {
+            "confidence": 1.0, 
+            "context": "level_014", 
+            "value": 9
+          }
+        }, 
+        {
+          "start": {
+            "confidence": 1.0, 
+            "value": 147.74857142857144
+          }, 
+          "end": {
+            "confidence": 1.0, 
+            "value": 159.84616780045351
+          }, 
+          "label": {
+            "confidence": 1.0, 
+            "context": "level_014", 
+            "value": 10
+          }
+        }, 
+        {
+          "start": {
+            "confidence": 1.0, 
+            "value": 159.84616780045351
+          }, 
+          "end": {
+            "confidence": 1.0, 
+            "value": 180.83700680272108
+          }, 
+          "label": {
+            "confidence": 1.0, 
+            "context": "level_014", 
+            "value": 11
+          }
+        }, 
+        {
+          "start": {
+            "confidence": 1.0, 
+            "value": 180.83700680272108
+          }, 
+          "end": {
+            "confidence": 1.0, 
+            "value": 181.2085260770975
+          }, 
+          "label": {
+            "confidence": 1.0, 
+            "context": "level_014", 
+            "value": 12
+          }
+        }, 
+        {
+          "start": {
+            "confidence": 1.0, 
+            "value": 181.2085260770975
+          }, 
+          "end": {
+            "confidence": 1.0, 
+            "value": 187.79424036281179
+          }, 
+          "label": {
+            "confidence": 1.0, 
+            "context": "level_014", 
+            "value": 13
+          }
+        }, 
+        {
+          "start": {
+            "confidence": 1.0, 
+            "value": 0.0
+          }, 
+          "end": {
+            "confidence": 1.0, 
+            "value": 0.48761904761904762
+          }, 
+          "label": {
+            "confidence": 1.0, 
+            "context": "level_015", 
+            "value": 0
+          }
+        }, 
+        {
+          "start": {
+            "confidence": 1.0, 
+            "value": 0.48761904761904762
+          }, 
+          "end": {
+            "confidence": 1.0, 
+            "value": 5.456689342403628
+          }, 
+          "label": {
+            "confidence": 1.0, 
+            "context": "level_015", 
+            "value": 1
+          }
+        }, 
+        {
+          "start": {
+            "confidence": 1.0, 
+            "value": 5.456689342403628
+          }, 
+          "end": {
+            "confidence": 1.0, 
+            "value": 17.925804988662133
+          }, 
+          "label": {
+            "confidence": 1.0, 
+            "context": "level_015", 
+            "value": 2
+          }
+        }, 
+        {
+          "start": {
+            "confidence": 1.0, 
+            "value": 17.925804988662133
+          }, 
+          "end": {
+            "confidence": 1.0, 
+            "value": 38.545124716553289
+          }, 
+          "label": {
+            "confidence": 1.0, 
+            "context": "level_015", 
+            "value": 3
+          }
+        }, 
+        {
+          "start": {
+            "confidence": 1.0, 
+            "value": 38.545124716553289
+          }, 
+          "end": {
+            "confidence": 1.0, 
+            "value": 63.088616780045349
+          }, 
+          "label": {
+            "confidence": 1.0, 
+            "context": "level_015", 
+            "value": 4
+          }
+        }, 
+        {
+          "start": {
+            "confidence": 1.0, 
+            "value": 63.088616780045349
+          }, 
+          "end": {
+            "confidence": 1.0, 
+            "value": 73.04997732426304
+          }, 
+          "label": {
+            "confidence": 1.0, 
+            "context": "level_015", 
+            "value": 5
+          }
+        }, 
+        {
+          "start": {
+            "confidence": 1.0, 
+            "value": 73.04997732426304
+          }, 
+          "end": {
+            "confidence": 1.0, 
+            "value": 91.207981859410424
+          }, 
+          "label": {
+            "confidence": 1.0, 
+            "context": "level_015", 
+            "value": 6
+          }
+        }, 
+        {
+          "start": {
+            "confidence": 1.0, 
+            "value": 91.207981859410424
+          }, 
+          "end": {
+            "confidence": 1.0, 
+            "value": 114.31183673469388
+          }, 
+          "label": {
+            "confidence": 1.0, 
+            "context": "level_015", 
+            "value": 7
+          }
+        }, 
+        {
+          "start": {
+            "confidence": 1.0, 
+            "value": 114.31183673469388
+          }, 
+          "end": {
+            "confidence": 1.0, 
+            "value": 126.40943310657596
+          }, 
+          "label": {
+            "confidence": 1.0, 
+            "context": "level_015", 
+            "value": 8
+          }
+        }, 
+        {
+          "start": {
+            "confidence": 1.0, 
+            "value": 126.40943310657596
+          }, 
+          "end": {
+            "confidence": 1.0, 
+            "value": 136.71909297052153
+          }, 
+          "label": {
+            "confidence": 1.0, 
+            "context": "level_015", 
+            "value": 9
+          }
+        }, 
+        {
+          "start": {
+            "confidence": 1.0, 
+            "value": 136.71909297052153
+          }, 
+          "end": {
+            "confidence": 1.0, 
+            "value": 147.74857142857144
+          }, 
+          "label": {
+            "confidence": 1.0, 
+            "context": "level_015", 
+            "value": 10
+          }
+        }, 
+        {
+          "start": {
+            "confidence": 1.0, 
+            "value": 147.74857142857144
+          }, 
+          "end": {
+            "confidence": 1.0, 
+            "value": 159.84616780045351
+          }, 
+          "label": {
+            "confidence": 1.0, 
+            "context": "level_015", 
+            "value": 11
+          }
+        }, 
+        {
+          "start": {
+            "confidence": 1.0, 
+            "value": 159.84616780045351
+          }, 
+          "end": {
+            "confidence": 1.0, 
+            "value": 180.83700680272108
+          }, 
+          "label": {
+            "confidence": 1.0, 
+            "context": "level_015", 
+            "value": 12
+          }
+        }, 
+        {
+          "start": {
+            "confidence": 1.0, 
+            "value": 180.83700680272108
+          }, 
+          "end": {
+            "confidence": 1.0, 
+            "value": 181.2085260770975
+          }, 
+          "label": {
+            "confidence": 1.0, 
+            "context": "level_015", 
+            "value": 13
+          }
+        }, 
+        {
+          "start": {
+            "confidence": 1.0, 
+            "value": 181.2085260770975
+          }, 
+          "end": {
+            "confidence": 1.0, 
+            "value": 187.79424036281179
+          }, 
+          "label": {
+            "confidence": 1.0, 
+            "context": "level_015", 
+            "value": 14
+          }
+        }, 
+        {
+          "start": {
+            "confidence": 1.0, 
+            "value": 0.0
+          }, 
+          "end": {
+            "confidence": 1.0, 
+            "value": 0.48761904761904762
+          }, 
+          "label": {
+            "confidence": 1.0, 
+            "context": "level_016", 
+            "value": 0
+          }
+        }, 
+        {
+          "start": {
+            "confidence": 1.0, 
+            "value": 0.48761904761904762
+          }, 
+          "end": {
+            "confidence": 1.0, 
+            "value": 5.456689342403628
+          }, 
+          "label": {
+            "confidence": 1.0, 
+            "context": "level_016", 
+            "value": 1
+          }
+        }, 
+        {
+          "start": {
+            "confidence": 1.0, 
+            "value": 5.456689342403628
+          }, 
+          "end": {
+            "confidence": 1.0, 
+            "value": 17.925804988662133
+          }, 
+          "label": {
+            "confidence": 1.0, 
+            "context": "level_016", 
+            "value": 2
+          }
+        }, 
+        {
+          "start": {
+            "confidence": 1.0, 
+            "value": 17.925804988662133
+          }, 
+          "end": {
+            "confidence": 1.0, 
+            "value": 38.545124716553289
+          }, 
+          "label": {
+            "confidence": 1.0, 
+            "context": "level_016", 
+            "value": 3
+          }
+        }, 
+        {
+          "start": {
+            "confidence": 1.0, 
+            "value": 38.545124716553289
+          }, 
+          "end": {
+            "confidence": 1.0, 
+            "value": 63.088616780045349
+          }, 
+          "label": {
+            "confidence": 1.0, 
+            "context": "level_016", 
+            "value": 4
+          }
+        }, 
+        {
+          "start": {
+            "confidence": 1.0, 
+            "value": 63.088616780045349
+          }, 
+          "end": {
+            "confidence": 1.0, 
+            "value": 73.04997732426304
+          }, 
+          "label": {
+            "confidence": 1.0, 
+            "context": "level_016", 
+            "value": 5
+          }
+        }, 
+        {
+          "start": {
+            "confidence": 1.0, 
+            "value": 73.04997732426304
+          }, 
+          "end": {
+            "confidence": 1.0, 
+            "value": 91.207981859410424
+          }, 
+          "label": {
+            "confidence": 1.0, 
+            "context": "level_016", 
+            "value": 6
+          }
+        }, 
+        {
+          "start": {
+            "confidence": 1.0, 
+            "value": 91.207981859410424
+          }, 
+          "end": {
+            "confidence": 1.0, 
+            "value": 114.31183673469388
+          }, 
+          "label": {
+            "confidence": 1.0, 
+            "context": "level_016", 
+            "value": 7
+          }
+        }, 
+        {
+          "start": {
+            "confidence": 1.0, 
+            "value": 114.31183673469388
+          }, 
+          "end": {
+            "confidence": 1.0, 
+            "value": 120.00072562358277
+          }, 
+          "label": {
+            "confidence": 1.0, 
+            "context": "level_016", 
+            "value": 8
+          }
+        }, 
+        {
+          "start": {
+            "confidence": 1.0, 
+            "value": 120.00072562358277
+          }, 
+          "end": {
+            "confidence": 1.0, 
+            "value": 126.40943310657596
+          }, 
+          "label": {
+            "confidence": 1.0, 
+            "context": "level_016", 
+            "value": 9
+          }
+        }, 
+        {
+          "start": {
+            "confidence": 1.0, 
+            "value": 126.40943310657596
+          }, 
+          "end": {
+            "confidence": 1.0, 
+            "value": 136.71909297052153
+          }, 
+          "label": {
+            "confidence": 1.0, 
+            "context": "level_016", 
+            "value": 10
+          }
+        }, 
+        {
+          "start": {
+            "confidence": 1.0, 
+            "value": 136.71909297052153
+          }, 
+          "end": {
+            "confidence": 1.0, 
+            "value": 147.74857142857144
+          }, 
+          "label": {
+            "confidence": 1.0, 
+            "context": "level_016", 
+            "value": 11
+          }
+        }, 
+        {
+          "start": {
+            "confidence": 1.0, 
+            "value": 147.74857142857144
+          }, 
+          "end": {
+            "confidence": 1.0, 
+            "value": 159.84616780045351
+          }, 
+          "label": {
+            "confidence": 1.0, 
+            "context": "level_016", 
+            "value": 12
+          }
+        }, 
+        {
+          "start": {
+            "confidence": 1.0, 
+            "value": 159.84616780045351
+          }, 
+          "end": {
+            "confidence": 1.0, 
+            "value": 180.83700680272108
+          }, 
+          "label": {
+            "confidence": 1.0, 
+            "context": "level_016", 
+            "value": 13
+          }
+        }, 
+        {
+          "start": {
+            "confidence": 1.0, 
+            "value": 180.83700680272108
+          }, 
+          "end": {
+            "confidence": 1.0, 
+            "value": 181.2085260770975
+          }, 
+          "label": {
+            "confidence": 1.0, 
+            "context": "level_016", 
+            "value": 14
+          }
+        }, 
+        {
+          "start": {
+            "confidence": 1.0, 
+            "value": 181.2085260770975
+          }, 
+          "end": {
+            "confidence": 1.0, 
+            "value": 187.79424036281179
+          }, 
+          "label": {
+            "confidence": 1.0, 
+            "context": "level_016", 
+            "value": 15
+          }
+        }, 
+        {
+          "start": {
+            "confidence": 1.0, 
+            "value": 0.0
+          }, 
+          "end": {
+            "confidence": 1.0, 
+            "value": 0.48761904761904762
+          }, 
+          "label": {
+            "confidence": 1.0, 
+            "context": "level_017", 
+            "value": 0
+          }
+        }, 
+        {
+          "start": {
+            "confidence": 1.0, 
+            "value": 0.48761904761904762
+          }, 
+          "end": {
+            "confidence": 1.0, 
+            "value": 5.456689342403628
+          }, 
+          "label": {
+            "confidence": 1.0, 
+            "context": "level_017", 
+            "value": 1
+          }
+        }, 
+        {
+          "start": {
+            "confidence": 1.0, 
+            "value": 5.456689342403628
+          }, 
+          "end": {
+            "confidence": 1.0, 
+            "value": 17.925804988662133
+          }, 
+          "label": {
+            "confidence": 1.0, 
+            "context": "level_017", 
+            "value": 2
+          }
+        }, 
+        {
+          "start": {
+            "confidence": 1.0, 
+            "value": 17.925804988662133
+          }, 
+          "end": {
+            "confidence": 1.0, 
+            "value": 38.545124716553289
+          }, 
+          "label": {
+            "confidence": 1.0, 
+            "context": "level_017", 
+            "value": 3
+          }
+        }, 
+        {
+          "start": {
+            "confidence": 1.0, 
+            "value": 38.545124716553289
+          }, 
+          "end": {
+            "confidence": 1.0, 
+            "value": 63.088616780045349
+          }, 
+          "label": {
+            "confidence": 1.0, 
+            "context": "level_017", 
+            "value": 4
+          }
+        }, 
+        {
+          "start": {
+            "confidence": 1.0, 
+            "value": 63.088616780045349
+          }, 
+          "end": {
+            "confidence": 1.0, 
+            "value": 73.04997732426304
+          }, 
+          "label": {
+            "confidence": 1.0, 
+            "context": "level_017", 
+            "value": 5
+          }
+        }, 
+        {
+          "start": {
+            "confidence": 1.0, 
+            "value": 73.04997732426304
+          }, 
+          "end": {
+            "confidence": 1.0, 
+            "value": 90.464943310657603
+          }, 
+          "label": {
+            "confidence": 1.0, 
+            "context": "level_017", 
+            "value": 6
+          }
+        }, 
+        {
+          "start": {
+            "confidence": 1.0, 
+            "value": 90.464943310657603
+          }, 
+          "end": {
+            "confidence": 1.0, 
+            "value": 91.207981859410424
+          }, 
+          "label": {
+            "confidence": 1.0, 
+            "context": "level_017", 
+            "value": 7
+          }
+        }, 
+        {
+          "start": {
+            "confidence": 1.0, 
+            "value": 91.207981859410424
+          }, 
+          "end": {
+            "confidence": 1.0, 
+            "value": 114.31183673469388
+          }, 
+          "label": {
+            "confidence": 1.0, 
+            "context": "level_017", 
+            "value": 8
+          }
+        }, 
+        {
+          "start": {
+            "confidence": 1.0, 
+            "value": 114.31183673469388
+          }, 
+          "end": {
+            "confidence": 1.0, 
+            "value": 120.00072562358277
+          }, 
+          "label": {
+            "confidence": 1.0, 
+            "context": "level_017", 
+            "value": 9
+          }
+        }, 
+        {
+          "start": {
+            "confidence": 1.0, 
+            "value": 120.00072562358277
+          }, 
+          "end": {
+            "confidence": 1.0, 
+            "value": 126.40943310657596
+          }, 
+          "label": {
+            "confidence": 1.0, 
+            "context": "level_017", 
+            "value": 10
+          }
+        }, 
+        {
+          "start": {
+            "confidence": 1.0, 
+            "value": 126.40943310657596
+          }, 
+          "end": {
+            "confidence": 1.0, 
+            "value": 136.71909297052153
+          }, 
+          "label": {
+            "confidence": 1.0, 
+            "context": "level_017", 
+            "value": 11
+          }
+        }, 
+        {
+          "start": {
+            "confidence": 1.0, 
+            "value": 136.71909297052153
+          }, 
+          "end": {
+            "confidence": 1.0, 
+            "value": 147.74857142857144
+          }, 
+          "label": {
+            "confidence": 1.0, 
+            "context": "level_017", 
+            "value": 12
+          }
+        }, 
+        {
+          "start": {
+            "confidence": 1.0, 
+            "value": 147.74857142857144
+          }, 
+          "end": {
+            "confidence": 1.0, 
+            "value": 159.84616780045351
+          }, 
+          "label": {
+            "confidence": 1.0, 
+            "context": "level_017", 
+            "value": 13
+          }
+        }, 
+        {
+          "start": {
+            "confidence": 1.0, 
+            "value": 159.84616780045351
+          }, 
+          "end": {
+            "confidence": 1.0, 
+            "value": 180.83700680272108
+          }, 
+          "label": {
+            "confidence": 1.0, 
+            "context": "level_017", 
+            "value": 14
+          }
+        }, 
+        {
+          "start": {
+            "confidence": 1.0, 
+            "value": 180.83700680272108
+          }, 
+          "end": {
+            "confidence": 1.0, 
+            "value": 181.2085260770975
+          }, 
+          "label": {
+            "confidence": 1.0, 
+            "context": "level_017", 
+            "value": 15
+          }
+        }, 
+        {
+          "start": {
+            "confidence": 1.0, 
+            "value": 181.2085260770975
+          }, 
+          "end": {
+            "confidence": 1.0, 
+            "value": 187.79424036281179
+          }, 
+          "label": {
+            "confidence": 1.0, 
+            "context": "level_017", 
+            "value": 16
+          }
+        }, 
+        {
+          "start": {
+            "confidence": 1.0, 
+            "value": 0.0
+          }, 
+          "end": {
+            "confidence": 1.0, 
+            "value": 0.48761904761904762
+          }, 
+          "label": {
+            "confidence": 1.0, 
+            "context": "level_018", 
+            "value": 0
+          }
+        }, 
+        {
+          "start": {
+            "confidence": 1.0, 
+            "value": 0.48761904761904762
+          }, 
+          "end": {
+            "confidence": 1.0, 
+            "value": 5.456689342403628
+          }, 
+          "label": {
+            "confidence": 1.0, 
+            "context": "level_018", 
+            "value": 1
+          }
+        }, 
+        {
+          "start": {
+            "confidence": 1.0, 
+            "value": 5.456689342403628
+          }, 
+          "end": {
+            "confidence": 1.0, 
+            "value": 11.865396825396825
+          }, 
+          "label": {
+            "confidence": 1.0, 
+            "context": "level_018", 
+            "value": 2
+          }
+        }, 
+        {
+          "start": {
+            "confidence": 1.0, 
+            "value": 11.865396825396825
+          }, 
+          "end": {
+            "confidence": 1.0, 
+            "value": 17.925804988662133
+          }, 
+          "label": {
+            "confidence": 1.0, 
+            "context": "level_018", 
+            "value": 3
+          }
+        }, 
+        {
+          "start": {
+            "confidence": 1.0, 
+            "value": 17.925804988662133
+          }, 
+          "end": {
+            "confidence": 1.0, 
+            "value": 38.545124716553289
+          }, 
+          "label": {
+            "confidence": 1.0, 
+            "context": "level_018", 
+            "value": 4
+          }
+        }, 
+        {
+          "start": {
+            "confidence": 1.0, 
+            "value": 38.545124716553289
+          }, 
+          "end": {
+            "confidence": 1.0, 
+            "value": 63.088616780045349
+          }, 
+          "label": {
+            "confidence": 1.0, 
+            "context": "level_018", 
+            "value": 5
+          }
+        }, 
+        {
+          "start": {
+            "confidence": 1.0, 
+            "value": 63.088616780045349
+          }, 
+          "end": {
+            "confidence": 1.0, 
+            "value": 73.04997732426304
+          }, 
+          "label": {
+            "confidence": 1.0, 
+            "context": "level_018", 
+            "value": 6
+          }
+        }, 
+        {
+          "start": {
+            "confidence": 1.0, 
+            "value": 73.04997732426304
+          }, 
+          "end": {
+            "confidence": 1.0, 
+            "value": 90.464943310657603
+          }, 
+          "label": {
+            "confidence": 1.0, 
+            "context": "level_018", 
+            "value": 7
+          }
+        }, 
+        {
+          "start": {
+            "confidence": 1.0, 
+            "value": 90.464943310657603
+          }, 
+          "end": {
+            "confidence": 1.0, 
+            "value": 91.207981859410424
+          }, 
+          "label": {
+            "confidence": 1.0, 
+            "context": "level_018", 
+            "value": 8
+          }
+        }, 
+        {
+          "start": {
+            "confidence": 1.0, 
+            "value": 91.207981859410424
+          }, 
+          "end": {
+            "confidence": 1.0, 
+            "value": 114.31183673469388
+          }, 
+          "label": {
+            "confidence": 1.0, 
+            "context": "level_018", 
+            "value": 9
+          }
+        }, 
+        {
+          "start": {
+            "confidence": 1.0, 
+            "value": 114.31183673469388
+          }, 
+          "end": {
+            "confidence": 1.0, 
+            "value": 120.00072562358277
+          }, 
+          "label": {
+            "confidence": 1.0, 
+            "context": "level_018", 
+            "value": 10
+          }
+        }, 
+        {
+          "start": {
+            "confidence": 1.0, 
+            "value": 120.00072562358277
+          }, 
+          "end": {
+            "confidence": 1.0, 
+            "value": 126.40943310657596
+          }, 
+          "label": {
+            "confidence": 1.0, 
+            "context": "level_018", 
+            "value": 11
+          }
+        }, 
+        {
+          "start": {
+            "confidence": 1.0, 
+            "value": 126.40943310657596
+          }, 
+          "end": {
+            "confidence": 1.0, 
+            "value": 136.71909297052153
+          }, 
+          "label": {
+            "confidence": 1.0, 
+            "context": "level_018", 
+            "value": 12
+          }
+        }, 
+        {
+          "start": {
+            "confidence": 1.0, 
+            "value": 136.71909297052153
+          }, 
+          "end": {
+            "confidence": 1.0, 
+            "value": 147.74857142857144
+          }, 
+          "label": {
+            "confidence": 1.0, 
+            "context": "level_018", 
+            "value": 13
+          }
+        }, 
+        {
+          "start": {
+            "confidence": 1.0, 
+            "value": 147.74857142857144
+          }, 
+          "end": {
+            "confidence": 1.0, 
+            "value": 159.84616780045351
+          }, 
+          "label": {
+            "confidence": 1.0, 
+            "context": "level_018", 
+            "value": 14
+          }
+        }, 
+        {
+          "start": {
+            "confidence": 1.0, 
+            "value": 159.84616780045351
+          }, 
+          "end": {
+            "confidence": 1.0, 
+            "value": 180.83700680272108
+          }, 
+          "label": {
+            "confidence": 1.0, 
+            "context": "level_018", 
+            "value": 15
+          }
+        }, 
+        {
+          "start": {
+            "confidence": 1.0, 
+            "value": 180.83700680272108
+          }, 
+          "end": {
+            "confidence": 1.0, 
+            "value": 181.2085260770975
+          }, 
+          "label": {
+            "confidence": 1.0, 
+            "context": "level_018", 
+            "value": 16
+          }
+        }, 
+        {
+          "start": {
+            "confidence": 1.0, 
+            "value": 181.2085260770975
+          }, 
+          "end": {
+            "confidence": 1.0, 
+            "value": 187.79424036281179
+          }, 
+          "label": {
+            "confidence": 1.0, 
+            "context": "level_018", 
+            "value": 17
+          }
+        }
+      ], 
+      "sandbox": {}
+    }
+  ], 
+  "metadata": {
+    "artist": "", 
+    "title": "", 
+    "mbid": "", 
+    "version": 0.01, 
+    "echonest_id": "", 
+    "duration": 187.79424036281179, 
+    "md5": ""
+  }
+}
