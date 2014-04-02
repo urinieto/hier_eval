@@ -45,8 +45,8 @@
 \maketitle
 %
 \begin{abstract}
-  Structure in music is traditionally analyzed in hierarchically: from the large scale sections in the highest level to the short melodic ideas in the motivic level. 
-  Automatic approaches to estimate the structure of a given track typically output a flat estimation only, which is evaluated against a human annotated dataset, also annotated in a flat way.
+  Structure in music is traditionally analyzed hierarchically: from the large scale sections in the highest level to the short melodic ideas in the motivic level. 
+  Automatic approaches to estimate the structure of a given track typically output a flat estimation, which is evaluated against a human annotated dataset, also annotated in a flat way.
   Recently, datasets composed of hierarchical evaluations have been published, but no methods are available in order to evaluate these richer annotations.
   We propose a method to evaluate hierarchical boundaries of music segments using rank retrieval techniques that can be used to evaluate flat annotations against hierarchical ones and vice versa.
   We show how our evaluation behaves with various synthetic and real world examples in order to illustrate its reliability and usability. 
@@ -131,7 +131,12 @@ The difference here is that the reference rankings are induced from ordinal data
 
 \section{Using GAUC}\label{sec:using_method}
 
+In this section we discuss the behavior of GAUC by showing various synthetic examples, and compare them against other existing methods when possible.
+We subdivide this section based on the type of annotations to be evaluated.
+
 \subsection{Flat vs Flat}
+
+
 
 \subsection{Flat vs Hierarchical}
 
