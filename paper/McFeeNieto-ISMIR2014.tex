@@ -7,7 +7,6 @@
 \usepackage{ismir2014,amsmath,cite}
 \usepackage{graphicx}
 \usepackage{amsfonts}
-\usepackage{amsmath}
 
 % Title.
 % ------
@@ -60,13 +59,171 @@ SALAMI: dataset with hierarchical annotations.
 Rank retrieval in order to evaluate hierarchical annotations.
 Organization of the paper.
 
-\section{Evaluation Description}\label{sec:eval_desc}
+\section{Structural Congruency Index Description}\label{sec:eval_desc}
 
 \subsection{Music segmentation background}
 
-Let $X \in \mathbb{R}^{d\times t}$ denote a time series of feature data, where $d$ denotes the dimension of features, and $t$ is a time index at some fixed resolution (say, 10Hz).
+Let $X \in \mathbb{R}^{d\times t}$ denote a time series of feature data, where $d$ denotes the dimension of features, and $t$ is a time index at some fixed resolution $f_r$ (e.g. 10Hz).
 Existing approaches to music segmentation suppose that there is a single partitioning into $m$ temporally contiguous regions, so that $X=[X_1|X_2|\cdots|X_m]$.
 
+Instead, we will suppose that $X$ can be hierarchically decomposed into a tree structure.
+In this view, we have segmentations at multiple resolutions or levels of granularity.
+The question now is how to evaluate with or against tree-structured segmentation.
+
+\subsection{Notation}
+
+Let $S \in \mathcal{P}(X)$ denote a partitioning of the columns of $X$, which can be seen as a flat sequence.
+We will use the subscripts $S_R$ and $S_E$ to denote \emph{reference} and \emph{estimation}, respectively.
+$S(i)$ will denote the identifier of the partition containing item $i$
+
+Hierarchical segmentations will be denoted by $H$ following the subscript conventions above, and the restriction that $H(i)$ denotes the most specific segment containing $i$.
+
+$H(i, j)$ will denote the least common ancestor of $H(i)$ and $H(j)$.
+We will denote precedence (containment) of segments by $\prec$ and $\preceq$ e.g., $H(i) \preceq H(i, j)$.In general, we can interpret $H(\cdot, \cdot)$ as a partial order over pairs: not all pairs are comparable, e.g., if $H(a) = H(b)$.
+Restricting to a query frame $q$, $H(q, \cdot)$ induces a partial ranking over the remaining data, in that for all $i, j$.
+This will be the key to our evaluation.
+
+
+\subsection{Reduction to ranking}
+
+Observe that flat segmentations are a special case of hierarchical segmentations, where there is one node at the root of the hierarchy containing all frames, and then $m$ segments at the next level down which partition $X$.
+
+We can reduce segmentation evaluation to a ranking evaluation problem as follows.
+Let $q$ denote any frame/column of $X$, and let $i$ and $j$ denote any two frames such that $S_R(q) = S_R(i)$ and $S_R(q) \neq S_R(j)$.
+In this case, $i$ may be considered \emph{relevant} for $q$, and $j$ is considered \emph{irrelevant} for $q$.
+This leads to a straightforward reduction to bipartite ranking, and induces an evaluation similar to the Area Under the Curve (AUC) statistic. 
+Assuming that both $S_E$ and $S_R$ have $n$ frames, we can formally describe the flat segmentation evaluation metric framed under a ranking problem as:
+
+\begin{multline}
+f(q ; S_E) := \frac{1}{|S_R(q)|\cdot (n - |S_R(q)|)} \sum_{i \in S_R(q)} \sum_{j \notin S_R(q)} \\ \mathbb{I}\left[ S_E(q) = S_E(i) \neq S_E(j) \right]
+\end{multline}
+
+That is, the score for frame $q$ is the fraction of pairs $(i, j)$ for which $S_E$ agrees with $S_R$ with respect to $q$ (i.e. membership in the segment).
+
+Averaging over all $q$ gives the AUC score:
+
+\begin{equation}
+AUC(S_E) := \frac{1}{n} \sum_q f(q ; S_E)
+\end{equation}
+
+\subsection{Partial Ranking}
+
+Note that $f$ is defined in terms of membership (in)equalities.
+In the flat case, we can equivalently reason about strict precedences.
+Rather than compare $i$ and $j$ where $S(q) = S(i) \neq S(j)$, we can express this as $H(q, i) \prec H(q, j)$.
+That is, $q$ and $i$ merge before $q$ and $j$:
+
+\begin{equation}
+g(q ; H_E) := \frac{1}{Z_q} \sum_{i,j : H_R(q, i) \prec H_R(q, j)}  \mathbb{I}\left[ H_E(q, i) \prec H_E(q, j) \right]
+\end{equation}
+
+where $Z_q$ is a normalization term that counts the number of terms in the summation.
+
+$g$ can be viewed as a generalized AUC over the partial ranking induced by the hierarchical segmentation.
+We call this metric Structural Congruency Index (SCI).
+Note that the precedence comparisons here are strict, so we never compare two $i$ and $j$ that merge simultaneously with $q$.
+
+Aggregating over all frames $q$, we get the following:
+
+\begin{equation}
+SIC(H_E) := \frac{1}{n} \sum_q g(q ; S_E)
+\end{equation}
+
+Note this loss is equivalent to that evaluated by (McFee \& Lanckriet, 2011) for subjective artist similarity.
+The difference here is that the reference rankings are induced from ordinal data, and not subject to consistency errors.
+
+\subsection{Windowing in Time}
+
+The computation of SIC can be expensive ($O(n^3)$ using a straightforward implementation).
+The score also varies depending on $n$, so it can be hard to make intra tracks comparisons.
+Therefore, we propose to use a time window of $w$ seconds in order to both simplify the computation of the metric and normalize its dynamic range.
+We restrict the number of frames to consider to $m = \lceil w \cdot f_r \rceil$.
+Adding this windowing property to the SIC equations:
+
+\begin{multline}
+  g(q, m ; H_E) := \frac{1}{Z_q} \sum_{\substack{i,j : H_R(q, i) \prec H_R(q, j) }} \\ \mathbb{I}\left[ H_E(q, i) \prec H_E(q, j) \land m_s \leq i,j \leq m_e\right]
+\end{multline}
+
+\begin{equation}
+SIC(H_E,m) := \frac{1}{n} \sum_q g(q,m ; S_E)
+\end{equation}
+
+where $m_s = \mbox{max}\{0,q-m/2\}$ and $m_e = \mbox{min}\{q+m/2,n\}$ are the start and ending, respectively, of the current window in frame indices.
+
+Small windows (e.g. less than 3 seconds) only capture the local changes, losing precision since most of the segments will be more than this small window.
+We want a window that is long enough to capture the boundaries of the current segments, and that is the same for all tracks in order to be able to easily compare results within a reasonable dynamic range.
+In the task of music segmentation, most of the segments will be less than 45 seconds (30?).
+
+\section{Using GAUC}\label{sec:using_method}
+
+In this section we discuss the behavior of GAUC by showing various synthetic examples, and compare them against other existing methods when possible.
+We subdivide this section based on the type of annotations to be evaluated.
+
+\subsection{Choosing a Time Window}
+
+There's a time frame 
+
+
+\subsection{Flat vs Flat}
+
+
+
+\subsection{Flat vs Hierarchical}
+
+\subsection{Hierarchical vs Hierarchical}
+
+\section{Evaluating Automatic Algorithm}
+
+Olda with SALAMI.
+
+
+%\begin{table}
+ %\begin{center}
+ %\begin{tabular}{|l|l|}
+  %\hline
+  %String value & Numeric value \\
+  %\hline
+  %Hello ISMIR  & 2014 \\
+  %\hline
+ %\end{tabular}
+%\end{center}
+ %\caption{Table captions should be placed below the table.}
+ %\label{tab:example}
+%\end{table}
+
+%\begin{figure}
+ %\centerline{\framebox{
+ %\includegraphics[width=\columnwidth]{figure.png}}}
+ %\caption{Figure captions should be placed below the figure.}
+ %\label{fig:example}
+%\end{figure}
+
+\section{Conclusions}
+
+Our method will save us all.
+
+\begin{thebibliography}{citations}
+
+\bibitem {Author:00}
+E. Author:
+``The Title of the Conference Paper,''
+{\it Proceedings of the International Symposium
+on Music Information Retrieval}, pp.~000--111, 2000.
+
+\bibitem{Someone:10}
+A. Someone, B. Someone, and C. Someone:
+``The Title of the Journal Paper,''
+{\it Journal of New Music Research},
+Vol.~A, No.~B, pp.~111--222, 2010.
+
+\bibitem{Someone:04} X. Someone and Y. Someone: {\it Title of the Book},
+    Editorial Acme, Porto, 2012.
+
+\end{thebibliography}
+
+%\bibliography{ismir2014template}
+
+\end{document}
 Instead, we will suppose that $X$ can be hierarchically decomposed into a tree structure.
 In this view, we have segmentations at multiple resolutions or levels of granularity.
 The question now is how to evaluate with or against tree-structured segmentation.
@@ -145,7 +302,7 @@ We subdivide this section based on the type of annotations to be evaluated.
 
 \subsection{Choosing a Time Window}
 
-There's a time 
+There's a time frame 
 
 
 \subsection{Flat vs Flat}
