@@ -10,7 +10,7 @@
 
 % Title.
 % ------
-\title{Hierarchical Evaluation of Music Boundaries Using Rank Retrieval}
+\title{Hierarchical evaluation of music segment boundary detection}
 
 % Single address
 % To use with only one author or several with the same address
@@ -45,11 +45,14 @@
 \maketitle
 %
 \begin{abstract}
-  Structure in music is traditionally analyzed hierarchically: from the large scale sections in the highest level to the short melodic ideas in the motivic level. 
-  Automatic approaches to estimate the structure of a given track typically output a flat estimation, which is evaluated against a human annotated dataset, also annotated in a flat way.
-  Recently, datasets composed of hierarchical evaluations have been published, but no methods are available in order to evaluate these richer annotations.
-  We propose a method to evaluate hierarchical boundaries of music segments using rank retrieval techniques that can be used to evaluate flat annotations against hierarchical ones and vice versa.
-  We show how our evaluation behaves with various synthetic and real world examples in order to illustrate its reliability and usability. 
+Structure in music is traditionally analyzed hierarchically: large scale sections at the highest level can be sub-divided and refined down to the short melodic ideas at the motivic level. 
+However, typical algorithmic approaches to structural annotation produce flat temporal partitions of a track, which are commonly evaluated against a similarly flat, human-produced
+annotation, effectively discarding all notions of structural depth in the annotation.
+Recently, collections of hierarchical structure annotations have been published, but at present, no evaluation techniques exist to evaluate against these rich structural annotations.
+
+We propose a method to evaluate structural boundary detection in the context of hierarchical annotation.
+The proposed method transforms boundary detection into a ranking problem, and facilitates the comparison of flat and hierarchical annotations.
+We demonstrate the proposed method with various synthetic and real world examples. 
 \end{abstract}
 %
 \section{Introduction}\label{sec:introduction}
