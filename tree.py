@@ -63,8 +63,7 @@ import numpy as np
 from collections import Counter
 
 # Not so common modules
-import jams
-import mir_eval
+import jams2
 
 
 class Segment(object):
@@ -152,7 +151,7 @@ class SegmentTree(object):
         """Initialize a segment tree using a jam annotation file and a
         specific annotation id in case the jam file contains multiple
         annotations."""
-        self._jam = jams.load(jam_file)
+        self._jam = jams2.load(jam_file)
 
         def get_levels():
             """Obtains the set of unique levels contained in the jams
@@ -167,7 +166,7 @@ class SegmentTree(object):
         def get_segments_in_range(start, end, level):
             """Gets the segments that are within a specific range at a certain
                 level."""
-            intervals, labels = mir_eval.input_output.load_jams_range(jam_file,
+            intervals, labels = jams2.converters.load_jams_range(jam_file,
                     "sections", annotator=annotation_id, context=level)
             segments = []
             for i, interval in enumerate(intervals):
