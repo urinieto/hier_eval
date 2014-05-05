@@ -226,60 +226,209 @@ There's a time frame
   \label{fig:flat-flat}
 \end{figure}%
 
+%\begin{table}
+ %\begin{center}
+   %\begin{tabular}{c|c|c|c|}
+  %\cline{2-4}
+  %& \multirow{2}{*}{$w$} & \multicolumn{2}{|c|}{SHAG} \\
+  %\cline{3-4}
+  %&          & E2R    & R2E      \\
+  %\cline{2-4}
+  %& 0.5       & 40.0   & 100      \\     
+  %& 3         & 40.0   & 100      \\
+  %& 20        & 52.27  & 49.75    \\
+  %& 45        & 78.11  & 49.75    \\
+  %& $\infty$  & 80.0   & 49.75    \\
+  %\cline{2-4}
+  %\multicolumn{4}{c}{} \\
+  %\cline{2-4}
+  %& \multicolumn{3}{|c|}{Hit Rate} \\
+  %\cline{2-4}
+  %&         F  & P  & R \\
+  %\hline
+  %\multicolumn{1}{ |c| }{E2R} &     0  & 0  & 0 \\
+  %\multicolumn{1}{ |c| }{R2E} &     0  & 0  & 0 \\
+  %\hline
+ %\end{tabular}
+%\end{center}
+  %\caption{Flat vs Flat}
+  %\label{tab:flat-flat}
+%\end{table}
+
 \begin{table}
  \begin{center}
-   \begin{tabular}{|c|c|c|c|c|}
+   \begin{tabular}{|c|c|c||c|c|c|c|}
   \hline
-  \multirow{2}{*}{$w$} & \multirow{2}{*}{SHAG} & \multicolumn{3}{|c|}{Hit Rate} \\
-  \cline{3-5}
-            &        & F     & P     & R \\
+  \multicolumn{3}{|c||}{\textbf{SHAG}} & \multicolumn{4}{c|}{\textbf{Hit Rate}} \\
   \hline
-  0.5       & 40.0   & 72.72   & 100  & 57.14 \\
-  3         & 40.0   & 72.72   & 100  & 57.14 \\
-  20        & 52.27  & 72.72   & 100  & 57.14 \\
-  45        & 78.11  & 72.72   & 100  & 57.14 \\
-  $\infty$  & 80.0   & 72.72   & 100  & 57.14 \\
+  $w$ & E2R    & R2E & Type & F     & P     & R \\
   \hline
+  0.5       & 40.0   & 72.72   & E2R & 72.72  & 100 & 57.14 \\
+  3         & 40.0   & 72.72   & R2E & 72.72  & 57.14 & 100  \\
+  \cline{4-7}
+  20        & 52.27  & 72.72   \\
+  45        & 78.11  & 72.72   \\
+  $\infty$  & 80.0   & 72.72   \\
+  \cline{1-3}
  \end{tabular}
 \end{center}
   \caption{Flat vs Flat}
-  \label{tab:flat-flat}
+  \label{tab:flat-flatoldmerda}
 \end{table}
 
-\begin{table}
- \begin{center}
-   \begin{tabular}{|c|c|c|c|c|}
-  \hline
-  \multirow{2}{*}{$w$} & \multirow{2}{*}{SHAG} & \multicolumn{3}{|c|}{Hit Rate} \\
-  \cline{3-5}
-       &      & F     & P     & R \\
-  \hline
-  0.5       & 100    & 72.72   & 100  & 57.14 \\
-  3         & 100    & 72.72   & 100  & 57.14 \\
-  20        & 49.75  & 72.72   & 100  & 57.14 \\
-  45        & 49.75  & 72.72   & 100  & 57.14 \\
-  $\infty$  & 49.75  & 72.72   & 100  & 57.14 \\
-  \hline
- \end{tabular}
-\end{center}
-  \caption{Flat vs Flat, using the reference as the estimation and vice versa.}
-  \label{tab:flat-flat-vice}
-\end{table}
+%\begin{table}
+ %\begin{center}
+   %\begin{tabular}{|c|c|c|c|c|}
+  %\hline
+  %\multirow{2}{*}{$w$} & \multirow{2}{*}{SHAG} & \multicolumn{3}{|c|}{Hit Rate} \\
+  %\cline{3-5}
+            %&        & F     & P     & R \\
+  %\hline
+  %0.5       & 40.0   & 72.72   & 100  & 57.14 \\
+  %3         & 40.0   & 72.72   & 100  & 57.14 \\
+  %20        & 52.27  & 72.72   & 100  & 57.14 \\
+  %45        & 78.11  & 72.72   & 100  & 57.14 \\
+  %$\infty$  & 80.0   & 72.72   & 100  & 57.14 \\
+  %\hline
+ %\end{tabular}
+%\end{center}
+  %\caption{Flat vs Flat}
+  %\label{tab:flat-flatold}
+%\end{table}
+
+%\begin{table}
+ %\begin{center}
+   %\begin{tabular}{|c|c|c|c|c|}
+  %\hline
+  %\multirow{2}{*}{$w$} & \multirow{2}{*}{SHAG} & \multicolumn{3}{|c|}{Hit Rate} \\
+  %\cline{3-5}
+       %&      & F     & P     & R \\
+  %\hline
+  %0.5       & 100    & 72.72   & 100  & 57.14 \\
+  %3         & 100    & 72.72   & 100  & 57.14 \\
+  %20        & 49.75  & 72.72   & 100  & 57.14 \\
+  %45        & 49.75  & 72.72   & 100  & 57.14 \\
+  %$\infty$  & 49.75  & 72.72   & 100  & 57.14 \\
+  %\hline
+ %\end{tabular}
+%\end{center}
+  %\caption{Flat vs Flat, using the reference as the estimation and vice versa.}
+  %\label{tab:flat-flat-vice}
+%\end{table}
 
 
-\subsection{Flat vs Hierarchical}
+\subsection{Hierarchical vs Flat}
 
 \begin{figure}
   \centering
-  \includegraphics[width=0.47\textwidth]{plots/flat-hier.pdf}
+  \includegraphics[width=0.47\textwidth]{plots/hier-flatlarge.pdf}
   \caption{TODO}
-  \label{fig:flat-hier}
+  \label{fig:hier-flatlarge}
 \end{figure}%
 
+\begin{table}
+ \begin{center}
+   \begin{tabular}{|c|c|c|}
+  \hline
+  \multicolumn{3}{|c|}{\textbf{SHAG}} \\
+  \hline
+  $w$       & E2R    & R2E      \\
+  \hline
+  0.5       & 0         & 100      \\     
+  3         & 0         & 100      \\
+  20        & 52.49     & 100    \\
+  45        & 78.28     & 100    \\
+  $\infty$  & 80.16     & 100    \\
+  \hline
+ \end{tabular}
+\end{center}
+  \caption{Hierarchical vs Flat Large Scale}
+  \label{tab:hier-flatlarge}
+\end{table}
 
+\begin{figure}
+  \centering
+  \includegraphics[width=0.47\textwidth]{plots/hier-flatsmall.pdf}
+  \caption{TODO}
+  \label{fig:hier-flatsmall}
+\end{figure}%
+
+\begin{table}
+ \begin{center}
+   \begin{tabular}{|c|c|c|}
+  \hline
+  \multicolumn{3}{|c|}{\textbf{SHAG}} \\
+  \hline
+  $w$       & E2R    & R2E      \\
+  \hline
+  0.5       & 100       & 100      \\     
+  3         & 100       & 100      \\
+  20        & 47.51     & 100    \\
+  45        & 21.71     & 100    \\
+  $\infty$  & 19.84     & 100    \\
+  \hline
+ \end{tabular}
+\end{center}
+  \caption{Hierarchical vs Flat Small Scale}
+  \label{tab:hier-flatsmall}
+\end{table}
 ok
 
 \subsection{Hierarchical vs Hierarchical}
+
+\begin{figure}
+  \centering
+  \includegraphics[width=0.47\textwidth]{plots/hier-hier.pdf}
+  \caption{TODO}
+  \label{fig:hier-hier}
+\end{figure}%
+
+\begin{table}
+ \begin{center}
+   \begin{tabular}{|c|c|c|}
+  \hline
+  \multicolumn{3}{|c|}{\textbf{SHAG}} \\
+  \hline
+  $w$       & E2R    & R2E      \\
+  \hline
+  0.5       & 100       & 100      \\     
+  3         & 100       & 100      \\
+  20        & 100     & 100    \\
+  45        & 100     & 100    \\
+  $\infty$  & 100     & 100    \\
+  \hline
+ \end{tabular}
+\end{center}
+  \caption{Hierarchical vs Hierarchical}
+  \label{tab:hier-hier}
+\end{table}
+
+\begin{figure}
+  \centering
+  \includegraphics[width=0.47\textwidth]{plots/hier-hiercomp.pdf}
+  \caption{TODO}
+  \label{fig:hier-hiercomp}
+\end{figure}%
+
+\begin{table}
+ \begin{center}
+   \begin{tabular}{|c|c|c|}
+  \hline
+  \multicolumn{3}{|c|}{\textbf{SHAG}} \\
+  \hline
+  $w$       & E2R       & R2E      \\
+  \hline
+  0.5       & 100       & 100      \\     
+  3         & 100       & 100      \\
+  20        & 100       & 91.68    \\
+  45        & 100       & 65.15    \\
+  $\infty$  & 100       & 61.85    \\
+  \hline
+ \end{tabular}
+\end{center}
+  \caption{2-Layer Hierarchical vs 3-Layer Hierarchical}
+  \label{tab:hier-hiercomp}
+\end{table}
 
 \section{Evaluating Automatic Algorithm}
 
