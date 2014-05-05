@@ -7,6 +7,7 @@
 \usepackage{ismir2014,amsmath,cite}
 \usepackage{graphicx}
 \usepackage{amsfonts}
+\usepackage{brian}
 
 % Title.
 % ------
@@ -65,96 +66,145 @@ Organization of the paper.
 
 \subsection{Music segmentation background}
 
-Let $X \in \mathbb{R}^{d\times t}$ denote a time series of feature data, where $d$ denotes the dimension of features, and $t$ is a time index at some fixed resolution $f_r$ (e.g. 10Hz).
-Existing approaches to music segmentation suppose that there is a single partitioning into $m$ temporally contiguous regions, so that $X=[X_1|X_2|\cdots|X_m]$.
+Let $X \in \mathbb{R}^{d\times n}$ denote a song as represented by a time series of 
+feature data, where $d$ denotes the dimension of features, and $n$ denotes the
+time duration at some fixed resolution $f_r$ (\eg, 10Hz).
+Existing approaches to boundary evaluation pre-suppose a single partitioning into $m$
+temporally contiguous regions, so that $X=[X_1|X_2|\cdots|X_m]$.  An estimated
+partitioning can then be evaluated by comparing the estimated boundaries between
+regions to those in a reference annotation.
 
 Instead, we will suppose that $X$ can be hierarchically decomposed into a tree structure.
 In this view, we have segmentations at multiple resolutions or levels of granularity.
-The question now is how to evaluate with or against tree-structured segmentation.
+The question now is how to evaluate against tree-structured segmentation.
 
 \subsection{Notation}
 
-Let $S \in \mathcal{P}(X)$ denote a partitioning of the columns of $X$, which can be seen as a flat sequence.
+Let $S \in \mathcal{P}(X)$ denote a temporally contiguous partition of the columns of
+$X$.
 We will use the subscripts $S_R$ and $S_E$ to denote \emph{reference} and \emph{estimation}, respectively.
-$S(i)$ will denote the identifier of the partition containing item $i$
+$S(i)$ will denote the identifier of the partition containing the $i$th frame (column $X_i$).
 
-Hierarchical segmentations will be denoted by $H$ following the subscript conventions above, and the restriction that $H(i)$ denotes the most specific segment containing $i$.
-
+Hierarchical segmentations will be denoted by $H$ and follow the subscript conventions
+above.  $H(i)$ will denote the most specific segment containing $i$, that is, the
+segment containing $i$ at the deepest level in the hierarchy.
 $H(i, j)$ will denote the least common ancestor of $H(i)$ and $H(j)$.
-We will denote precedence (containment) of segments by $\prec$ and $\preceq$ e.g., $H(i) \preceq H(i, j)$.In general, we can interpret $H(\cdot, \cdot)$ as a partial order over pairs: not all pairs are comparable, e.g., if $H(a) = H(b)$.
-Restricting to a query frame $q$, $H(q, \cdot)$ induces a partial ranking over the remaining data, in that for all $i, j$.
-This will be the key to our evaluation.
+We will denote precedence (containment) of segments by $\prec$ and $\preceq$: \eg,
+$H(i) \preceq H(i, j)$. 
+
+Note that flat segmentations are a special case of hierarchical segmentations, where there is one node at the root of the hierarchy containing all frames, and then $m$ segments at the next level down which partition $X$.
+
+Restricting to a query frame $q$, $H(q, \cdot)$ induces a partial ranking over the
+remaining frames.  Frames contained in $H(q)$ are considered maximally relevant,
+followed by those in $H(q)$'s immediate ancestor, and so on.
+This observation will be the key to our evaluation, as it provides a connection
+between hierarchical time-series decompositions and ranking evaluation.
 
 
 \subsection{Reduction to ranking}
 
-Observe that flat segmentations are a special case of hierarchical segmentations, where there is one node at the root of the hierarchy containing all frames, and then $m$ segments at the next level down which partition $X$.
 
 We can reduce segmentation evaluation to a ranking evaluation problem as follows.
-Let $q$ denote any frame/column of $X$, and let $i$ and $j$ denote any two frames such that $S_R(q) = S_R(i)$ and $S_R(q) \neq S_R(j)$.
+Let $q$ denote an arbitrary frame, and let $i$ and $j$ denote any two frames such that $S_R(q) = S_R(i)$ and $S_R(q) \neq S_R(j)$.
 In this case, $i$ may be considered \emph{relevant} for $q$, and $j$ is considered \emph{irrelevant} for $q$.
-This leads to a straightforward reduction to bipartite ranking, and induces an evaluation similar to the Area Under the Curve (AUC) statistic. 
-Assuming that both $S_E$ and $S_R$ have $n$ frames, we can formally describe the flat segmentation evaluation metric framed under a ranking problem as:
+This leads to a straightforward reduction to bipartite ranking.
 
-\begin{multline}
-f(q ; S_E) := \frac{1}{|S_R(q)|\cdot (n - |S_R(q)|)} \sum_{i \in S_R(q)} \sum_{j \notin S_R(q)} \\ \mathbb{I}\left[ S_E(q) = S_E(i) \neq S_E(j) \right]
-\end{multline}
-
-That is, the score for frame $q$ is the fraction of pairs $(i, j)$ for which $S_E$ agrees with $S_R$ with respect to $q$ (i.e. membership in the segment).
-
-Averaging over all $q$ gives the AUC score:
-
+Assuming that both $S_E$ and $S_R$ have $n$ frames, we can formally describe a frame
+recall metric:
 \begin{equation}
-AUC(S_E) := \frac{1}{n} \sum_q f(q ; S_E)
+f(q ; S_E) \defeq 
+\sum_{\substack{i \in S_R(q)\\ j \notin S_R(q)}}
+\frac{\ind{S_E(q) = S_E(i) \neq S_E(j) }}{|S_R(q)|\cdot (n -
+|S_R(q)|)}.\label{flatrecall}
 \end{equation}
+That is, the score for frame $q$ is the fraction of pairs $(i, j)$ for which $S_E$
+agrees with $S_R$ with respect to $q$ (\ie, membership in the segment).
+
+Averaging over all frames $q$ yields an average frame recall score:
+\begin{equation}
+\rho(S_E) \defeq \frac{1}{n} \sum_q f(q ; S_E).\label{avgrecall}
+\end{equation}
+% TODO:   2014-05-05 00:38:15 by Brian McFee <brm2132@columbia.edu>
+% talk about why we don't need to consider precision here
+% predictions are mutually exclusive
+% the usual way to cheat at recall is to make too many predictions..
+% but to do that for q1, you'd have to make fewer predictions for q2,
+\nocite{levy2008structural}
+
 
 \subsection{Partial Ranking}
 
-Note that $f$ is defined in terms of membership (in)equalities.
-In the flat case, we can equivalently reason about strict precedences.
+\Cref{flatrecall} is defined in terms of segment membership (in)equalities, but 
+we can equivalently express the function using strict precedences in a (flat)
+segment hierarchy.
 Rather than compare $i$ and $j$ where $S(q) = S(i) \neq S(j)$, we can express this as $H(q, i) \prec H(q, j)$.
 That is, $q$ and $i$ merge before $q$ and $j$:
-
 \begin{equation}
-g(q ; H_E) := \frac{1}{Z_q} \sum_{i,j : H_R(q, i) \prec H_R(q, j)}  \mathbb{I}\left[ H_E(q, i) \prec H_E(q, j) \right]
+g(q ; H_E) \defeq \sum_{\substack{(i, j)\\ H_R(q, i) \prec H_R(q, j)}}
+\frac{\ind{H_E(q, i) \prec H_E(q, j)}}{Z_q},\label{hierrecall}
 \end{equation}
-
 where $Z_q$ is a normalization term that counts the number of terms in the summation.
 
-$g$ can be viewed as a generalized AUC over the partial ranking induced by the hierarchical segmentation.
-We call this metric Structural Congruency Index (SCI).
-Note that the precedence comparisons here are strict, so we never compare two $i$ and $j$ that merge simultaneously with $q$.
+Just as in \cref{flatrecall}, $g$ can be viewed as a classification accuracy of
+correctly predicting pairs $(i, j)$ as positive ($q$ and $i$ merge first) or negative
+($q$ and $j$ merge first).  The case where $H(q, i) = H(q, j)$ is precluded by the
+strict precedence operator in the summation.
 
-Aggregating over all frames $q$, we get the following:
-
+\Cref{hierrecall} can be alternately be viewed as a generalized area under the curve
+(AUC) over the partial ranking induced by the hierarchical segmentation, where the
+prediction threshold being varied is the depth within the estimated hierarchy $H_E$.
+% Note that the precedence comparisons here are strict, so we never compare two $i$ and $j$ that merge simultaneously with $q$.
+Aggregating over all frames $q$, we get the following average recall metric, which we
+term the Structural Congruency Index (SCI):
 \begin{equation}
-SIC(H_E) := \frac{1}{n} \sum_q g(q ; S_E)
+SCI(H_E) \defeq \frac{1}{n} \sum_q g(q ; S_E)
 \end{equation}
 
-Note this loss is equivalent to that evaluated by (McFee \& Lanckriet, 2011) for subjective artist similarity.
+Note this loss is equivalent to that evaluated by for subjective artist similarity~\cite{mcfee2011}.
 The difference here is that the reference rankings are induced from ordinal data, and not subject to consistency errors.
 
 \subsection{Windowing in Time}
 
-The computation of SIC can be expensive ($O(n^3)$ using a straightforward implementation).
-The score also varies depending on $n$, so it can be hard to make intra tracks comparisons.
-Therefore, we propose to use a time window of $w$ seconds in order to both simplify the computation of the metric and normalize its dynamic range.
+The calculation of SCI can be expensive ($\Oh\left(n^3\right)$ using a straightforward 
+implementation).
+The score also varies with $n$, so comparisons between tracks of differing length can
+be probematic.  For extreme values of $n$, \cref{hierrecall} may be dominated by pairs
+obviously irrelevant comparison points $j$ which lie far from $q$ in time.
+
+Therefore, we propose to use a time window of $w$ seconds in order to both simplify the 
+calculation of the metric and normalize its dynamic range.
 We restrict the number of frames to consider to $m = \lceil w \cdot f_r \rceil$.
-Adding this windowing property to the SIC equations:
-
-\begin{multline}
-  g(q, m ; H_E) := \frac{1}{Z_q} \sum_{\substack{i,j : H_R(q, i) \prec H_R(q, j) }} \\ \mathbb{I}\left[ H_E(q, i) \prec H_E(q, j) \land m_s \leq i,j \leq m_e\right]
-\end{multline}
-
+Adding this windowing property to the SIC equations yields:
 \begin{equation}
-SIC(H_E,m) := \frac{1}{n} \sum_q g(q,m ; S_E)
+  g(q, m ; H_E) \defeq \sum_{\substack{
+  m_s \leq i,j \leq m_e \\ 
+  H_R(q, i) \prec H_R(q, j) }} \frac{\ind{H_E(q, i) \prec H_E(q,
+  j)}}{Z_q(m)},\label{windowrecall}
 \end{equation}
+\begin{equation}
+SIC(H_E,m) \defeq \frac{1}{n} \sum_q g(q,m ; S_E),
+\end{equation}
+where $m_s = \min\{0,q-m/2\}$ and $m_e = \max\{q+m/2,n\}$ are the start and ending, respectively, of the current window in frame indices.
 
-where $m_s = \mbox{max}\{0,q-m/2\}$ and $m_e = \mbox{min}\{q+m/2,n\}$ are the start and ending, respectively, of the current window in frame indices.
+FIXME: Move this next part down to 3.1
 
-Small windows (e.g. less than 3 seconds) only capture the local changes, losing precision since most of the segments will be more than this small window.
+Small windows (\eg, $w \leq 3$) only capture the local changes, 
+losing precision since most of the segments will be more than this small window.
 We want a window that is long enough to capture the boundaries of the current segments, and that is the same for all tracks in order to be able to easily compare results within a reasonable dynamic range.
 In the task of music segmentation, most of the segments will be less than 45 seconds (30?).
+
+\subsection{Transitivity}
+Just as \cref{hierrecall} can be dominated by long-range interactions in the absence
+of windowing, deep hierarchies can also pose a problem.  To see this, consider the 
+sequence $H_R(q, i) \prec H_R(q, j) \prec H_R(q, k)$.  Due to the transitive
+containment structure of $H_R$, we have $i \in H_R(q, i) \subseteq H_R(q, j)$.
+Since the summation in \cref{hierrecall} ranges over all precedence comparisons, the
+pair $(i, k)$ appears twice in the summation.  
+
+To counteract this effect, the summation can be restricted to only range over direct
+precedence relations.  In practice, this is accomplished by only comparing frames from
+successive levels in the hierarchy.  As a result, redundant comparisons are
+eliminated, and the dynamic range of $g$ is increased.
 
 \section{Using GAUC}\label{sec:using_method}
 
@@ -203,120 +253,122 @@ Olda with SALAMI.
 
 Our method will save us all.
 
-\begin{thebibliography}{citations}
+% \begin{thebibliography}{citations}
 
-\bibitem {Author:00}
-E. Author:
-``The Title of the Conference Paper,''
-{\it Proceedings of the International Symposium
-on Music Information Retrieval}, pp.~000--111, 2000.
+% \bibitem {Author:00}
+% E. Author:
+% ``The Title of the Conference Paper,''
+% {\it Proceedings of the International Symposium
+% on Music Information Retrieval}, pp.~000--111, 2000.
 
-\bibitem{Someone:10}
-A. Someone, B. Someone, and C. Someone:
-``The Title of the Journal Paper,''
-{\it Journal of New Music Research},
-Vol.~A, No.~B, pp.~111--222, 2010.
+% \bibitem{Someone:10}
+% A. Someone, B. Someone, and C. Someone:
+% ``The Title of the Journal Paper,''
+% {\it Journal of New Music Research},
+% Vol.~A, No.~B, pp.~111--222, 2010.
 
-\bibitem{Someone:04} X. Someone and Y. Someone: {\it Title of the Book},
-    Editorial Acme, Porto, 2012.
+% \bibitem{Someone:04} X. Someone and Y. Someone: {\it Title of the Book},
+%     Editorial Acme, Porto, 2012.
 
-\end{thebibliography}
+% \end{thebibliography}
+
+\bibliography{refs}
 
 %\bibliography{ismir2014template}
 
 \end{document}
-Instead, we will suppose that $X$ can be hierarchically decomposed into a tree structure.
-In this view, we have segmentations at multiple resolutions or levels of granularity.
-The question now is how to evaluate with or against tree-structured segmentation.
+% Instead, we will suppose that $X$ can be hierarchically decomposed into a tree structure.
+% In this view, we have segmentations at multiple resolutions or levels of granularity.
+% The question now is how to evaluate with or against tree-structured segmentation.
 
-\subsection{Notation}
+% \subsection{Notation}
 
-Let $S \in \mathcal{P}(X)$ denote a partitioning of the columns of $X$, which can be seen as a flat sequence.
-We will use the subscripts $S_R$ and $S_E$ to denote \emph{reference} and \emph{estimation}, respectively.
-$S(i)$ will denote the identifier of the partition containing item $i$
+% Let $S \in \mathcal{P}(X)$ denote a partitioning of the columns of $X$, which can be seen as a flat sequence.
+% We will use the subscripts $S_R$ and $S_E$ to denote \emph{reference} and \emph{estimation}, respectively.
+% $S(i)$ will denote the identifier of the partition containing item $i$
 
-Hierarchical segmentations will be denoted by $H$ following the subscript conventions above, and the restriction that $H(i)$ denotes the most specific segment containing $i$.
+% Hierarchical segmentations will be denoted by $H$ following the subscript conventions above, and the restriction that $H(i)$ denotes the most specific segment containing $i$.
 
-$H(i, j)$ will denote the least common ancestor of $H(i)$ and $H(j)$.
-We will denote precedence (containment) of segments by $\prec$ and $\preceq$ e.g., $H(i) \preceq H(i, j)$.In general, we can interpret $H(\cdot, \cdot)$ as a partial order over pairs: not all pairs are comparable, e.g., if $H(a) = H(b)$.
-Restricting to a query frame $q$, $H(q, \cdot)$ induces a partial ranking over the remaining data, in that for all $i, j$.
-This will be the key to our evaluation.
-
-
-\subsection{Reduction to ranking}
-
-Observe that flat segmentations are a special case of hierarchical segmentations, where there is one node at the root of the hierarchy containing all frames, and then $m$ segments at the next level down which partition $X$.
-
-We can reduce segmentation evaluation to a ranking evaluation problem as follows.
-Let $q$ denote any frame/column of $X$, and let $i$ and $j$ denote any two frames such that $S_R(q) = S_R(i)$ and $S_R(q) \neq S_R(j)$.
-In this case, $i$ may be considered \emph{relevant} for $q$, and $j$ is considered \emph{irrelevant} for $q$.
-This leads to a straightforward reduction to bipartite ranking, and induces an evaluation similar to the Area Under the Curve (AUC) statistic. 
-Assuming that both $S_E$ and $S_R$ have $n$ frames, we can formally describe the flat segmentation evaluation metric framed under a ranking problem as:
-
-\begin{multline}
-f(q ; S_E) := \frac{1}{|S_R(q)|\cdot (n - |S_R(q)|)} \sum_{i \in S_R(q)} \sum_{j \notin S_R(q)} \\ \mathbb{I}\left[ S_E(q) = S_E(i) \neq S_E(j) \right]
-\end{multline}
-
-That is, the score for frame $q$ is the fraction of pairs $(i, j)$ for which $S_E$ agrees with $S_R$ with respect to $q$ (i.e. membership in the segment).
-
-Averaging over all $q$ gives the AUC score:
-
-\begin{equation}
-AUC(S_E) := \frac{1}{n} \sum_q f(q ; S_E)
-\end{equation}
-
-\subsection{Partial Ranking}
-
-Note that $f$ is defined in terms of membership (in)equalities.
-In the flat case, we can equivalently reason about strict precedences.
-Rather than compare $i$ and $j$ where $S(q) = S(i) \neq S(j)$, we can express this as $H(q, i) \prec H(q, j)$.
-That is, $q$ and $i$ merge before $q$ and $j$:
-
-\begin{equation}
-g(q ; H_E) := \frac{1}{Z_q} \sum_{i,j : H_R(q, i) \prec H_R(q, j)}  \mathbb{I}\left[ H_E(q, i) \prec H_E(q, j) \right]
-\end{equation}
-
-where $Z_q$ is a normalization term that counts the number of terms in the summation.
-
-$g$ can be viewed as a Generalized AUC (GAUC) over the partial ranking induced by the hierarchical segmentation.
-Note that the precedence comparisons here are strict, so we never compare two $i$ and $j$ that merge simultaneously with $q$.
-
-Aggregating over all frames $q$, we get the following:
-
-\begin{equation}
-GAUC(H_E) := \frac{1}{n} \sum_q g(q ; S_E)
-\end{equation}
-
-Note, this loss is equivalent to that evaluated by (McFee \& Lanckriet, 2011) for subjective artist similarity.
-The difference here is that the reference rankings are induced from ordinal data, and not subject to consistency errors.
-
-\subsection{Windowing in Time}
-
-The computation of GAUC can be expensive ($O(n^3)$ using a straightforward implementation).
-The score will also vary depending on $n$, so it would be hard to make intra tracks comparisons.
-Therefore, we propose to use a time window of $t$ seconds in order to both simplify the computation of the metric and normalize its dynamic range.
-
-\section{Using GAUC}\label{sec:using_method}
-
-In this section we discuss the behavior of GAUC by showing various synthetic examples, and compare them against other existing methods when possible.
-We subdivide this section based on the type of annotations to be evaluated.
-
-\subsection{Choosing a Time Window}
-
-There's a time frame 
+% $H(i, j)$ will denote the least common ancestor of $H(i)$ and $H(j)$.
+% We will denote precedence (containment) of segments by $\prec$ and $\preceq$ e.g., $H(i) \preceq H(i, j)$.In general, we can interpret $H(\cdot, \cdot)$ as a partial order over pairs: not all pairs are comparable, e.g., if $H(a) = H(b)$.
+% Restricting to a query frame $q$, $H(q, \cdot)$ induces a partial ranking over the remaining data, in that for all $i, j$.
+% This will be the key to our evaluation.
 
 
-\subsection{Flat vs Flat}
+% \subsection{Reduction to ranking}
+
+% Observe that flat segmentations are a special case of hierarchical segmentations, where there is one node at the root of the hierarchy containing all frames, and then $m$ segments at the next level down which partition $X$.
+
+% We can reduce segmentation evaluation to a ranking evaluation problem as follows.
+% Let $q$ denote any frame/column of $X$, and let $i$ and $j$ denote any two frames such that $S_R(q) = S_R(i)$ and $S_R(q) \neq S_R(j)$.
+% In this case, $i$ may be considered \emph{relevant} for $q$, and $j$ is considered \emph{irrelevant} for $q$.
+% This leads to a straightforward reduction to bipartite ranking, and induces an evaluation similar to the Area Under the Curve (AUC) statistic. 
+% Assuming that both $S_E$ and $S_R$ have $n$ frames, we can formally describe the flat segmentation evaluation metric framed under a ranking problem as:
+
+% \begin{multline}
+% f(q ; S_E) := \frac{1}{|S_R(q)|\cdot (n - |S_R(q)|)} \sum_{i \in S_R(q)} \sum_{j \notin S_R(q)} \\ \mathbb{I}\left[ S_E(q) = S_E(i) \neq S_E(j) \right]
+% \end{multline}
+
+% That is, the score for frame $q$ is the fraction of pairs $(i, j)$ for which $S_E$ agrees with $S_R$ with respect to $q$ (i.e. membership in the segment).
+
+% Averaging over all $q$ gives the AUC score:
+
+% \begin{equation}
+% AUC(S_E) := \frac{1}{n} \sum_q f(q ; S_E)
+% \end{equation}
+
+% \subsection{Partial Ranking}
+
+% Note that $f$ is defined in terms of membership (in)equalities.
+% In the flat case, we can equivalently reason about strict precedences.
+% Rather than compare $i$ and $j$ where $S(q) = S(i) \neq S(j)$, we can express this as $H(q, i) \prec H(q, j)$.
+% That is, $q$ and $i$ merge before $q$ and $j$:
+
+% \begin{equation}
+% g(q ; H_E) := \frac{1}{Z_q} \sum_{i,j : H_R(q, i) \prec H_R(q, j)}  \mathbb{I}\left[ H_E(q, i) \prec H_E(q, j) \right]
+% \end{equation}
+
+% where $Z_q$ is a normalization term that counts the number of terms in the summation.
+
+% $g$ can be viewed as a Generalized AUC (GAUC) over the partial ranking induced by the hierarchical segmentation.
+% Note that the precedence comparisons here are strict, so we never compare two $i$ and $j$ that merge simultaneously with $q$.
+
+% Aggregating over all frames $q$, we get the following:
+
+% \begin{equation}
+% GAUC(H_E) := \frac{1}{n} \sum_q g(q ; S_E)
+% \end{equation}
+
+% Note, this loss is equivalent to that evaluated by (McFee \& Lanckriet, 2011) for subjective artist similarity.
+% The difference here is that the reference rankings are induced from ordinal data, and not subject to consistency errors.
+
+% \subsection{Windowing in Time}
+
+% The computation of GAUC can be expensive ($O(n^3)$ using a straightforward implementation).
+% The score will also vary depending on $n$, so it would be hard to make intra tracks comparisons.
+% Therefore, we propose to use a time window of $t$ seconds in order to both simplify the computation of the metric and normalize its dynamic range.
+
+% \section{Using GAUC}\label{sec:using_method}
+
+% In this section we discuss the behavior of GAUC by showing various synthetic examples, and compare them against other existing methods when possible.
+% We subdivide this section based on the type of annotations to be evaluated.
+
+% \subsection{Choosing a Time Window}
+
+% There's a time frame 
+
+
+% \subsection{Flat vs Flat}
 
 
 
-\subsection{Flat vs Hierarchical}
+% \subsection{Flat vs Hierarchical}
 
-\subsection{Hierarchical vs Hierarchical}
+% \subsection{Hierarchical vs Hierarchical}
 
-\section{Evaluating Automatic Algorithm}
+% \section{Evaluating Automatic Algorithm}
 
-Olda with SALAMI.
+% Olda with SALAMI.
 
 
 %\begin{table}
@@ -340,29 +392,8 @@ Olda with SALAMI.
  %\label{fig:example}
 %\end{figure}
 
-\section{Conclusions}
+% \section{Conclusions}
 
-Our method will save us all.
-
-\begin{thebibliography}{citations}
-
-\bibitem {Author:00}
-E. Author:
-``The Title of the Conference Paper,''
-{\it Proceedings of the International Symposium
-on Music Information Retrieval}, pp.~000--111, 2000.
-
-\bibitem{Someone:10}
-A. Someone, B. Someone, and C. Someone:
-``The Title of the Journal Paper,''
-{\it Journal of New Music Research},
-Vol.~A, No.~B, pp.~111--222, 2010.
-
-\bibitem{Someone:04} X. Someone and Y. Someone: {\it Title of the Book},
-    Editorial Acme, Porto, 2012.
-
-\end{thebibliography}
-
-%\bibliography{ismir2014template}
+% Our method will save us all.
 
 \end{document}
