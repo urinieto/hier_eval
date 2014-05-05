@@ -208,52 +208,21 @@ precedence relations.  In practice, this is accomplished by only comparing frame
 successive levels in the hierarchy.  As a result, redundant comparisons are
 eliminated, and the dynamic range of $g$ is increased.
 
-\section{Using SHAG}\label{sec:using_method}
+\section{Examples}\label{sec:using_method}
 
 In this section we discuss the behavior of SHAG by showing various synthetic examples, and compare them against other existing methods when possible.
 We subdivide this section based on the type of annotations to be evaluated.
 
-\subsection{Choosing a Time Window}
-
-There's a time frame 
-
 \subsection{Flat vs Flat}
+
+To start with, we compare two flat boundary annotations (i.e. only one layer of annotation), and see how SHAG behaves compared to the standard hit rate measure at 3 seconds.
 
 \begin{figure}
   \centering
   \includegraphics[width=0.47\textwidth]{plots/flat-flat.pdf}
-  \caption{TODO}
+  \caption{Visual representation of flat boundaries.}
   \label{fig:flat-flat}
 \end{figure}%
-
-%\begin{table}
- %\begin{center}
-   %\begin{tabular}{c|c|c|c|}
-  %\cline{2-4}
-  %& \multirow{2}{*}{$w$} & \multicolumn{2}{|c|}{SHAG} \\
-  %\cline{3-4}
-  %&          & E2R    & R2E      \\
-  %\cline{2-4}
-  %& 0.5       & 40.0   & 100      \\     
-  %& 3         & 40.0   & 100      \\
-  %& 20        & 52.27  & 49.75    \\
-  %& 45        & 78.11  & 49.75    \\
-  %& $\infty$  & 80.0   & 49.75    \\
-  %\cline{2-4}
-  %\multicolumn{4}{c}{} \\
-  %\cline{2-4}
-  %& \multicolumn{3}{|c|}{Hit Rate} \\
-  %\cline{2-4}
-  %&         F  & P  & R \\
-  %\hline
-  %\multicolumn{1}{ |c| }{E2R} &     0  & 0  & 0 \\
-  %\multicolumn{1}{ |c| }{R2E} &     0  & 0  & 0 \\
-  %\hline
- %\end{tabular}
-%\end{center}
-  %\caption{Flat vs Flat}
-  %\label{tab:flat-flat}
-%\end{table}
 
 \begin{table}
  \begin{center}
@@ -275,47 +244,6 @@ There's a time frame
   \caption{Flat vs Flat}
   \label{tab:flat-flatoldmerda}
 \end{table}
-
-%\begin{table}
- %\begin{center}
-   %\begin{tabular}{|c|c|c|c|c|}
-  %\hline
-  %\multirow{2}{*}{$w$} & \multirow{2}{*}{SHAG} & \multicolumn{3}{|c|}{Hit Rate} \\
-  %\cline{3-5}
-            %&        & F     & P     & R \\
-  %\hline
-  %0.5       & 40.0   & 72.72   & 100  & 57.14 \\
-  %3         & 40.0   & 72.72   & 100  & 57.14 \\
-  %20        & 52.27  & 72.72   & 100  & 57.14 \\
-  %45        & 78.11  & 72.72   & 100  & 57.14 \\
-  %$\infty$  & 80.0   & 72.72   & 100  & 57.14 \\
-  %\hline
- %\end{tabular}
-%\end{center}
-  %\caption{Flat vs Flat}
-  %\label{tab:flat-flatold}
-%\end{table}
-
-%\begin{table}
- %\begin{center}
-   %\begin{tabular}{|c|c|c|c|c|}
-  %\hline
-  %\multirow{2}{*}{$w$} & \multirow{2}{*}{SHAG} & \multicolumn{3}{|c|}{Hit Rate} \\
-  %\cline{3-5}
-       %&      & F     & P     & R \\
-  %\hline
-  %0.5       & 100    & 72.72   & 100  & 57.14 \\
-  %3         & 100    & 72.72   & 100  & 57.14 \\
-  %20        & 49.75  & 72.72   & 100  & 57.14 \\
-  %45        & 49.75  & 72.72   & 100  & 57.14 \\
-  %$\infty$  & 49.75  & 72.72   & 100  & 57.14 \\
-  %\hline
- %\end{tabular}
-%\end{center}
-  %\caption{Flat vs Flat, using the reference as the estimation and vice versa.}
-  %\label{tab:flat-flat-vice}
-%\end{table}
-
 
 \subsection{Hierarchical vs Flat}
 
@@ -429,6 +357,10 @@ ok
   \caption{2-Layer Hierarchical vs 3-Layer Hierarchical}
   \label{tab:hier-hiercomp}
 \end{table}
+
+\subsection{Choosing a Time Window}
+
+There's a time frame 
 
 \section{Evaluating Automatic Algorithm}
 
