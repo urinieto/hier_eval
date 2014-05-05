@@ -1,10 +1,9 @@
 SRC = McFeeNieto-ISMIR2014
 
 all: $(SRC).tex
-	latex $<
+	pdflatex $<
 	bibtex $(SRC)
-	latex $<
-	latex $<
+	pdflatex $<
 	pdflatex $<
 
 check: $(SRC).tex
