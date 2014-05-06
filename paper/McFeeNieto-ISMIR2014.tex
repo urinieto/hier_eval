@@ -221,7 +221,7 @@ We subdivide this section based on the type of annotations to be evaluated.
 
 \subsection{Flat vs Flat}
 
-To start with, we compare two flat boundary annotations (i.e. one-layer annotations), and see how SHAG behaves compared to the standard hit rate measure at 3 seconds and the median deviations.
+To start with, we compare two flat boundary annotations (i.e. one-layer), and see how SHAG behaves compared to the standard hit rate measure at 3 seconds and the median deviations.
 The synthesized flat boundaries are displayed in Figure \ref{fig:flat-flat}, and they aim to capture the situation where an algorithm only estimates --without any time deviations-- a subset of all the reference boundaries.
 
 \begin{figure}
@@ -231,9 +231,11 @@ The synthesized flat boundaries are displayed in Figure \ref{fig:flat-flat}, and
   \label{fig:flat-flat}
 \end{figure}%
 
-Analyzing the hit rate scores (top right part of Table \ref{tab:flat-flat}), we can see how in the E2R type, the precision is 100\%, since all the estimated boundaries are also in the reference.
+Since we are evaluating flat annotations, we can compute the standard metrics as well. The hit rate scores (top right part of Table \ref{tab:flat-flat}) obtain a precision of 100\% for the E2R type, since all the estimated boundaries are also in the reference.
 On the other hand, only four out of seven boundaries were retrieved, so the recall value is 57.14\%, leaving the F-measure at 72.72\%.
-When sapping the reference with the estimation (i.e. R2E type), the F-measure remains the same, but the precision and recall switch values.
+When swapping the reference with the estimation (i.e. R2E type), the F-measure remains the same, but the precision and recall switch values.
+The median deviations, displayed on the bottom right of Table \ref{tab:flat-flat}, are always 0 seconds (i.e. highest possible score) since we did not add any fluctuation in the boundaries.
+It becomes apparent how the medians can not always be reliable, since two sets of boundaries can be quite different while still obtaining the best result for this metric.
 
 \begin{table}
  \begin{center}
@@ -243,20 +245,22 @@ When sapping the reference with the estimation (i.e. R2E type), the F-measure re
   \hline
   $w$ & E2R    & R2E & Type & F     & P     & R \\
   \hline
-  0.5       & 40.0   & 72.72   & E2R & 72.72  & 100 & 57.14 \\
-  3         & 40.0   & 72.72   & R2E & 72.72  & 57.14 & 100  \\
+  0.5       & 40.0   & 100   & E2R & 72.72  & 100 & 57.14 \\
+  3         & 40.0   & 100   & R2E & 72.72  & 57.14 & 100  \\
   \cline{4-7}
-  20        & 52.27  & 72.72 & \multicolumn{4}{c|}{\textbf{Median Deviations}}   \\
+  20        & 52.27  & 49.75 & \multicolumn{4}{c|}{\textbf{Median Deviations}}   \\
   \cline{4-7}
-  45        & 78.11  & 72.72 & \multicolumn{2}{c|}{E2R} & \multicolumn{2}{c|}{R2E} \\
+  45        & 78.11  & 49.75 & \multicolumn{2}{c|}{E2R} & \multicolumn{2}{c|}{R2E} \\
   \cline{4-7}
-  $\infty$  & 80.0   & 72.72 & \multicolumn{2}{c|}{0} & \multicolumn{2}{c|}{0}  \\
+  $\infty$  & 80.0   & 49.75 & \multicolumn{2}{c|}{0} & \multicolumn{2}{c|}{0}  \\
   \hline
  \end{tabular}
 \end{center}
   \caption{Flat vs Flat}
   \label{tab:flat-flat}
 \end{table}
+
+
 
 \subsection{Hierarchical vs Flat}
 
