@@ -221,9 +221,8 @@ We subdivide this section based on the type of annotations to be evaluated.
 
 \subsection{Flat vs Flat}
 
-To start with, we compare two flat boundary annotations (i.e. only one layer of annotation), and see how SHAG behaves compared to the standard hit rate measure at 3 seconds and the media deviations.
-The synthesized flat boundaries in Figure \ref{fig:flat-flat} aim to capture the situation where an algorithm only estimates --without any time deviations-- a subset of all the reference boundaries.
-Analyzing the 
+To start with, we compare two flat boundary annotations (i.e. one-layer annotations), and see how SHAG behaves compared to the standard hit rate measure at 3 seconds and the median deviations.
+The synthesized flat boundaries are displayed in Figure \ref{fig:flat-flat}, and they aim to capture the situation where an algorithm only estimates --without any time deviations-- a subset of all the reference boundaries.
 
 \begin{figure}
   \centering
@@ -231,6 +230,10 @@ Analyzing the
   \caption{Visual representation of flat boundaries.}
   \label{fig:flat-flat}
 \end{figure}%
+
+Analyzing the hit rate scores (top right part of Table \ref{tab:flat-flat}), we can see how in the E2R type, the precision is 100\%, since all the estimated boundaries are also in the reference.
+On the other hand, only four out of seven boundaries were retrieved, so the recall value is 57.14\%, leaving the F-measure at 72.72\%.
+When sapping the reference with the estimation (i.e. R2E type), the F-measure remains the same, but the precision and recall switch values.
 
 \begin{table}
  \begin{center}
