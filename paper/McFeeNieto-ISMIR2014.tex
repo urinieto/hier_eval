@@ -215,11 +215,15 @@ eliminated, and the dynamic range of $g$ is increased.
 \section{Examples}\label{sec:using_method}
 
 In this section we discuss the behavior of SHAG by showing various synthetic examples, and compare them against other existing methods when possible.
+Two different versions of each metric are used to evaluate these examples: Estimated against Reference boundaries (E2R), and the Reference boundaries against the Estimated ones (R2E).
+These results will help us illustrate the variation of the scores when swapping the references with the estimations, which, in the case of SHAG, has a significant impact.
 We subdivide this section based on the type of annotations to be evaluated.
 
 \subsection{Flat vs Flat}
 
-To start with, we compare two flat boundary annotations (i.e. only one layer of annotation), and see how SHAG behaves compared to the standard hit rate measure at 3 seconds.
+To start with, we compare two flat boundary annotations (i.e. only one layer of annotation), and see how SHAG behaves compared to the standard hit rate measure at 3 seconds and the media deviations.
+The synthesized flat boundaries in Figure \ref{fig:flat-flat} aim to capture the situation where an algorithm only estimates --without any time deviations-- a subset of all the reference boundaries.
+Analyzing the 
 
 \begin{figure}
   \centering
@@ -239,14 +243,16 @@ To start with, we compare two flat boundary annotations (i.e. only one layer of 
   0.5       & 40.0   & 72.72   & E2R & 72.72  & 100 & 57.14 \\
   3         & 40.0   & 72.72   & R2E & 72.72  & 57.14 & 100  \\
   \cline{4-7}
-  20        & 52.27  & 72.72   \\
-  45        & 78.11  & 72.72   \\
-  $\infty$  & 80.0   & 72.72   \\
-  \cline{1-3}
+  20        & 52.27  & 72.72 & \multicolumn{4}{c|}{\textbf{Median Deviations}}   \\
+  \cline{4-7}
+  45        & 78.11  & 72.72 & \multicolumn{2}{c|}{E2R} & \multicolumn{2}{c|}{R2E} \\
+  \cline{4-7}
+  $\infty$  & 80.0   & 72.72 & \multicolumn{2}{c|}{0} & \multicolumn{2}{c|}{0}  \\
+  \hline
  \end{tabular}
 \end{center}
   \caption{Flat vs Flat}
-  \label{tab:flat-flatoldmerda}
+  \label{tab:flat-flat}
 \end{table}
 
 \subsection{Hierarchical vs Flat}
