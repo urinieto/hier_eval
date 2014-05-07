@@ -64,20 +64,25 @@ Moreover, tree representations are commonly used to both model and analyze the f
 
 In the music information retrieval literature, a task that aims to automatically identify the structure of music has been widely discussed under the name of music segmentation \cite{Paulus2010}.
 As opposed to other more traditional approaches, this automatic task solely focuses on the non-overlapping segments (or sections) of a given track.
-Nevertheless, it has been shown that even these segments tend to be organized in a hierarchical manner \cite{Peeters2009}, and even a large dataset of hierarchical human annotations has been presented \cite{Smith2011}.
-However, most algorithms only operate at a flat level, since (i) hard task and (ii) no hierarchical evaluation exists.
+Nevertheless, it has been shown that even these segments tend to be organized in a hierarchical manner \cite{Peeters2009}, and even a large dataset of hierarchical human annotations is publicly available \cite{Smith2011}.
+However, most algorithms only operate at a flat level, likely because (i) this task is already challenging at this level \cite{Skywalker2014} and (ii) even if an algorithm could estimate hierarchical segments, no method to evaluate them has been proposed.
+
 %This automatic task could facilitate, e.g., the intra-piece navigation, generation of music summaries, or segment-based recommendation systems, especially nowadays when listeners have easy access to large digital music collections.
 %Nevertheless, the vast majority of music segmentation algorithms only operate at a flat level instead of following the hierarchical approach that most musicologists follow.
 
-We try to approach (ii).
+In this work we present the Segment Hierarchy Agreement Grade (SHAG), a method to evaluate hierarchical segmentations that focuses on the boundaries of the segments exclusively (i.e. we do not measure the segment labels).
+This proposed metric works at a frame-level (similar to \cite{Levy2008}, a score used to evaluate the labels of the segments), and it is based on a rank retrieval evaluation where each frame is ranked depending on whether it belongs to the \emph{correct} segment.
+The correctness of the segment is evaluated across all the layers of the time partitions, thus resulting in a metric that can both evaluate hierarchical and flat boundaries (note that a flat segmentation is only a specific case of a hierarchical one, where the number of layers is one).
+With SHAG we facilitate the evaluation of existing flat estimations against hierarchical annotations (like \cite{Smith2011}), and encourage new publications on richer hierarchical algorithms.
+We show the behavior of SHAG with multiple synthetic and human examples, and compare the scores with the existing methods when possible.
 
-  Segment Hierarchy Agreement Grade (SHAG)
-Segmentation is hierarchical.
-SALAMI: dataset with hierarchical annotations.
-Rank retrieval in order to evaluate hierarchical annotations.
-Organization of the paper.
 
-\section{Current Methods}
+The rest of the paper is organized as follows: In Section \ref{sec:curr_meth} we review the current evaluation methods of (flat) boundary algorithms. 
+Our metric is formally introduced in Section \ref{sec:eval_desc}. 
+We provide multiple examples to illustrate the behavior of SHAG in Section \ref{sec:examples}.
+Finally, we draw conclusions and discuss future work in Section \ref{sec:conclusions}.
+
+\section{Current Methods}\label{sec:curr_meth}
 
 TODO
 
@@ -226,7 +231,7 @@ precedence relations.  In practice, this is accomplished by only comparing frame
 successive levels in the hierarchy.  As a result, redundant comparisons are
 eliminated, and the dynamic range of $g$ is increased.
 
-\section{Examples}\label{sec:using_method}
+\section{Examples}\label{sec:examples}
 
 In this section we discuss the behavior of SHAG by showing various synthetic examples, and compare them against other existing methods when possible.
 Two different versions of each metric are used to evaluate these examples: Estimated against Reference boundaries (E2R), and the Reference boundaries against the Estimated ones (R2E).
@@ -423,7 +428,7 @@ Olda\cite{McFee2014} with SALAMI.
  %\label{fig:example}
 %\end{figure}
 
-\section{Conclusions}
+\section{Conclusions}\label{sec:conclusions}
 
 Our method will save us all.
 
