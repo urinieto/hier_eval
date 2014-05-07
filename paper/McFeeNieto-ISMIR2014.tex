@@ -58,18 +58,19 @@ We demonstrate the proposed method with various synthetic and real world example
 \section{Introduction}\label{sec:introduction}
 
 The analysis of the structure in music has been one of the main areas of interest by musicologists for many years.
-Its goal is to identify and categorize the form of musical pieces by investigating the organization of their phrases, melodies, recurring motives, etc.
+Its goal is to identify and categorize the form of musical pieces by investigating the organization of their sections, phrases, melodies, recurring motives, etc.
 These traditional analyses usually result into multiple layers of annotations (e.g. Schenkerian analysis), which reinforce the general assumption that music is structured hierarchically \cite{Lerdahl1983a}.
-Moreover, tree-like structures are the most used long-established representations to model the form of music \cite{Lerdahl1983}.
+Moreover, tree representations are commonly used to both model and analyze the form of music \cite{Lerdahl1983}.
 
 In the music information retrieval literature, a task that aims to automatically identify the structure of music has been widely discussed under the name of music segmentation \cite{Paulus2010}.
-This automatic task could facilitate, e.g., the intra-piece navigation, generation of music summaries, or segment-based recommendation systems, especially nowadays when listeners have easy access to large digital music collections.
-Nevertheless, the vast majority of music segmentation algorithms only operate at a flat level instead of following the hierarchical approach that most musicologist follow.
-Various publications encouraging researchers to focus on hierarchical structures instead of flat ones have been made \cite{Peeters2009}, and even a large dataset of hierarchical human annotations has been presented \cite{Smith2011}.
+As opposed to other more traditional approaches, this automatic task solely focuses on the non-overlapping segments (or sections) of a given track.
+Nevertheless, it has been shown that even these segments tend to be organized in a hierarchical manner \cite{Peeters2009}, and even a large dataset of hierarchical human annotations has been presented \cite{Smith2011}.
+However, most algorithms only operate at a flat level, since (i) hard task and (ii) no hierarchical evaluation exists.
+%This automatic task could facilitate, e.g., the intra-piece navigation, generation of music summaries, or segment-based recommendation systems, especially nowadays when listeners have easy access to large digital music collections.
+%Nevertheless, the vast majority of music segmentation algorithms only operate at a flat level instead of following the hierarchical approach that most musicologists follow.
 
+We try to approach (ii).
 
-is a classic task widely discussed in the music information retrieval literature.
-The goal is to 
   Segment Hierarchy Agreement Grade (SHAG)
 Segmentation is hierarchical.
 SALAMI: dataset with hierarchical annotations.
