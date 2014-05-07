@@ -231,6 +231,10 @@ precedence relations.  In practice, this is accomplished by only comparing frame
 successive levels in the hierarchy.  As a result, redundant comparisons are
 eliminated, and the dynamic range of $g$ is increased.
 
+\subsection{Choosing a Time Window}
+
+TODO
+
 \section{Examples}\label{sec:examples}
 
 In this section we discuss the behavior of SHAG by showing various synthetic examples, and compare them against other existing methods when possible.
@@ -261,16 +265,16 @@ It becomes apparent how the medians can not always be reliable, since two sets o
  \begin{center}
    \begin{tabular}{|c|c|c||c|c|c|c|}
   \hline
-  \multicolumn{3}{|c||}{\textbf{SHAG}} & \multicolumn{4}{c|}{\textbf{Hit Rate}} \\
+  \multicolumn{3}{|c||}{\textbf{SHAG}} & \multicolumn{4}{c|}{\textbf{Hit Rate (trimmed)}} \\
   \hline
-  $w$ & E2R    & R2E & Type & F     & P     & R \\
+  $w$ & $H_u$   & $H_o$ & Type & $F$     & $P$     & $R$ \\
   \hline
   0.5       & 40.0   & 100   & E2R & 57.14  & 100 & 40.0 \\
   3         & 40.0   & 100   & R2E & 57.14  & 40.0 & 100  \\
   \cline{4-7}
-  20        & 52.27  & 49.75 & \multicolumn{4}{c|}{\textbf{Median Deviations}}   \\
+  15        & 39.39  & 52.77 & \multicolumn{4}{c|}{\textbf{Median Deviations}}   \\
   \cline{4-7}
-  45        & 78.11  & 49.75 & \multicolumn{2}{c|}{E2R} & \multicolumn{2}{c|}{R2E} \\
+  30        & 69.49  & 49.75 & \multicolumn{2}{c|}{E2R} & \multicolumn{2}{c|}{R2E} \\
   \cline{4-7}
   $\infty$  & 80.0   & 49.75 & \multicolumn{2}{c|}{0} & \multicolumn{2}{c|}{0}  \\
   \hline
@@ -280,7 +284,11 @@ It becomes apparent how the medians can not always be reliable, since two sets o
   \label{tab:flat-flat}
 \end{table}
 
+E2R == Undersegmented
+R2E == Oversegmented
+
 The SHAG scores for the flat annotations are shown on the left side of Table \ref{tab:flat-flat}.
+For the shorter time windows of 0.5 and 3 seconds 
 
 TODO: Trimming boundaries recall hit-rate work a bit like short window times of the E2R of SHAG.
 
@@ -300,12 +308,12 @@ TODO: Trimming boundaries recall hit-rate work a bit like short window times of 
   \hline
   \multicolumn{3}{|c|}{\textbf{SHAG}} \\
   \hline
-  $w$       & E2R    & R2E      \\
+  $w$       & $H_u$    & $H_o$      \\
   \hline
   0.5       & 0         & 100      \\     
   3         & 0         & 100      \\
-  20        & 52.49     & 100    \\
-  45        & 78.28     & 100    \\
+  15        & 37.21     & 100    \\
+  30        & 69.66     & 100    \\
   $\infty$  & 80.16     & 100    \\
   \hline
  \end{tabular}
@@ -327,12 +335,12 @@ TODO: Trimming boundaries recall hit-rate work a bit like short window times of 
   \hline
   \multicolumn{3}{|c|}{\textbf{SHAG}} \\
   \hline
-  $w$       & E2R    & R2E      \\
+  $w$       & $H_u$    & $H_o$      \\
   \hline
   0.5       & 100       & 100      \\     
   3         & 100       & 100      \\
-  20        & 47.51     & 100    \\
-  45        & 21.71     & 100    \\
+  15        & 62.79     & 100    \\
+  30        & 30.34     & 100    \\
   $\infty$  & 19.84     & 100    \\
   \hline
  \end{tabular}
@@ -357,13 +365,9 @@ ok
   \hline
   \multicolumn{3}{|c|}{\textbf{SHAG}} \\
   \hline
-  $w$       & E2R    & R2E      \\
+  $w$       & $H_u$    & $H_o$      \\
   \hline
-  0.5       & 100       & 100      \\     
-  3         & 100       & 100      \\
-  20        & 100     & 100    \\
-  45        & 100     & 100    \\
-  $\infty$  & 100     & 100    \\
+  any       & 100       & 100      \\     
   \hline
  \end{tabular}
 \end{center}
@@ -384,12 +388,12 @@ ok
   \hline
   \multicolumn{3}{|c|}{\textbf{SHAG}} \\
   \hline
-  $w$       & E2R       & R2E      \\
+  $w$       & $H_u$       & $H_o$      \\
   \hline
   0.5       & 100       & 100      \\     
   3         & 100       & 100      \\
-  20        & 100       & 91.68    \\
-  45        & 100       & 65.15    \\
+  15        & 100       & 98.32    \\
+  30        & 100       & 78.81    \\
   $\infty$  & 100       & 61.85    \\
   \hline
  \end{tabular}
@@ -398,9 +402,6 @@ ok
   \label{tab:hier-hiercomp}
 \end{table}
 
-\subsection{Choosing a Time Window}
-
-There's a time frame 
 
 \section{Evaluating Automatic Algorithm}
 
