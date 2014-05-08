@@ -8,6 +8,7 @@
 \usepackage{graphicx}
 \usepackage{amsfonts}
 \usepackage{brian}
+\usepackage{qtree}
 
 % Title.
 % ------
@@ -82,14 +83,51 @@ With SHAG, we facilitate the evaluation of existing flat estimations against hie
 We demonstrate the behavior of SHAG with multiple synthetic and human examples, and compare the scores with the existing methods when possible.
 
 
-The rest of the paper is organized as follows: In Section \ref{sec:curr_meth} we review the current evaluation methods of (flat) boundary algorithms. 
-Our metric is formally introduced in Section \ref{sec:eval_desc}. 
-We provide multiple examples to illustrate the behavior of SHAG in Section \ref{sec:examples}.
-Finally, we draw conclusions and discuss future work in Section \ref{sec:conclusions}.
+The rest of the paper is organized as follows: In \cref{sec:curr_meth} we review the current evaluation methods of (flat) boundary algorithms. 
+Our metric is formally introduced in \cref{sec:eval_desc}. 
+We provide multiple examples to illustrate the behavior of SHAG in \cref{sec:examples}.
+Finally, we draw conclusions and discuss future work in \cref{sec:conclusions}.
 
 \section{Current Methods}\label{sec:curr_meth}
 
-TODO
+Music segmentation algorithms are typically evaluated for two distinct goals.  
+The first goal, known as \emph{boundary estimation}, evaluates the estimated segmentation's accuracy at detection transition points between segments.
+The second goal, known as \emph{structural estimation}, evaluates the labeling applied to the estimated segmentation, and thus quantifies the ability of an algorithm to detect repeated
+forms, such as verses or refrains.  In this paper, we focus on the boundary detection task.
+
+Boundary estimates are primarily evaluated in terms of precision and recall~\cite{turnbull2007supervised}.  Formally, estimated and
+reference boundaries are matched within a specified tolerance window --- typically either 0.5s or 3.0s ---, and the hit rate $H$ is
+used to define precision and recall scores:
+\begin{equation}
+P \defeq \frac{H}{n_e}, \quad\quad R \defeq \frac{H}{n_r},
+\end{equation}
+where $n_e$ and $n_r$ denote the number of boundaries in the estimated and reference annotations, respectively.  As is standard in
+information retrieval, $P$ and $R$ are combined into an $F$-measure by computing their harmonic mean.
+
+The precision-recall paradigm has been critical to quantifying improvements in segmentation algorithms over the past several years,
+but it does carry clear limitations.  First, it confines both the reference and estimated annotations to have a flat structure.  
+This is sometimes resolved in practice by collecting multiple flat annotations for each track~\cite{Smith2011}.  
+However, when evaluating a segmentation algorithm, it is not immediately clear how one should report accuracy when evaluating multiple 
+layers for each track.  For instance, direct aggregation of accuracy scores across layers can be problematic,
+as it assumes that boundaries at all layers are equally important.  Moreover, due to hierarchical constraints, boundaries at low
+levels outnumber those at high levels, which may carry more information about the overall structure of the piece, but end up 
+contributing less to the overall metric.
+
+On the other hand, reporting statistical score summaries for each individual layer can be problematic as well.  If the data set is
+heterogeneous and spans many genres, there may not be a consistent way in which to stratify hierarchical levels across the entire
+collection, and the resulting scores may exhibit unnecessarily high variance due simply to ill-defined stratification parameters.
+
+Furthermore, by evaluating layer independently, the relational structure between layers is lost.  \Cref{trees}
+depicts two distinct structural decompositions of a song $S$, first into high-level components $A$ and $B$, and then into small
+components $a, b, c$.  While both trees produce the same set of boundaries at each level, the structural interpretation is
+significantly different, but this information is erased by independent layer-wise evaluation.
+
+\begin{figure}
+\Tree[.S [.A [.\emph{a} ] [.\emph{b} ] ] [.B \emph{c} ] ]
+\Tree[.S [.A [.\emph{a} ] ] [.B [.\emph{b} ] [.\emph{c} ] ] ]
+\caption{An example of two distinct hierarchical annotation structures which share identical sets of boundaries at each level
+independently, but whose overall structure interpretations are quite different.\label{trees}}
+\end{figure}
 
 \section{Segment Hierarchy Agreement Grade}\label{sec:eval_desc}
 
