@@ -415,86 +415,120 @@ In this case, the higher the $w$, the lower these undersegmentation grades as ex
   \label{fig:hier-flatsmall}
 \end{figure}
 
-%\begin{figure}
-  %\centering
-  %\includegraphics[width=0.47\textwidth]{plots/hier-flatsmall.pdf}
-  %\caption{TODO}
-  %\label{fig:hier-flatsmall}
-%\end{figure}%
-
-%\begin{table}
- %\begin{center}
-   %\begin{tabular}{|c|c|c|}
-  %\hline
-  %\multicolumn{3}{|c|}{\textbf{SHAG}} \\
-  %\hline
-  %$w$       & $\mathpzc{H}_u$    & $\mathpzc{H}_o$      \\
-  %\hline
-  %0.5       & 100       & 100      \\     
-  %3         & 100       & 100      \\
-  %15        & 62.79     & 100    \\
-  %30        & 30.34     & 100    \\
-  %$\infty$  & 19.84     & 100    \\
-  %\hline
- %\end{tabular}
-%\end{center}
-  %\caption{Hierarchical vs Flat Small Scale}
-  %\label{tab:hier-flatsmall}
-%\end{table}
-
 \subsection{Hierarchical vs Hierarchical}
 
+In this subsection we illustrate the behavior of SHAG with two examples of hierarchical boundaries compared to other hierarchical ones.
+To start with, we see the behavior of our grades when comparing two equal hierarchical boundaries in Figure \ref{fig:hier-hier}.
+As expected, SHAG returns 100\% for all the different time windows, showing how we can obtain a perfect score when the reference and estimation are exactly the same across all their layers.
+
 \begin{figure}
   \centering
-  \includegraphics[width=0.47\textwidth]{plots/hier-hier.pdf}
-  \caption{TODO}
+  \begin{subfigure}{0.5\textwidth}
+    \centering
+    \includegraphics[width=0.94\textwidth]{plots/hier-hier.pdf}
+  \end{subfigure}%
+  \\
+  \begin{minipage}{0.5\textwidth}
+    \centering
+    \vspace{10pt}
+    \begin{tabular}{|c|c|c|}
+      \hline
+      $w$       & $\mathpzc{H}_u$    & $\mathpzc{H}_o$      \\
+      \hline
+      any       & 100       & 100      \\     
+      \hline
+    \end{tabular}
+  \end{minipage}
+  \caption{Hierarchical vs same hierarchical boundaries (top) and scores (bottom)}
   \label{fig:hier-hier}
-\end{figure}%
+\end{figure}
 
-\begin{table}
- \begin{center}
-   \begin{tabular}{|c|c|c|}
-  \hline
-  \multicolumn{3}{|c|}{\textbf{SHAG}} \\
-  \hline
-  $w$       & $\mathpzc{H}_u$    & $\mathpzc{H}_o$      \\
-  \hline
-  any       & 100       & 100      \\     
-  \hline
- \end{tabular}
-\end{center}
-  \caption{Hierarchical vs Hierarchical}
-  \label{tab:hier-hier}
-\end{table}
+In Figure \ref{fig:hier-hiercomp} the boundaries (top) and the results (bottom) of two different hierarchical segmentations are shown.
 
 \begin{figure}
   \centering
-  \includegraphics[width=0.47\textwidth]{plots/hier-hiercomp.pdf}
-  \caption{TODO}
+  \begin{subfigure}{0.5\textwidth}
+    \centering
+    \includegraphics[width=0.94\textwidth]{plots/hier-hiercomp.pdf}
+  \end{subfigure}%
+  \\
+  \begin{minipage}{0.5\textwidth}
+    \centering
+    \vspace{10pt}
+    \begin{tabular}{|c|c|c|}
+      \hline
+      $w$       & $\mathpzc{H}_u$       & $\mathpzc{H}_o$      \\
+      \hline
+      0.5       & 100       & 100      \\     
+      3         & 100       & 100      \\
+      15        & 100       & 98.32    \\
+      30        & 100       & 78.81    \\
+      $\infty$  & 100       & 61.85    \\
+      \hline
+    \end{tabular}
+  \end{minipage}
+  \caption{2-layer vs 3-layer Hierarchical boundaries (top) and scores (bottom)}
   \label{fig:hier-hiercomp}
-\end{figure}%
+\end{figure}
 
-\begin{table}
- \begin{center}
-   \begin{tabular}{|c|c|c|}
-  \hline
-  \multicolumn{3}{|c|}{\textbf{SHAG}} \\
-  \hline
-  $w$       & $\mathpzc{H}_u$       & $\mathpzc{H}_o$      \\
-  \hline
-  0.5       & 100       & 100      \\     
-  3         & 100       & 100      \\
-  15        & 100       & 98.32    \\
-  30        & 100       & 78.81    \\
-  $\infty$  & 100       & 61.85    \\
-  \hline
- \end{tabular}
-\end{center}
-  \caption{2-Layer Hierarchical vs 3-Layer Hierarchical}
-  \label{tab:hier-hiercomp}
-\end{table}
 
 \subsection{Non-synthesized Examples}
+
+SALAMI 636 annotator 1 vs annotator 2 \ref{fig:SALAMI-SALAMI}.
+
+\begin{figure}
+  \centering
+  \begin{subfigure}{0.5\textwidth}
+    \centering
+    \includegraphics[width=0.94\textwidth]{plots/SALAMI-SALAMI.pdf}
+  \end{subfigure}%
+  \\
+  \begin{minipage}{0.5\textwidth}
+    \centering
+    \vspace{10pt}
+    \begin{tabular}{|c|c|c|}
+      \hline
+      $w$       & $\mathpzc{H}_u$       & $\mathpzc{H}_o$      \\
+      \hline
+      0.5       & 78.17       & 80.27      \\     
+      3         & 95.39       & 95.27      \\
+      15        & 95.65       & 90.52    \\
+      30        & 95.73       & 87.98    \\
+      $\infty$  & 95.75       & 95.75    \\
+      \hline
+    \end{tabular}
+  \end{minipage}
+  \caption{SALAMI 636 annotation 1 vs annotation 2 boundaries (top) and scores(bottom).}
+  \label{fig:SALAMI-SALAMI}
+\end{figure}
+
+SALAMI 636 annotator 1 vs OLDA\cite{McFee2014}  output \ref{fig:SALAMI-OLDA}.
+
+\begin{figure}
+  \centering
+  \begin{subfigure}{0.5\textwidth}
+    \centering
+    \includegraphics[width=0.94\textwidth]{plots/SALAMI-OLDA.pdf}
+  \end{subfigure}%
+  \\
+  \begin{minipage}{0.5\textwidth}
+    \centering
+    \vspace{10pt}
+    \begin{tabular}{|c|c|c|}
+      \hline
+      $w$       & $\mathpzc{H}_u$       & $\mathpzc{H}_o$      \\
+      \hline
+      0.5       & 14.28       & 100      \\     
+      3         & 19.84       & 99.91      \\
+      15        & 33.22       & 56.13    \\
+      30        & 37.20       & 53.12    \\
+      $\infty$  & 37.36       & 16.39    \\
+      \hline
+    \end{tabular}
+  \end{minipage}
+  \caption{SALAMI 636 annotation 1 vs OLDA output boundaries (top) and scores(bottom).}
+  \label{fig:SALAMI-OLDA}
+\end{figure}
 
 %\section{Evaluating Automatic Algorithm}
 
