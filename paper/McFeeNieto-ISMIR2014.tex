@@ -418,6 +418,7 @@ In this case, the higher the $w$, the lower these undersegmentation grades as ex
 \subsection{Hierarchical vs Hierarchical}
 
 In this subsection we illustrate the behavior of SHAG with two examples of hierarchical boundaries compared to other hierarchical ones.
+
 To start with, we see the behavior of our grades when comparing two equal hierarchical boundaries in Figure \ref{fig:hier-hier}.
 As expected, SHAG returns 100\% for all the different time windows, showing how we can obtain a perfect score when the reference and estimation are exactly the same across all their layers.
 
@@ -444,6 +445,12 @@ As expected, SHAG returns 100\% for all the different time windows, showing how 
 \end{figure}
 
 In Figure \ref{fig:hier-hiercomp} the boundaries (top) and the results (bottom) of two different hierarchical segmentations are shown.
+In this case, the estimated boundaries contain a third additional layer covering the first two large segments of its second layer.
+Note that the lowest two layers of the estimation are exactly the same as the two layers of the reference.
+The scores with a small window of 3 or less seconds show a perfect agreement for both SHAG grades.
+However, as $w$ increases we see how the oversegmentation grade $\mathpzc{H}_o$ decreases as expected, since the estimation has found an additional segment (even if this new segment creates a new layer it still oversegments).
+The undersegmentation grades remains at 100\% with any window length as expected.
+
 
 \begin{figure}
   \centering
