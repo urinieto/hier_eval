@@ -11,7 +11,8 @@
 \usepackage{qtree}
 \usepackage{caption}
 \usepackage{subcaption}
-\def\shag{\ensuremath{\text{\textsc{SHAG}}}}
+% \def\shag{\ensuremath{\text{\textsc{SHAG}}}}
+\def\shag{\ensuremath{\mathpzc{H}}}
 \DeclareMathAlphabet{\mathpzc}{OT1}{pzc}{m}{it}
 
 % Title.
@@ -92,7 +93,7 @@ Our metric is formally introduced in \cref{sec:eval_desc}.
 We provide multiple examples to illustrate the behavior of SHAG in \cref{sec:examples}.
 Finally, we draw conclusions and discuss future work in \cref{sec:conclusions}.
 
-\section{Current Methods}\label{sec:curr_meth}
+\section{Existing boundary evaluation}\label{sec:curr_meth}
 
 Music segmentation algorithms are typically evaluated for two distinct goals.  
 The first goal, known as \emph{boundary estimation}, evaluates the estimated segmentation's accuracy at detection transition points between segments.
@@ -106,7 +107,12 @@ used to define precision and recall scores:
 P \defeq \frac{H}{n_e}, \quad\quad R \defeq \frac{H}{n_r},
 \end{equation}
 where $n_e$ and $n_r$ denote the number of boundaries in the estimated and reference annotations, respectively.  As is standard in
-information retrieval, $P$ and $R$ are combined into an $F$-measure by computing their harmonic mean.
+information retrieval, $P$ and $R$ are combined into an $F$-measure by computing their
+harmonic mean.
+
+As a complement to boundary detection evaluation, boundary \emph{deviation} seeks to 
+quantify the median absolute difference in timing between reference and the closest 
+estimated boundary events, and vice versa~\cite{turnbull2007supervised}.
 
 The precision-recall paradigm has been critical to quantifying improvements in segmentation algorithms over the past several years,
 but it does carry clear limitations.  First, it confines both the reference and estimated annotations to have a flat structure.  
@@ -224,13 +230,16 @@ strict precedence operator in the summation.
 (AUC) over the partial ranking induced by the hierarchical segmentation, where the
 prediction threshold being varied is the depth within the estimated hierarchy $H_E$.
 % Note that the precedence comparisons here are strict, so we never compare two $i$ and $j$ that merge simultaneously with $q$.
-Aggregating over all sample $q$, we obtain the full SHAG metric:
+Aggregating over all sample $q$, we obtain the SHAG metric:
 \begin{equation}
-\shag(H_E) \defeq \frac{1}{n} \sum_q g(q ; S_E)
+\shag(H_E) \defeq \frac{1}{n} \sum_q g(q ; H_E).\label{shagunder}
 \end{equation}
+% \Cref{shagunder} is interpretable as a measure of under-segmentation, as it will be
+% low when $H_E$ fails to predict $i$ being more
 
 Note this loss is equivalent to that evaluated by for subjective artist similarity~\cite{mcfee2011}.
-The difference here is that the reference rankings are induced from ordinal data, and not subject to consistency errors.
+The difference here is that the reference rankings are induced directly from ordinal 
+data, and not subject to consistency errors.
 
 TODO: Show both grades: oversegmentation and undersegmentation as in \cite{Lukashevich2008}.
 
