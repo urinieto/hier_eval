@@ -9,7 +9,10 @@
 \usepackage{amsfonts}
 \usepackage{brian}
 \usepackage{qtree}
+\usepackage{caption}
+\usepackage{subcaption}
 \def\shag{\ensuremath{\text{\textsc{SHAG}}}}
+\DeclareMathAlphabet{\mathpzc}{OT1}{pzc}{m}{it}
 
 % Title.
 % ------
@@ -62,7 +65,7 @@ We demonstrate the proposed method with various synthetic and real world example
 The analysis of the structure in music has been one of the main areas of interest by musicologists for many years.
 Its goal is to identify and categorize the form of a musical piece by investigating the organization of its components, such as sections, phrases, melodies, or recurring motives.
 Traditional analyses usually provide multiple levels of annotation (\eg, Schenkerian analysis), which reinforce the general assumption that music is structured hierarchically~\cite{Lerdahl1983a}.
-Consequenntly, tree representations are commonly used to both model and analyze hierarchical forms in music~\cite{Lerdahl1983}.
+Consequently, tree representations are commonly used to both model and analyze hierarchical forms in music~\cite{Lerdahl1983}.
 
 In the music information retrieval literature, \emph{music segmentation} is a task that aims to automatically identify the structure of music~\cite{Paulus2010}.
 As opposed to other, more traditional approaches, the segmentation task has generally focused on partitioning a song into non-overlapping segments (or sections).
@@ -70,13 +73,13 @@ Nevertheless, it has been shown that even these segments tend to be organized in
 annotations is now publicly available~\cite{Smith2011}.
 % Still, most existing algorithms only operate at a flat level, likely because (i) this task is already challenging at this level~\cite{Skywalker2014}, and (ii) even if an algorithm could 
 % estimate hierarchical segments, no method to evaluate them has been proposed.
-However, current evaluation methodologies are defined only for flat segmentations, both in the estimation (algorithm output) and reference human annotation data.  Consequently, the
+However, current evaluation methodologies are defined only for flat segmentations, both in the estimation (algorithm output) and reference human annotation data.  Therefore, the
 dimension of \emph{depth} has been practically ignored in the evaluation of music segmentation algorithms.
 
 %This automatic task could facilitate, e.g., the intra-piece navigation, generation of music summaries, or segment-based recommendation systems, especially nowadays when listeners have easy access to large digital music collections.
 %Nevertheless, the vast majority of music segmentation algorithms only operate at a flat level instead of following the hierarchical approach that most musicologists follow.
 
-In this work we present the \emph{Segment Hierarchy Agreement Grade} (SHAG), a method to evaluate the accuracy of boundaries in hierarchical segmentations.
+In this work we present the \emph{Segment Hierarchy Agreement Grades} (SHAG), a method to evaluate the accuracy of boundaries in hierarchical segmentations.
 The proposed metric works at a frame-level --- similar to the method of Levy and Sandler~\cite{Levy2008}, a score used to evaluate structural annotations --- and it is based on a rank retrieval evaluation where each frame is ranked depending on whether it belongs to the \emph{correct} segment.
 The correctness of the segment is evaluated simultaneously across all hierarchical layers, thus resulting in a metric that can both evaluate hierarchical and flat boundaries. (Note
 that a flat segmentation is only a specific case of a hierarchical one, where the number of layers is one.)
@@ -130,7 +133,7 @@ significantly different, but this information is erased by independent layer-wis
 $(a,b,c)$ ---  but distinct structural interpretations.\label{trees}}
 \end{figure}
 
-\section{Segment Hierarchy Agreement Grade}\label{sec:eval_desc}
+\section{Segment Hierarchy Agreement Grades}\label{sec:eval_desc}
 The proposed evaluation scheme (SHAG) explicitly accounts for cross-layer structure in segmentation, and directly accommodates 
 multiple layers of specificity in both the reference and estimation.  The evaluation is based on a reduction to ranking evaluation,
 which we describe in detail below.
@@ -282,117 +285,162 @@ TODO
 \section{Examples}\label{sec:examples}
 
 In this section we discuss the behavior of SHAG by showing various synthetic examples, and compare them against other existing methods when possible.
-Two different versions of each metric are used to evaluate these examples: Estimated against Reference boundaries (E2R), and the Reference boundaries against the Estimated ones (R2E).
-These results will help us illustrate the variation of the scores when swapping the references with the estimations, which, in the case of SHAG, has a significant impact.
-Moreover, we show various window times $w$ to better capture the behavior of our proposed metric.
+%We show the two grades of SHAG (undersegmentation, oversegmentation) for all the examples in this sections
+%Two different versions of each metric are used to evaluate these examples: Estimated against Reference boundaries (E2R), and the Reference boundaries against the Estimated ones (R2E).
+%These results will help us illustrate the variation of the scores when swapping the references with the estimations, which, in the case of SHAG, has a significant impact.
+For each example in this section we employ various window times $w$ to better illustrate the behavior of our proposed metric.
 We subdivide this section based on the type of annotations to be evaluated.
 
 \subsection{Flat vs Flat}
 
 To start with, we compare two flat boundary annotations (i.e. one-layer), and see how SHAG behaves compared to the standard hit rate measure at 3 seconds and the median deviations.
-The synthesized flat boundaries are displayed in Figure \ref{fig:flat-flat}, and they aim to capture the situation where an algorithm only estimates --without any time deviations-- a subset of all the reference boundaries.
+The synthesized flat boundaries are displayed on the top of Figure \ref{fig:flat-flat}, and they aim to capture a situation where an algorithm only estimates --- without any time deviations --- a subset of all the reference boundaries.
+
+
+Since we are evaluating flat annotations, we can compute the standard metrics as well. The hit rate scores (top right part of the table of Figure \ref{fig:flat-flat}) obtain a precision of 100\%, since all the estimated boundaries are also in the reference.
+On the other hand, only four out of seven boundaries were retrieved, so the recall value is 40\%, leaving the F-measure at 57.14\%.
+The median deviations, displayed on the bottom right of the table, are always 0 seconds (i.e. highest possible score) both when evaluating the Estimation against the Reference (E2R) and vice versa (R2E), since we did not add any fluctuation in the boundaries.
+It becomes apparent how the medians can not always be reliable, since two sets of boundaries can be quite different while still obtaining the best results for this metric.
 
 \begin{figure}
   \centering
-  \includegraphics[width=0.47\textwidth]{plots/flat-flat.pdf}
-  \caption{Visual representation of flat boundaries.}
+  \begin{subfigure}{0.5\textwidth}
+    \centering
+    \includegraphics[width=0.94\textwidth]{plots/flat-flat.pdf}
+  \end{subfigure}%
+  \\
+  \begin{minipage}{0.5\textwidth}
+    \centering
+    \vspace{10pt}
+    \begin{tabular}{|c|c|c||c|c|c|}
+      \hline
+      \multicolumn{3}{|c||}{\textbf{SHAG}} & \multicolumn{3}{c|}{\textbf{Hit Rate (trimmed)}} \\
+      \hline
+      $w$ & $\mathpzc{H}_u$   & $\mathpzc{H}_o$ & $F$     & $P$     & $R$ \\
+      \hline
+      0.5       & 40.0   & 100   & 57.14  & 100 & 40.0 \\
+      \cline{4-6}
+      3         & 40.0   & 100  \\
+      \cline{4-6}
+      15        & 39.39  & 52.77 & \multicolumn{3}{c|}{\textbf{Median Deviations}}   \\
+      \cline{4-6}
+      30        & 69.49  & 49.75 & \multicolumn{2}{c|}{E2R} & 0 \\
+      $\infty$  & 80.0   & 49.75 & \multicolumn{2}{c|}{R2E} & 0 \\  
+      \hline
+    \end{tabular}
+  \end{minipage}
+  \caption{Flat vs flat boundaries (top) and scores (bottom)}
   \label{fig:flat-flat}
-\end{figure}%
+\end{figure}
 
-Since we are evaluating flat annotations, we can compute the standard metrics as well. The hit rate scores (top right part of Table \ref{tab:flat-flat}) obtain a precision of 100\% for the E2R type, since all the estimated boundaries are also in the reference.
-On the other hand, only four out of seven boundaries were retrieved, so the recall value is 40\%, leaving the F-measure at 57.14\%.
-When swapping the reference with the estimation (i.e. R2E type), the F-measure remains the same, but the precision and recall switch values as expected.
-The median deviations, displayed on the bottom right of Table \ref{tab:flat-flat}, are always 0 seconds (i.e. highest possible score) since we did not add any fluctuation in the boundaries.
-It becomes apparent how the medians can not always be reliable, since two sets of boundaries can be quite different while still obtaining the best results for this metric.
-
-\begin{table}
- \begin{center}
-   \begin{tabular}{|c|c|c||c|c|c|c|}
-  \hline
-  \multicolumn{3}{|c||}{\textbf{SHAG}} & \multicolumn{4}{c|}{\textbf{Hit Rate (trimmed)}} \\
-  \hline
-  $w$ & $H_u$   & $H_o$ & Type & $F$     & $P$     & $R$ \\
-  \hline
-  0.5       & 40.0   & 100   & E2R & 57.14  & 100 & 40.0 \\
-  3         & 40.0   & 100   & R2E & 57.14  & 40.0 & 100  \\
-  \cline{4-7}
-  15        & 39.39  & 52.77 & \multicolumn{4}{c|}{\textbf{Median Deviations}}   \\
-  \cline{4-7}
-  30        & 69.49  & 49.75 & \multicolumn{2}{c|}{E2R} & \multicolumn{2}{c|}{R2E} \\
-  \cline{4-7}
-  $\infty$  & 80.0   & 49.75 & \multicolumn{2}{c|}{0} & \multicolumn{2}{c|}{0}  \\
-  \hline
- \end{tabular}
-\end{center}
-  \caption{Flat vs flat scores}
-  \label{tab:flat-flat}
-\end{table}
-
-E2R == Undersegmented
-R2E == Oversegmented
-
-The SHAG scores for the flat annotations are shown on the left side of Table \ref{tab:flat-flat}.
-For the shorter time windows of 0.5 and 3 seconds 
-
-TODO: Trimming boundaries recall hit-rate work a bit like short window times of the E2R of SHAG.
-
+The SHAG scores for the flat annotations are shown on the left side of the table in Figure \ref{fig:flat-flat}.
+Since the estimated boundaries are undersegmented, we obtain a low score for $\mathpzc{H}_u$, but a perfect score for $\mathpzc{H}_o$, since the estimation does not oversegment at any point.
+These grades are exactly the same as the precision and recall values of the hit rate measure at short time windows, since we are only evaluating one level of boundaries and $P$ and $R$ also capture the amount of under and oversegmentation of the estimation respectively.
+For the longer time windows, we see how the oversegmentation grade $\mathpzc{H}_o$ significantly decreases, while the undersegmented one $\mathpzc{H}_u$ increases.
+This illustrates how \dots TODO
 
 \subsection{Hierarchical vs Flat}
 
+Here we present two different examples of a hierarchical reference against a flat estimation: flat large and small scale.
+These situation may happen when we try to evaluate an algorithm that tends to undersegment (large scale) or oversegment  (small scale) against a track that is annotated hierarchically (like any track of the SALAMI dataset).
+We no longer can compare our metric against the standard ones because at least one set of boundaries is hierarhichal.
+
+\subsubsection{Flat Large Scale}
+
+In this example we show the behavior of our grades when comparing a hierarchical reference against a flat segmentation of large scale sections.
+On the top of Figure \ref{fig:hier-flatlarge} the boundaries are plotted.
+Note how the estimated boundaries basically identify the highest layer of the hierarchical ones.
+At the bottom of this figure we can see the grades for SHAG, which behave as expected: the oversegmentation value $\mathpzc{H}_o$ is always 100\%, since the estimated boundaries do not oversegment.
+Moreover, when using small time windows (i.e. $w \leq 3$ in the figure), the undersegmented score is 0 since all the boundaries are ranked to different hierarchies at these short $w$, since the flat boundaries correspond to the higher layer of the reference ones.
+However, as $w$ increases, our metric is able to correctly rank the flat boundaries against the hierarchical ones, covering the entire large scale boundaries of the top of the hierarchy, thus increasing the undersegmentation grade.
+
 \begin{figure}
   \centering
-  \includegraphics[width=0.47\textwidth]{plots/hier-flatlarge.pdf}
-  \caption{TODO}
+  \begin{subfigure}{0.5\textwidth}
+    \centering
+    \includegraphics[width=0.94\textwidth]{plots/hier-flatlarge.pdf}
+  \end{subfigure}%
+  \\
+  \begin{minipage}{0.5\textwidth}
+    \centering
+    \vspace{10pt}
+    \begin{tabular}{|c|c|c|}
+      \hline
+      $w$       & $\mathpzc{H}_u$    & $\mathpzc{H}_o$      \\
+      \hline
+      0.5       & 0         & 100      \\     
+      3         & 0         & 100      \\
+      15        & 37.21     & 100    \\
+      30        & 69.66     & 100    \\
+      $\infty$  & 80.16     & 100    \\
+      \hline
+    \end{tabular}
+  \end{minipage}
+  \caption{Hierarchical vs flat large scale boundaries (top) and scores (bottom)}
   \label{fig:hier-flatlarge}
-\end{figure}%
+\end{figure}
 
-\begin{table}
- \begin{center}
-   \begin{tabular}{|c|c|c|}
-  \hline
-  \multicolumn{3}{|c|}{\textbf{SHAG}} \\
-  \hline
-  $w$       & $H_u$    & $H_o$      \\
-  \hline
-  0.5       & 0         & 100      \\     
-  3         & 0         & 100      \\
-  15        & 37.21     & 100    \\
-  30        & 69.66     & 100    \\
-  $\infty$  & 80.16     & 100    \\
-  \hline
- \end{tabular}
-\end{center}
-  \caption{Hierarchical vs Flat Large Scale}
-  \label{tab:hier-flatlarge}
-\end{table}
+\subsubsection{Flat Small Scale}
+
+Here we analyze the behavior of SHAG in the case of a flat algorithm that tends to oversegment its estimations (therefore, the estimated segments will be smaller).
+The boundaries and their results are found on the top and bottom of Figure \ref{fig:hier-flatsmall}, respectively.
+Since, as in the large scale case, we are not oversegmenting, the oversegmentation grades are 100\% for all the time windows.
+As opposed to the previous example, now the lower layer of the reference boundaries match exactly with the estimations, that results into perfect undersegmentation scores for the shorter time windows.
+In this case, the higher the $w$, the lower these undersegmentation grades as expected, since we should not evaluate an algorithm as perfect if it only identifies one layer of the hierarchical boundaries found in the reference.
+
 
 \begin{figure}
   \centering
-  \includegraphics[width=0.47\textwidth]{plots/hier-flatsmall.pdf}
-  \caption{TODO}
+  \begin{subfigure}{0.5\textwidth}
+    \centering
+    \includegraphics[width=0.94\textwidth]{plots/hier-flatsmall.pdf}
+  \end{subfigure}%
+  \\
+  \begin{minipage}{0.5\textwidth}
+    \centering
+    \vspace{10pt}
+    \begin{tabular}{|c|c|c|}
+      \hline
+      $w$       & $\mathpzc{H}_u$    & $\mathpzc{H}_o$      \\
+      \hline
+      0.5       & 100       & 100      \\     
+      3         & 100       & 100      \\
+      15        & 62.79     & 100    \\
+      30        & 30.34     & 100    \\
+      $\infty$  & 19.84     & 100    \\
+      \hline
+    \end{tabular}
+  \end{minipage}
+  \caption{Hierarchical vs flat small scale boundaries (top) and scores (bottom)}
   \label{fig:hier-flatsmall}
-\end{figure}%
+\end{figure}
 
-\begin{table}
- \begin{center}
-   \begin{tabular}{|c|c|c|}
-  \hline
-  \multicolumn{3}{|c|}{\textbf{SHAG}} \\
-  \hline
-  $w$       & $H_u$    & $H_o$      \\
-  \hline
-  0.5       & 100       & 100      \\     
-  3         & 100       & 100      \\
-  15        & 62.79     & 100    \\
-  30        & 30.34     & 100    \\
-  $\infty$  & 19.84     & 100    \\
-  \hline
- \end{tabular}
-\end{center}
-  \caption{Hierarchical vs Flat Small Scale}
-  \label{tab:hier-flatsmall}
-\end{table}
-ok
+%\begin{figure}
+  %\centering
+  %\includegraphics[width=0.47\textwidth]{plots/hier-flatsmall.pdf}
+  %\caption{TODO}
+  %\label{fig:hier-flatsmall}
+%\end{figure}%
+
+%\begin{table}
+ %\begin{center}
+   %\begin{tabular}{|c|c|c|}
+  %\hline
+  %\multicolumn{3}{|c|}{\textbf{SHAG}} \\
+  %\hline
+  %$w$       & $\mathpzc{H}_u$    & $\mathpzc{H}_o$      \\
+  %\hline
+  %0.5       & 100       & 100      \\     
+  %3         & 100       & 100      \\
+  %15        & 62.79     & 100    \\
+  %30        & 30.34     & 100    \\
+  %$\infty$  & 19.84     & 100    \\
+  %\hline
+ %\end{tabular}
+%\end{center}
+  %\caption{Hierarchical vs Flat Small Scale}
+  %\label{tab:hier-flatsmall}
+%\end{table}
 
 \subsection{Hierarchical vs Hierarchical}
 
@@ -409,7 +457,7 @@ ok
   \hline
   \multicolumn{3}{|c|}{\textbf{SHAG}} \\
   \hline
-  $w$       & $H_u$    & $H_o$      \\
+  $w$       & $\mathpzc{H}_u$    & $\mathpzc{H}_o$      \\
   \hline
   any       & 100       & 100      \\     
   \hline
@@ -432,7 +480,7 @@ ok
   \hline
   \multicolumn{3}{|c|}{\textbf{SHAG}} \\
   \hline
-  $w$       & $H_u$       & $H_o$      \\
+  $w$       & $\mathpzc{H}_u$       & $\mathpzc{H}_o$      \\
   \hline
   0.5       & 100       & 100      \\     
   3         & 100       & 100      \\
@@ -446,36 +494,16 @@ ok
   \label{tab:hier-hiercomp}
 \end{table}
 
+\subsection{Non-synthesized Examples}
 
-\section{Evaluating Automatic Algorithm}
+%\section{Evaluating Automatic Algorithm}
 
-Olda\cite{McFee2014} with SALAMI.
+%Olda\cite{McFee2014} with SALAMI.
 
-
-%\begin{table}
- %\begin{center}
- %\begin{tabular}{|l|l|}
-  %\hline
-  %String value & Numeric value \\
-  %\hline
-  %Hello ISMIR  & 2014 \\
-  %\hline
- %\end{tabular}
-%\end{center}
- %\caption{Table captions should be placed below the table.}
- %\label{tab:example}
-%\end{table}
-
-%\begin{figure}
- %\centerline{\framebox{
- %\includegraphics[width=\columnwidth]{figure.png}}}
- %\caption{Figure captions should be placed below the figure.}
- %\label{fig:example}
-%\end{figure}
 
 \section{Conclusions}\label{sec:conclusions}
 
-Our method will save us all.
+Extend to labeling score.
 
 \bibliography{refs}
 
