@@ -9,6 +9,7 @@
 \usepackage{amsfonts}
 \usepackage{brian}
 \usepackage{qtree}
+\def\shag{\ensuremath{\text{\textsc{SHAG}}}}
 
 % Title.
 % ------
@@ -125,44 +126,43 @@ significantly different, but this information is erased by independent layer-wis
 \begin{figure}
 \Tree[.S [.A [.\emph{a} ] [.\emph{b} ] ] [.B \emph{c} ] ]
 \Tree[.S [.A [.\emph{a} ] ] [.B [.\emph{b} ] [.\emph{c} ] ] ]
-\caption{A toy example of two hierarchical annotation structures with identical boundary sets at each layer --- $(A, B)$ and
-$(a,b,c)$ ---  but have distinct structural interpretations.\label{trees}}
+\caption{A toy example of two hierarchical annotation structures with identical flat segmentations at each layer --- $(A, B)$ and
+$(a,b,c)$ ---  but distinct structural interpretations.\label{trees}}
 \end{figure}
 
 \section{Segment Hierarchy Agreement Grade}\label{sec:eval_desc}
+The proposed evaluation scheme (SHAG) explicitly accounts for cross-layer structure in segmentation, and directly accommodates 
+multiple layers of specificity in both the reference and estimation.  The evaluation is based on a reduction to ranking evaluation,
+which we describe in detail below.
 
-\subsection{Music segmentation background}
+\subsection{Preliminaries}
 
-Let $X \in \mathbb{R}^{d\times n}$ denote a song as represented by a time series of 
-feature data, where $d$ denotes the dimension of features, and $n$ denotes the
-time duration at some fixed resolution $f_r$ (\eg, 10Hz).
-Existing approaches to boundary evaluation pre-suppose a single partitioning into $m$
-temporally contiguous regions, so that $X=[X_1|X_2|\cdots|X_m]$.  An estimated
-partitioning can then be evaluated by comparing the estimated boundaries between
-regions to those in a reference annotation.
+% Let denote a song as represented by a time series of 
+% feature data, where $d$ denotes the dimension of features, and $n$ denotes the
+% time duration at some fixed resolution $f_r$ (\eg, 10Hz).
+% Flat segmentation evaluation schemes suppose a single partitioning into $m$
+% temporally contiguous regions, so that $X=[X_1|X_2|\cdots|X_m]$.  
+% Instead, we will allow for a hierarchical decomposition
 
-Instead, we will suppose that $X$ can be hierarchically decomposed into a tree structure.
-In this view, we have segmentations at multiple resolutions or levels of granularity.
-The question now is how to evaluate against tree-structured segmentation.
-
-\subsection{Notation}
-
-Let $S \in \mathcal{P}(X)$ denote a temporally contiguous partition of the columns of
-$X$.
+Let $S \in \mathcal{P}(X)$ denote a temporally contiguous partition of the time range spanning the track in question.
 We will use the subscripts $S_R$ and $S_E$ to denote \emph{reference} and \emph{estimation}, respectively.
-$S(i)$ will denote the identifier of the partition containing the $i$th frame (column $X_i$).
+$S(i)$ will denote the identifier of the partition containing the $i$th sample (column $X_i$).  We will assume that samples are
+generated at some fixed resolution $f_r$ (\eg, 10Hz), although non-uniform samplings (\eg, beat- or onset-aligned samples) are 
+easily accommodated.  As in frame-based structural annotation evaluation, we require that the same collection of samples be applied
+to both reference and estimated annotations~\cite{levy2008structural}.
 
 Hierarchical segmentations will be denoted by $H$ and follow the subscript conventions
 above.  $H(i)$ will denote the most specific segment containing $i$, that is, the
 segment containing $i$ at the deepest level in the hierarchy.
 $H(i, j)$ will denote the least common ancestor of $H(i)$ and $H(j)$.
-We will denote precedence (containment) of segments by $\prec$ and $\preceq$: \eg,
-$H(i) \preceq H(i, j)$. 
+We will denote precedence (containment) of segments by $\prec$: \eg,
+$H(i) \prec H(i, j)$. 
 
-Note that flat segmentations are a special case of hierarchical segmentations, where there is one node at the root of the hierarchy containing all frames, and then $m$ segments at the next level down which partition $X$.
+Note that flat segmentations are a special case of hierarchical segmentations, where there is one node at the root of the hierarchy
+containing all samples, and then $m$ segments at the next level down which partition $X$.
 
-Restricting to a query frame $q$, $H(q, \cdot)$ induces a partial ranking over the
-remaining frames.  Frames contained in $H(q)$ are considered maximally relevant,
+Restricting to a query sample $q$, $H(q, \cdot)$ induces a partial ranking over the
+remaining samples.  Frames contained in $H(q)$ are considered maximally relevant,
 followed by those in $H(q)$'s immediate ancestor, and so on.
 This observation will be the key to our evaluation, as it provides a connection
 between hierarchical time-series decompositions and ranking evaluation.
@@ -172,11 +172,11 @@ between hierarchical time-series decompositions and ranking evaluation.
 
 
 We can reduce segmentation evaluation to a ranking evaluation problem as follows.
-Let $q$ denote an arbitrary frame, and let $i$ and $j$ denote any two frames such that $S_R(q) = S_R(i)$ and $S_R(q) \neq S_R(j)$.
+Let $q$ denote an arbitrary sample, and let $i$ and $j$ denote any two samples such that $S_R(q) = S_R(i)$ and $S_R(q) \neq S_R(j)$.
 In this case, $i$ may be considered \emph{relevant} for $q$, and $j$ is considered \emph{irrelevant} for $q$.
 This leads to a straightforward reduction to bipartite ranking.
 
-Assuming that both $S_E$ and $S_R$ have $n$ frames, we can formally describe a frame
+Assuming that both $S_E$ and $S_R$ have $n$ samples, we can formally describe a sample 
 recall metric:
 \begin{equation}
 f(q ; S_E) \defeq 
@@ -184,10 +184,10 @@ f(q ; S_E) \defeq
 \frac{\ind{S_E(q) = S_E(i) \neq S_E(j) }}{|S_R(q)|\cdot (n -
 |S_R(q)|)}.\label{flatrecall}
 \end{equation}
-That is, the score for frame $q$ is the fraction of pairs $(i, j)$ for which $S_E$
+That is, the score for sample $q$ is the fraction of pairs $(i, j)$ for which $S_E$
 agrees with $S_R$ with respect to $q$ (\ie, membership in the segment).
 
-Averaging over all frames $q$ yields an average frame recall score:
+Averaging over all sample $q$ yields an average sample recall score:
 \begin{equation}
 \rho(S_E) \defeq \frac{1}{n} \sum_q f(q ; S_E).\label{avgrecall}
 \end{equation}
@@ -221,10 +221,9 @@ strict precedence operator in the summation.
 (AUC) over the partial ranking induced by the hierarchical segmentation, where the
 prediction threshold being varied is the depth within the estimated hierarchy $H_E$.
 % Note that the precedence comparisons here are strict, so we never compare two $i$ and $j$ that merge simultaneously with $q$.
-Aggregating over all frames $q$, we get the following average recall metric, which we
-term the Structural Congruency Index (SCI):
+Aggregating over all sample $q$, we obtain the full SHAG metric:
 \begin{equation}
-SCI(H_E) \defeq \frac{1}{n} \sum_q g(q ; S_E)
+\shag(H_E) \defeq \frac{1}{n} \sum_q g(q ; S_E)
 \end{equation}
 
 Note this loss is equivalent to that evaluated by for subjective artist similarity~\cite{mcfee2011}.
@@ -232,16 +231,17 @@ The difference here is that the reference rankings are induced from ordinal data
 
 \subsection{Windowing in Time}
 
-The calculation of SCI can be expensive ($\Oh\left(n^3\right)$ using a straightforward 
-implementation).
+The calculation of SHAG can be expensive: $\Oh\left(n^3\right)$ using a straightforward 
+implementation.
 The score also varies with $n$, so comparisons between tracks of differing length can
-be probematic.  For extreme values of $n$, \cref{hierrecall} may be dominated by pairs
-obviously irrelevant comparison points $j$ which lie far from $q$ in time.
+be problematic.  For large values of $n$, \cref{hierrecall} may be dominated by pairs
+trivially irrelevant comparison points $j$ which lie far from $q$ in time, \ie, $|q-i| \ll |q-j|$.
+Consequently, longer tracks may observe relatively inflated scores when compared to shorter tracks.
 
-Therefore, we propose to use a time window of $w$ seconds in order to both simplify the 
+To resolve these issues, we propose to use a time window of $w$ seconds in order to both simplify the 
 calculation of the metric and normalize its dynamic range.
-We restrict the number of frames to consider to $m = \lceil w \cdot f_r \rceil$.
-Adding this windowing property to the SIC equations yields:
+We restrict the number of samples under consideration to $m = \lceil w \cdot f_r \rceil$.
+Adding this windowing property to the SHAG equations yields the windowed SHAG:
 \begin{equation}
   g(q, m ; H_E) \defeq \sum_{\substack{
   m_s \leq i,j \leq m_e \\ 
@@ -249,16 +249,17 @@ Adding this windowing property to the SIC equations yields:
   j)}}{Z_q(m)},\label{windowrecall}
 \end{equation}
 \begin{equation}
-SIC(H_E,m) \defeq \frac{1}{n} \sum_q g(q,m ; S_E),
+\shag(H_E, m) \defeq \frac{1}{n} \sum_q g(q,m ; S_E),
 \end{equation}
-where $m_s = \min\{0,q-m/2\}$ and $m_e = \max\{q+m/2,n\}$ are the start and ending, respectively, of the current window in frame indices.
+where $m_s = \min\{0,q-m/2\}$ and $m_e = \max\{q+m/2,n\}$ are the start and ending, respectively, of the current window in sample indices.
 
+****
 FIXME: Move this next part down to 3.1
 
-Small windows (\eg, $w \leq 3$) only capture the local changes, 
-losing precision since most of the segments will be more than this small window.
+Small windows (\eg, $w \leq 3$) only capture the local changes, losing precision since most of the segments will be more than this small window.
 We want a window that is long enough to capture the boundaries of the current segments, and that is the same for all tracks in order to be able to easily compare results within a reasonable dynamic range.
 In the task of music segmentation, most of the segments will be less than 45 seconds (30?).
+****
 
 \subsection{Transitivity}
 
@@ -270,7 +271,7 @@ Since the summation in \cref{hierrecall} ranges over all precedence comparisons,
 pair $(i, k)$ appears twice in the summation.  
 
 To counteract this effect, the summation can be restricted to only range over direct
-precedence relations.  In practice, this is accomplished by only comparing frames from
+precedence relations.  In practice, this is accomplished by only comparing samples from
 successive levels in the hierarchy.  As a result, redundant comparisons are
 eliminated, and the dynamic range of $g$ is increased.
 
