@@ -81,9 +81,9 @@ dimension of \emph{depth} has been practically ignored in the evaluation of musi
 %Nevertheless, the vast majority of music segmentation algorithms only operate at a flat level instead of following the hierarchical approach that most musicologists follow.
 
 In this work we present the \emph{Segment Hierarchy Agreement Grades} (SHAG), a method to evaluate the accuracy of boundaries in hierarchical segmentations.
-The proposed metric works at a frame-level --- similar to the method of Levy and Sandler~\cite{Levy2008}, a score used to evaluate structural annotations --- and it is based on a rank retrieval evaluation where each frame is ranked depending on whether it belongs to the \emph{correct} segment.
-The correctness of the segment is evaluated simultaneously across all hierarchical layers, thus resulting in a metric that can both evaluate hierarchical and flat boundaries. (Note
-that a flat segmentation is only a specific case of a hierarchical one, where the number of layers is one.)
+The proposed metric works at a frame-level --- similar to the method proposed by Levy and Sandler to evaluate structural annotations~\cite{Levy2008} --- and it is based on a rank retrieval evaluation where each frame is ranked depending on whether it belongs to the \emph{correct} segment.
+The correctness of the segment is evaluated simultaneously across all hierarchical layers, thus resulting in a metric that can both evaluate hierarchical and flat boundary annotations. 
+(Note that a flat segmentation is only a specific case of a hierarchical one, where the number of layers is one.)
 With SHAG, we facilitate the evaluation of existing flat estimations against hierarchical reference annotations (like those of~\cite{Smith2011}), and encourage new publications on richer hierarchical algorithms.
 We demonstrate the behavior of SHAG with multiple synthetic and human examples, and compare the scores with the existing methods when possible.
 
@@ -93,7 +93,7 @@ Our metric is formally introduced in \cref{sec:eval_desc}.
 We provide multiple examples to illustrate the behavior of SHAG in \cref{sec:examples}.
 Finally, we draw conclusions and discuss future work in \cref{sec:conclusions}.
 
-\section{Existing boundary evaluation}\label{sec:curr_meth}
+\section{Segment boundary evaluation}\label{sec:curr_meth}
 
 Music segmentation algorithms are typically evaluated for two distinct goals.  
 The first goal, known as \emph{boundary estimation}, evaluates the estimated segmentation's accuracy at detection transition points between segments.
@@ -101,13 +101,13 @@ The second goal, known as \emph{structural estimation}, evaluates the labeling a
 forms, such as verses or refrains.  In this paper, we focus on the boundary detection task.
 
 Boundary estimates are primarily evaluated in terms of precision and recall~\cite{turnbull2007supervised}.  Formally, estimated and
-reference boundaries are matched within a specified tolerance window --- typically either 0.5s or 3.0s ---, and the hit rate $H$ is
-used to define precision and recall scores:
+reference boundaries are matched within a specified tolerance window --- typically either 0.5s or 3.0s --- and the hit rate $H$ (number of successful matches) 
+is used to define precision and recall scores:
 \begin{equation}
 P \defeq \frac{H}{n_e}, \quad\quad R \defeq \frac{H}{n_r},
 \end{equation}
-where $n_e$ and $n_r$ denote the number of boundaries in the estimated and reference annotations, respectively.  As is standard in
-information retrieval, $P$ and $R$ are combined into an $F$-measure by computing their harmonic mean.
+where $n_e$ and $n_r$ denote the number of boundaries in the estimated and reference annotations, respectively.  
+% As is standard in information retrieval, $P$ and $R$ are combined into an $F$-measure by computing their harmonic mean.
 
 The precision-recall paradigm has been critical to quantifying improvements in segmentation algorithms over the past several years,
 but it does carry clear limitations.  First, it confines both the reference and estimated annotations to have a flat structure.  
@@ -115,17 +115,17 @@ This is sometimes resolved in practice by collecting multiple flat annotations f
 However, when evaluating a segmentation algorithm, it is not immediately clear how one should report accuracy when evaluating multiple 
 layers for each track.  For instance, direct aggregation of accuracy scores across layers can be problematic,
 as it assumes that boundaries at all layers are equally important.  Moreover, due to hierarchical constraints, boundaries at low
-levels outnumber those at high levels, which may carry more information about the overall structure of the piece, but end up 
+levels outnumber those at high levels, which may convey more information about the overall structure of the piece, but end up 
 contributing less to the overall metric.
 
 On the other hand, reporting statistical score summaries for each individual layer can be problematic as well.  If the data set is
-heterogeneous and spans many genres, there may not be a consistent way in which to stratify hierarchical levels across the entire
-collection, and the resulting scores may exhibit unnecessarily high variance due simply to ill-defined stratification parameters.
+heterogeneous and spans many genres, there may be no consistent way in which to stratify hierarchical levels across the entire
+collection. The resulting scores may exhibit unnecessarily high variance due simply to ill-defined stratification parameters.
 
-Furthermore, by evaluating layer independently, the relational structure between layers is lost.  \Cref{trees}
+Furthermore, by evaluating layer independently, the relational structure between layers is lost.  As an example, \cref{trees}
 depicts two distinct structural decompositions of a song $S$, first into high-level components $A$ and $B$, and then into small
 components $a, b, c$.  While both trees produce the same set of boundaries at each level, the structural interpretation is
-significantly different, but this information is erased by independent layer-wise evaluation.
+significantly different, but this information is obscured by independent layer-wise evaluation.
 
 \begin{figure}
 \Tree[.S [.A [.\emph{a} ] [.\emph{b} ] ] [.B \emph{c} ] ]
@@ -150,9 +150,10 @@ which we describe in detail below.
 
 Let $S \in \mathcal{P}(X)$ denote a temporally contiguous partition of the time range spanning the track in question.
 We will use the subscripts $S_R$ and $S_E$ to denote \emph{reference} and \emph{estimation}, respectively.
-$S(i)$ will denote the identifier of the partition containing the $i$th sample (column $X_i$).  We will assume that samples are
-generated at some fixed resolution $f_r$ (\eg, 10Hz), although non-uniform samplings (\eg, beat- or onset-aligned samples) are 
-easily accommodated.  As in frame-based structural annotation evaluation, we require that the same collection of samples be applied
+We will assume that samples are generated at some fixed resolution $f_r$ (\eg, 10Hz), although non-uniform samplings (\eg, beat- or onset-aligned samples) are 
+easily accommodated.  
+$S(i)$ will denote the identifier of the partition containing the $i$th sample.  
+As in frame-based structural annotation evaluation, we require that the same collection of samples be applied
 to both reference and estimated annotations~\cite{levy2008structural}.
 
 Hierarchical segmentations will be denoted by $H$ and follow the subscript conventions
@@ -163,17 +164,16 @@ We will denote precedence (containment) of segments by $\prec$: \eg,
 $H(i) \prec H(i, j)$. 
 
 Note that flat segmentations are a special case of hierarchical segmentations, where there is one node at the root of the hierarchy
-containing all samples, and then $m$ segments at the next level down which partition $X$.
+containing all samples, and then $m$ segments at the next level down which form a full partition of the track.
 
-Restricting to a query sample $q$, $H(q, \cdot)$ induces a partial ranking over the
+If we restrict attention to a query sample $q$, then $H(q, \cdot)$ induces a partial ranking over the
 remaining samples.  Frames contained in $H(q)$ are considered maximally relevant,
 followed by those in $H(q)$'s immediate ancestor, and so on.
 This observation will be the key to our evaluation, as it provides a connection
 between hierarchical time-series decompositions and ranking evaluation.
 
 
-\subsection{Reduction to ranking}
-
+\subsection{Flat segmentation and bipartite ranking}
 
 We can reduce segmentation evaluation to a ranking evaluation problem as follows.
 Let $q$ denote an arbitrary sample, and let $i$ and $j$ denote any two samples such that $S_R(q) = S_R(i)$ and $S_R(q) \neq S_R(j)$.
@@ -191,7 +191,7 @@ f(q ; S_E) \defeq
 That is, the score for sample $q$ is the fraction of pairs $(i, j)$ for which $S_E$
 agrees with $S_R$ with respect to $q$ (\ie, membership in the segment).
 
-Averaging over all sample $q$ yields an average sample recall score:
+Averaging over all samples $q$ yields an mean sample recall score:
 \begin{equation}
 \rho(S_E) \defeq \frac{1}{n} \sum_q f(q ; S_E).\label{avgrecall}
 \end{equation}
@@ -203,13 +203,13 @@ Averaging over all sample $q$ yields an average sample recall score:
 \nocite{levy2008structural}
 
 
-\subsection{Partial Ranking}
+\subsection{Hierarchies and partial ranking}
 
 \Cref{flatrecall} is defined in terms of segment membership (in)equalities, but 
 we can equivalently express the function using strict precedences in a (flat)
 segment hierarchy.
 Rather than compare $i$ and $j$ where $S(q) = S(i) \neq S(j)$, we can express this as $H(q, i) \prec H(q, j)$.
-That is, $q$ and $i$ merge before $q$ and $j$:
+That is, the pair $(q,i)$ merge before $(q,j)$:
 \begin{equation}
 g(q ; H_E) \defeq \sum_{\substack{(i, j)\\ H_R(q, i) \prec H_R(q, j)}}
 \frac{\ind{H_E(q, i) \prec H_E(q, j)}}{Z_q},\label{hierrecall}
@@ -222,18 +222,25 @@ correctly predicting pairs $(i, j)$ as positive ($q$ and $i$ merge first) or neg
 strict precedence operator in the summation.
 
 \Cref{hierrecall} can be alternately be viewed as a generalized area under the curve
-(AUC) over the partial ranking induced by the hierarchical segmentation, where the
-prediction threshold being varied is the depth within the estimated hierarchy $H_E$.
+(AUC) over the partial ranking induced by the hierarchical segmentation, where depth 
+within the estimated hierarchy $H_E$ plays the role of the relevance threshold.
+
+Because $g(q; H_E)$ acts as a generalization of recall, an estimate $H_E$ will achieve 
+a low score if it fails to distinguish between pairs $i$ and $j$.  Similar to the 
+normalized conditional entropy metrics for structural annotation, this can be interpreted 
+as a form of \emph{under-segmentation}, in that a low score indicates either an ordering 
+error or a lack of specificity~\cite{Lukashevich2008}.  
+
 % Note that the precedence comparisons here are strict, so we never compare two $i$ and $j$ that merge simultaneously with $q$.
-Aggregating over all sample $q$, we obtain the full SHAG metric:
+By aggregating over all sample frames $q$, we obtain the SHAG \emph{under-segmentation} metric:
 \begin{equation}
-\shag_u(H_E) \defeq \frac{1}{n} \sum_q g(q ; H_E)
+\shag_u(H_E) \defeq \frac{1}{n} \sum_q g(q ; H_E).
 \end{equation}
+The over-segmentation metric $\shag_o(H_E)$ is defined analogously by swapping the roles of $H_E$ and $H_R$ in \cref{hierrecall}.
+The two metrics, taken together, provide a summary of the structural agreement between the estimated and reference annotations.
 
-Note this loss is equivalent to that evaluated by for subjective artist similarity~\cite{mcfee2011}.
-The difference here is that the reference rankings are induced from ordinal data, and not subject to consistency errors.
-
-TODO: Show both grades: oversegmentation and undersegmentation as in \cite{Lukashevich2008}.
+% Note this loss is equivalent to that evaluated by for subjective artist similarity~\cite{mcfee2011}.
+% The difference here is that the reference rankings are induced from ordinal data, and not subject to consistency errors.
 
 \subsection{Windowing in Time}
 
