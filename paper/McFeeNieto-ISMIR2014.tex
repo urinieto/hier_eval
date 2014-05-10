@@ -70,7 +70,8 @@ Consequently, tree representations are commonly used to both model and analyze h
 
 In the music information retrieval literature, \emph{music segmentation} is a task that aims to automatically identify the structure of music~\cite{Paulus2010}.
 As opposed to other, more traditional approaches, the segmentation task has generally focused on partitioning a song into non-overlapping segments (or sections).
-Nevertheless, it has been shown that even these segments tend to be organized in a hierarchical manner~\cite{Peeters2009}, and even datasets of hierarchically-structured human annotations are now publicly available~\cite{Smith2011, Hargreaves2012}.
+Nevertheless, it has been shown that even these segments tend to be organized in a hierarchical manner~\cite{Peeters2009}, and even a large dataset of hierarchically-structured human 
+annotations is now publicly available~\cite{Smith2011}.
 % Still, most existing algorithms only operate at a flat level, likely because (i) this task is already challenging at this level~\cite{Skywalker2014}, and (ii) even if an algorithm could 
 % estimate hierarchical segments, no method to evaluate them has been proposed.
 However, current evaluation methodologies are defined only for flat segmentations, both in the estimation (algorithm output) and reference human annotation data.  Therefore, the
@@ -80,9 +81,9 @@ dimension of \emph{depth} has been practically ignored in the evaluation of musi
 %Nevertheless, the vast majority of music segmentation algorithms only operate at a flat level instead of following the hierarchical approach that most musicologists follow.
 
 In this work we present the \emph{Segment Hierarchy Agreement Grades} (SHAG), a method to evaluate the accuracy of boundaries in hierarchical segmentations.
-The proposed metric works at a frame-level --- similar to the method of Levy and Sandler~\cite{Levy2008}, a score used to evaluate structural annotations --- and it is based on a rank retrieval evaluation where each frame is ranked depending on whether it belongs to the \emph{correct} segment.
-The correctness of the segment is evaluated simultaneously across all hierarchical layers, thus resulting in a metric that can both evaluate hierarchical and flat boundaries. (Note
-that a flat segmentation is only a specific case of a hierarchical one, where the number of layers is one.)
+The proposed metric works at a frame-level --- similar to the method proposed by Levy and Sandler to evaluate structural annotations~\cite{Levy2008} --- and it is based on a rank retrieval evaluation where each frame is ranked depending on whether it belongs to the \emph{correct} segment.
+The correctness of the segment is evaluated simultaneously across all hierarchical layers, thus resulting in a metric that can both evaluate hierarchical and flat boundary annotations. 
+(Note that a flat segmentation is only a specific case of a hierarchical one, where the number of layers is one.)
 With SHAG, we facilitate the evaluation of existing flat estimations against hierarchical reference annotations (like those of~\cite{Smith2011}), and encourage new publications on richer hierarchical algorithms.
 We demonstrate the behavior of SHAG with multiple synthetic and human examples, and compare the scores with the existing methods when possible.
 
@@ -92,7 +93,7 @@ Our metric is formally introduced in \cref{sec:eval_desc}.
 We provide multiple examples to illustrate the behavior of SHAG in \cref{sec:examples}.
 Finally, we draw conclusions and discuss future work in \cref{sec:conclusions}.
 
-\section{Existing boundary evaluation}\label{sec:curr_meth}
+\section{Segment boundary evaluation}\label{sec:curr_meth}
 
 Music segmentation algorithms are typically evaluated for two distinct goals.  
 The first goal, known as \emph{boundary estimation}, evaluates the estimated segmentation's accuracy at detection transition points between segments.
@@ -100,18 +101,13 @@ The second goal, known as \emph{structural estimation}, evaluates the labeling a
 forms, such as verses or refrains.  In this paper, we focus on the boundary detection task.
 
 Boundary estimates are primarily evaluated in terms of precision and recall~\cite{turnbull2007supervised}.  Formally, estimated and
-reference boundaries are matched within a specified tolerance window --- typically either 0.5s or 3.0s ---, and the hit rate $H$ is
-used to define precision and recall scores:
+reference boundaries are matched within a specified tolerance window --- typically either 0.5s or 3.0s --- and the hit rate $H$ (number of successful matches) 
+is used to define precision and recall scores:
 \begin{equation}
 P \defeq \frac{H}{n_e}, \quad\quad R \defeq \frac{H}{n_r},
 \end{equation}
-where $n_e$ and $n_r$ denote the number of boundaries in the estimated and reference annotations, respectively.  As is standard in
-information retrieval, $P$ and $R$ are combined into an $F$-measure by computing their
-harmonic mean.
-
-As a complement to boundary detection evaluation, boundary \emph{deviation} seeks to 
-quantify the median absolute difference in timing between reference and the closest 
-estimated boundary events, and vice versa~\cite{turnbull2007supervised}.
+where $n_e$ and $n_r$ denote the number of boundaries in the estimated and reference annotations, respectively.  
+% As is standard in information retrieval, $P$ and $R$ are combined into an $F$-measure by computing their harmonic mean.
 
 The precision-recall paradigm has been critical to quantifying improvements in segmentation algorithms over the past several years,
 but it does carry clear limitations.  First, it confines both the reference and estimated annotations to have a flat structure.  
@@ -119,17 +115,17 @@ This is sometimes resolved in practice by collecting multiple flat annotations f
 However, when evaluating a segmentation algorithm, it is not immediately clear how one should report accuracy when evaluating multiple 
 layers for each track.  For instance, direct aggregation of accuracy scores across layers can be problematic,
 as it assumes that boundaries at all layers are equally important.  Moreover, due to hierarchical constraints, boundaries at low
-levels outnumber those at high levels, which may carry more information about the overall structure of the piece, but end up 
+levels outnumber those at high levels, which may convey more information about the overall structure of the piece, but end up 
 contributing less to the overall metric.
 
 On the other hand, reporting statistical score summaries for each individual layer can be problematic as well.  If the data set is
-heterogeneous and spans many genres, there may not be a consistent way in which to stratify hierarchical levels across the entire
-collection, and the resulting scores may exhibit unnecessarily high variance due simply to ill-defined stratification parameters.
+heterogeneous and spans many genres, there may be no consistent way in which to stratify hierarchical levels across the entire
+collection. The resulting scores may exhibit unnecessarily high variance due simply to ill-defined stratification parameters.
 
-Furthermore, by evaluating layer independently, the relational structure between layers is lost.  \Cref{trees}
+Furthermore, by evaluating layer independently, the relational structure between layers is lost.  As an example, \cref{trees}
 depicts two distinct structural decompositions of a song $S$, first into high-level components $A$ and $B$, and then into small
 components $a, b, c$.  While both trees produce the same set of boundaries at each level, the structural interpretation is
-significantly different, but this information is erased by independent layer-wise evaluation.
+significantly different, but this information is obscured by independent layer-wise evaluation.
 
 \begin{figure}
 \Tree[.S [.A [.\emph{a} ] [.\emph{b} ] ] [.B \emph{c} ] ]
@@ -154,9 +150,10 @@ which we describe in detail below.
 
 Let $S \in \mathcal{P}(X)$ denote a temporally contiguous partition of the time range spanning the track in question.
 We will use the subscripts $S_R$ and $S_E$ to denote \emph{reference} and \emph{estimation}, respectively.
-$S(i)$ will denote the identifier of the partition containing the $i$th sample (column $X_i$).  We will assume that samples are
-generated at some fixed resolution $f_r$ (\eg, 10Hz), although non-uniform samplings (\eg, beat- or onset-aligned samples) are 
-easily accommodated.  As in frame-based structural annotation evaluation, we require that the same collection of samples be applied
+We will assume that samples are generated at some fixed resolution $f_r$ (\eg, 10Hz), although non-uniform samplings (\eg, beat- or onset-aligned samples) are 
+easily accommodated.  
+$S(i)$ will denote the identifier of the partition containing the $i$th sample.  
+As in frame-based structural annotation evaluation, we require that the same collection of samples be applied
 to both reference and estimated annotations~\cite{levy2008structural}.
 
 Hierarchical segmentations will be denoted by $H$ and follow the subscript conventions
@@ -167,17 +164,16 @@ We will denote precedence (containment) of segments by $\prec$: \eg,
 $H(i) \prec H(i, j)$. 
 
 Note that flat segmentations are a special case of hierarchical segmentations, where there is one node at the root of the hierarchy
-containing all samples, and then $m$ segments at the next level down which partition $X$.
+containing all samples, and then $m$ segments at the next level down which form a full partition of the track.
 
-Restricting to a query sample $q$, $H(q, \cdot)$ induces a partial ranking over the
+If we restrict attention to a query sample $q$, then $H(q, \cdot)$ induces a partial ranking over the
 remaining samples.  Frames contained in $H(q)$ are considered maximally relevant,
 followed by those in $H(q)$'s immediate ancestor, and so on.
 This observation will be the key to our evaluation, as it provides a connection
 between hierarchical time-series decompositions and ranking evaluation.
 
 
-\subsection{Reduction to ranking}
-
+\subsection{Flat segmentation and bipartite ranking}
 
 We can reduce segmentation evaluation to a ranking evaluation problem as follows.
 Let $q$ denote an arbitrary sample, and let $i$ and $j$ denote any two samples such that $S_R(q) = S_R(i)$ and $S_R(q) \neq S_R(j)$.
@@ -195,7 +191,7 @@ f(q ; S_E) \defeq
 That is, the score for sample $q$ is the fraction of pairs $(i, j)$ for which $S_E$
 agrees with $S_R$ with respect to $q$ (\ie, membership in the segment).
 
-Averaging over all sample $q$ yields an average sample recall score:
+Averaging over all samples $q$ yields an mean sample recall score:
 \begin{equation}
 \rho(S_E) \defeq \frac{1}{n} \sum_q f(q ; S_E).\label{avgrecall}
 \end{equation}
@@ -207,13 +203,13 @@ Averaging over all sample $q$ yields an average sample recall score:
 \nocite{levy2008structural}
 
 
-\subsection{Partial Ranking}
+\subsection{Hierarchies and partial ranking}
 
 \Cref{flatrecall} is defined in terms of segment membership (in)equalities, but 
 we can equivalently express the function using strict precedences in a (flat)
 segment hierarchy.
 Rather than compare $i$ and $j$ where $S(q) = S(i) \neq S(j)$, we can express this as $H(q, i) \prec H(q, j)$.
-That is, $q$ and $i$ merge before $q$ and $j$:
+That is, the pair $(q,i)$ merge before $(q,j)$:
 \begin{equation}
 g(q ; H_E) \defeq \sum_{\substack{(i, j)\\ H_R(q, i) \prec H_R(q, j)}}
 \frac{\ind{H_E(q, i) \prec H_E(q, j)}}{Z_q},\label{hierrecall}
@@ -226,30 +222,34 @@ correctly predicting pairs $(i, j)$ as positive ($q$ and $i$ merge first) or neg
 strict precedence operator in the summation.
 
 \Cref{hierrecall} can be alternately be viewed as a generalized area under the curve
-(AUC) over the partial ranking induced by the hierarchical segmentation, where the
-prediction threshold being varied is the depth within the estimated hierarchy $H_E$.
+(AUC) over the partial ranking induced by the hierarchical segmentation, where depth 
+within the estimated hierarchy $H_E$ plays the role of the relevance threshold.
+
+Because $g(q; H_E)$ acts as a generalization of recall, an estimate $H_E$ will achieve 
+a low score if it fails to distinguish between pairs $i$ and $j$.  Similar to the 
+normalized conditional entropy metrics for structural annotation, this can be interpreted 
+as a form of \emph{under-segmentation}, in that a low score indicates either an ordering 
+error or a lack of specificity~\cite{Lukashevich2008}.  
+
 % Note that the precedence comparisons here are strict, so we never compare two $i$ and $j$ that merge simultaneously with $q$.
-Aggregating over all sample $q$, we obtain the SHAG metric:
+By aggregating over all sample frames $q$, we obtain the SHAG \emph{under-segmentation} metric:
 \begin{equation}
-\shag(H_E) \defeq \frac{1}{n} \sum_q g(q ; H_E).\label{shagunder}
+\shag_u(H_E) \defeq \frac{1}{n} \sum_q g(q ; H_E).\label{shagunder}
 \end{equation}
-% \Cref{shagunder} is interpretable as a measure of under-segmentation, as it will be
-% low when $H_E$ fails to predict $i$ being more
+The over-segmentation metric $\shag_o(H_E)$ is defined analogously by swapping the roles of $H_E$ and $H_R$ in \cref{hierrecall}.
+The two metrics, taken together, provide a summary of the structural agreement between the estimated and reference annotations.
 
-Note this loss is equivalent to that evaluated by for subjective artist similarity~\cite{mcfee2011}.
-The difference here is that the reference rankings are induced directly from ordinal 
-data, and not subject to consistency errors.
-
-TODO: Show both grades: oversegmentation and undersegmentation as in \cite{Lukashevich2008}.
+% Note this loss is equivalent to that evaluated by for subjective artist similarity~\cite{mcfee2011}.
+% The difference here is that the reference rankings are induced from ordinal data, and not subject to consistency errors.
 
 \subsection{Windowing in Time}
 
-The calculation of SHAG can be expensive: $\Oh\left(n^3\right)$ using a straightforward 
-implementation.
-The score also varies with $n$, so comparisons between tracks of differing length can
-be problematic.  For large values of $n$, \cref{hierrecall} may be dominated by pairs
-trivially irrelevant comparison points $j$ which lie far from $q$ in time, \ie, $|q-i| \ll |q-j|$.
-Consequently, longer tracks may observe relatively inflated scores when compared to shorter tracks.
+The SHAG metrics described above capture the basic notion of hierarchically nested, frame-level relevance, but it does have two technical limitations.
+First, the score for each query will generally depend on the track duration $n$, which makes comparisons between tracks of differing length problematic.  
+For large values of $n$, \cref{hierrecall} may be dominated by pairs trivially irrelevant comparison points $j$ which lie far from $q$ in time, \ie, $|q-i| \ll |q-j|$.
+Short-duration tracks with small $n$ have fewer such trivial comparisons.
+Consequently, longer tracks may observe relatively inflated scores when compared to shorter tracks, simply by virtue of having a large number of ``easy'' comparisons.
+Moreover, the calculation of SHAG as defined in \cref{shagunder} can be expensive, taking $\Oh(n^3)$ using a direct implementation.
 
 To resolve these issues, we propose to use a time window of $w$ seconds in order to both simplify the 
 calculation of the metric and normalize its dynamic range.
@@ -262,17 +262,25 @@ Adding this windowing property to the SHAG equations yields the windowed SHAG:
   j)}}{Z_q(m)},\label{windowrecall}
 \end{equation}
 \begin{equation}
-\shag(H_E, m) \defeq \frac{1}{n} \sum_q g(q,m ; S_E),
+\shag_u(H_E, m) \defeq \frac{1}{n} \sum_q g(q,m ; S_E),
 \end{equation}
 where $m_s = \min\{0,q-m/2\}$ and $m_e = \max\{q+m/2,n\}$ are the start and ending, respectively, of the current window in sample indices.
+The resulting metric has reduced computational complexity $\Oh(nm^2)$.  Moreover, excluding edge cases near the beginning and end of the track, each query frame $q$ now operates over a
+fixed number of comparisons $(i, j)$, regardless of the track duration.
 
-****
-FIXME: Move this next part down to 3.1
+\subsection{Choosing a time window}
 
-Small windows (\eg, $w \leq 3$) only capture the local changes, losing precision since most of the segments will be more than this small window.
-We want a window that is long enough to capture the boundaries of the current segments, and that is the same for all tracks in order to be able to easily compare results within a reasonable dynamic range.
-In the task of music segmentation, most of the segments will be less than 45 seconds (30?).
-****
+The choice of window size will clearly have a dramatic impact on the evaluation.
+Small windows (\eg, $w \leq 3$) generally capture local changes, since large-scale structural changes are not typically confined to such small time intervals.
+Ideally, the window should be long enough to capture boundaries of segments at multiple resolutions, but not so large as to become dominated by trivial comparisons.
+While there may not be a single window length that satisfies this criteria for all songs, we consider two practical approaches to window selection.
+
+First, an appropriate window length can be estimated by examining the segment duration statistics of the reference annotations.  
+For example, one may take the average duration of high-level segment annotations, as they can be expected to contain multiple small segments, and thus suffices to capture local structure.
+Second, one may report results for a multiple window parameters, as is currently done for boundary detection as described in \cref{sec:curr_meth}.  
+
+% Ideally, the window should be long enough to capture the boundaries of the current segments, and that is the same for all tracks in order to be able to easily compare results within a reasonable dynamic range.
+
 
 \subsection{Transitivity}
 
@@ -288,13 +296,10 @@ precedence relations.  In practice, this is accomplished by only comparing sampl
 successive levels in the hierarchy.  As a result, redundant comparisons are
 eliminated, and the dynamic range of $g$ is increased.
 
-\subsection{Choosing a Time Window}
-
-TODO
 
 \section{Examples}\label{sec:examples}
 
-In this section we discuss the behavior of SHAG by showing various synthetic examples, and comparing them against other existing methods when possible.
+In this section we discuss the behavior of SHAG by showing various synthetic examples, and compare them against other existing methods when possible.
 %We show the two grades of SHAG (undersegmentation, oversegmentation) for all the examples in this sections
 %Two different versions of each metric are used to evaluate these examples: Estimated against Reference boundaries (E2R), and the Reference boundaries against the Estimated ones (R2E).
 %These results will help us illustrate the variation of the scores when swapping the references with the estimations, which, in the case of SHAG, has a significant impact.
@@ -303,14 +308,16 @@ We subdivide this section based on the type of annotations to be evaluated.
 
 \subsection{Flat vs Flat}
 
-To start with, we compare two flat boundary annotations (i.e. one-layer), and see how SHAG behaves compared to the standard hit rate measure at 3 seconds and the median deviations.
-The synthesized flat boundaries are displayed on the top of Figure \ref{fig:flat-flat}, and they aim to capture a situation where an algorithm only estimates --- without any time deviations --- a subset of all the reference boundaries.
+To start with, we compare two flat boundary annotations (\ie, one-layer), and see how SHAG behaves compared to the standard hit rate measure at 3 seconds, as well as boundary deviation
+scores.
+The synthesized flat boundaries are displayed on the top of \Cref{fig:flat-flat}, and they aim to capture a situation where an algorithm only estimates --- without any time deviations
+--- a subset of all the reference boundaries.
 
 
-The hit rate scores (top right part of the table of Figure \ref{fig:flat-flat}) obtain a precision of 100\%, since all the estimated boundaries are also in the reference.
+Since we are evaluating flat annotations, we can compute the standard metrics as well. The hit rate scores (top right part of the table of \Cref{fig:flat-flat}) obtain a precision of 100\%, since all the estimated boundaries are also in the reference.
 On the other hand, only four out of seven boundaries were retrieved, so the recall value is 40\%, leaving the F-measure at 57.14\%.
-The median deviations, displayed on the bottom right of the table, are always 0 seconds (i.e. highest possible score) both when evaluating the Estimation against the Reference (E2R) and vice versa (R2E), since we did not add any time fluctuation in the boundaries.
-It becomes apparent how the medians can not always be reliable, since two sets of boundaries can be quite different while still obtaining the best results for this metric.
+The median deviations, displayed on the bottom right of the table, are always 0 seconds --- the best possible score --- both when evaluating the Estimation against the Reference (E2R) and vice versa (R2E), since we did not add any fluctuation in the boundaries.
+It becomes apparent how boundary deviation metrics are not always reliable, since two sets of boundaries can be quite structurally different while still obtaining the best results for this metric.
 
 \begin{figure}
   \centering
@@ -326,7 +333,7 @@ It becomes apparent how the medians can not always be reliable, since two sets o
       \hline
       \multicolumn{3}{|c||}{\textbf{SHAG}} & \multicolumn{3}{c|}{\textbf{Hit Rate (trimmed)}} \\
       \hline
-      $w$ & $\mathpzc{H}_u$   & $\mathpzc{H}_o$ & $F$     & $P$     & $R$ \\
+      $w$ & $\shag_u$   & $\shag_o$ & $F$     & $P$     & $R$ \\
       \hline
       0.5       & 40.0   & 100   & 57.14  & 100 & 40.0 \\
       \cline{4-6}
@@ -339,30 +346,35 @@ It becomes apparent how the medians can not always be reliable, since two sets o
       \hline
     \end{tabular}
   \end{minipage}
-  \caption{Flat vs flat boundaries (top) and scores (bottom)}
+  \caption{Flat vs flat boundaries (top) and scores (bottom).  In the boundary plots, black indicates segment membership agreement, and white indicates disagreement.}
   \label{fig:flat-flat}
 \end{figure}
 
-The SHAG scores for the flat annotations are shown on the left side of the table in Figure \ref{fig:flat-flat}.
-Since the estimated boundaries are undersegmented compared to the reference ones, we obtain a low score for $\mathpzc{H}_u$, but a perfect score for $\mathpzc{H}_o$, since the estimation does not oversegment at any point.
-These grades are exactly the same as the precision and recall values of the hit rate measure at short time windows, since we are only evaluating one level of boundaries and $P$ and $R$ also capture the amount of under and oversegmentation of the estimation respectively.
-For longer time windows, we see how the oversegmentation grade $\mathpzc{H}_o$ significantly decreases, while the undersegmented one $\mathpzc{H}_u$ increases.
-This illustrates how \dots TODO: I do not know how to justify this.
+The SHAG scores for the flat annotations are shown on the left side of the table in \Cref{fig:flat-flat}.
+Since the estimated boundaries are under-segmented, we obtain a low score for $\shag_u$. The estimation does not over-segment at any point, and achieves a perfect score on $\shag_o$.
+In this case, SHAG scores match precision and recall values at short time windows. This is because we are only evaluating one level of boundaries, and $P$ and $R$
+also capture the amount of under and over-segmentation of the estimation respectively.
+For the longer time windows, we see how the over-segmentation grade $\shag_o$ significantly decreases, while $\shag_u$ increases.
+This illustrates how \dots TODO
 
-\subsection{Hierarchical vs Flat}
+\subsection{Flat vs hierarchical}
 
-Here we present two different examples of a hierarchical reference against two versions of flat estimations: large and small scale.
-These situations may happen when we evaluate an algorithm that tends to undersegment (large scale) or oversegment  (small scale) against a track that is annotated hierarchically (e.g. any track of the SALAMI dataset).
-We no longer can compare our metric against the standard ones because at least one set of boundaries is hierarchical.
+Here we present two different examples of flat estimations (large- and small-scale) against a hierarchical reference.
+This situation often arises when we try to evaluate an algorithm that tends to under-segment (large scale) or over-segment (small scale) against a track that is annotated
+hierarchically, such as in the SALAMI dataset.
+We no longer can compare our metric against the standard ones because at least one set of boundaries is hierarchichal.
 
-\subsubsection{Flat Large Scale}
+\subsubsection{Flat, large-scale}
 
-In this example we show the behavior of our grades when comparing a hierarchical reference against a flat segmentation of large scale sections.
-On the top of Figure \ref{fig:hier-flatlarge} the boundaries are plotted.
-Note how the estimated boundaries basically identify the highest layer of the hierarchical ones.
-At the bottom of this figure we can see the grades for SHAG, which behave as expected: the oversegmentation value $\mathpzc{H}_o$ is always 100\%, since the estimated boundaries do not oversegment.
-Moreover, when using small time windows (i.e. $w \leq 3$ in the figure), the undersegmented score is 0 since all the boundaries are ranked to different hierarchies at these short $w$, since the flat boundaries correspond to the higher layer of the reference ones.
-However, as $w$ increases, our metric is able to correctly rank the flat boundaries against the hierarchical ones, covering the entire large scale boundaries of the top of the hierarchy, thus increasing the undersegmentation grade.
+In this example, we show the behavior of SHAG when comparing a large-scale flat estimation against a hierarchical reference.
+On the top of \Cref{fig:hier-flatlarge}, the boundaries are plotted.
+The estimated boundaries in this example correspond to the highest layer of the hierarchical reference annotation.
+At the bottom of this figure, we observe that SHAG scores behave as expected: the over-segmentation value $\shag_o$ is always 100\%, since the reference annotation agrees with the
+estimation at the high level.
+When using small time windows ($w \leq 3$), the under-segmentation score is 0. Since all the boundaries are ranked to different hierarchies at these short $w$, since the flat boundaries correspond to the higher layer of the reference ones.
+However, as $w$ increases, the SHAG calculation captures multiple levels of granularity, and the metric is able to correctly rank the flat boundaries against the hierarchical ones.
+As a result, the under-segmentation score increases at larger $w$, indicating the importance of choosing a sufficiently large window.
+
 
 \begin{figure}
   \centering
@@ -376,7 +388,7 @@ However, as $w$ increases, our metric is able to correctly rank the flat boundar
     \vspace{10pt}
     \begin{tabular}{|c|c|c|}
       \hline
-      $w$       & $\mathpzc{H}_u$    & $\mathpzc{H}_o$      \\
+      $w$       & $\shag_u$    & $\shag_o$      \\
       \hline
       0.5       & 0         & 100      \\     
       3         & 0         & 100      \\
@@ -386,21 +398,25 @@ However, as $w$ increases, our metric is able to correctly rank the flat boundar
       \hline
     \end{tabular}
   \end{minipage}
-  \caption{Hierarchical vs flat large scale boundaries (top) and scores (bottom)}
+  \caption{Hierarchical vs flat large scale boundaries (top) and scores (bottom).  Color intensity corresponds to depth of the least common ancestor of the row- and column-frames 
+  within the reference annotation (white being 0, black being maximal).}
   \label{fig:hier-flatlarge}
 \end{figure}
 
-\subsubsection{Flat Small Scale}
+\subsubsection{Flat, small-scale}
 
-Here we analyze the behavior of SHAG in the case of a flat algorithm that tends to oversegment its estimations (therefore, the estimated segments will be smaller).
-The boundaries and their results are found on the top and bottom of Figure \ref{fig:hier-flatsmall}, respectively.
-Since, as in the large scale case, we are not oversegmenting, the oversegmentation grades are 100\% for all the time windows.
-As opposed to the previous example, the lower layer of the reference boundaries match exactly with the estimations, which results into perfect undersegmentation scores for the shorter time windows.
-In this case, the higher the $w$, the lower these undersegmentation grades as expected, since we should not evaluate an algorithm as perfect if it only identifies one layer of the hierarchical boundaries found in the reference.
-This illustrates how small time windows can yield spurious results, and therefore they should not be used in a real evaluation scenario.
+Here we analyze the behavior of SHAG in the case of a flat algorithm that tends to over-segment its estimations, producing small-scale estimated segments.
+The boundaries and resulting scores are found on the top and bottom of \Cref{fig:hier-flatsmall}.
+% Since, as in the large scale case, we are not over-segmenting, the over-segmentation grades are 100\% for all the time windows.
+As in the previous example, the hierarchical reference contains boundaries at the same level of granularity as the estimation. 
+Because the reference and estimate agree at the lowest level, the over-segmentation score is maximal for all time windows.
+% As opposed to the previous example, now the lower layer of the reference boundaries match exactly with the estimations, that results into perfect under-segmentation scores for the shorter time windows.
+% In this case, the higher the $w$, the lower these under-segmentation grades as expected, since we should not evaluate an algorithm as perfect if it only identifies one layer of the hierarchical boundaries found in the reference.
+Note, however, that the reference provides strictly more information than the estimate.  For example, the estimate considers samples at $t=15$ and $t=45$ to be equally irrelevant for a 
+query at $t=5$, while the reference indicates a preference for $t=15$.  These effects are only apparent for sufficiently large window sizes, \eg, larger than the smallest level of
+detail, which in this case, is 15s.  This can be easily observed in the $\shag_u$ scores in \Cref{fig:hier-flatsmall}, which drop rapidly when the window size exceeds 15.
 
-
-\begin{figure}
+\begin{figure}[t]
   \centering
   \begin{subfigure}{0.5\textwidth}
     \centering
@@ -412,7 +428,7 @@ This illustrates how small time windows can yield spurious results, and therefor
     \vspace{10pt}
     \begin{tabular}{|c|c|c|}
       \hline
-      $w$       & $\mathpzc{H}_u$    & $\mathpzc{H}_o$      \\
+      $w$       & $\shag_u$    & $\shag_o$      \\
       \hline
       0.5       & 100       & 100      \\     
       3         & 100       & 100      \\
@@ -430,10 +446,11 @@ This illustrates how small time windows can yield spurious results, and therefor
 
 In this subsection we illustrate the behavior of SHAG with two examples of hierarchical boundaries compared to other hierarchical ones.
 
-To start with, we see the behavior of our grades when comparing two equal hierarchical boundaries in Figure \ref{fig:hier-hier}.
-As expected, SHAG returns 100\% for all the different time windows, showing how we can obtain a perfect score when the reference and estimation are exactly the same across all their layers.
+To start with, we demonstrate SHAG when comparing two equal hierarchical boundaries in \Cref{fig:hier-hier}.
+As expected, SHAG returns 100\% for all the different time windows, showing how we can obtain a perfect score when the reference and 
+estimation are exactly the same across all their layers.
 
-\begin{figure}
+\begin{figure}[t]
   \centering
   \begin{subfigure}{0.5\textwidth}
     \centering
@@ -445,7 +462,7 @@ As expected, SHAG returns 100\% for all the different time windows, showing how 
     \vspace{10pt}
     \begin{tabular}{|c|c|c|}
       \hline
-      $w$       & $\mathpzc{H}_u$    & $\mathpzc{H}_o$      \\
+      $w$       & $\shag_u$    & $\shag_o$      \\
       \hline
       any       & 100       & 100      \\     
       \hline
@@ -455,15 +472,16 @@ As expected, SHAG returns 100\% for all the different time windows, showing how 
   \label{fig:hier-hier}
 \end{figure}
 
-In Figure \ref{fig:hier-hiercomp} the boundaries (top) and the results (bottom) of two different hierarchical segmentations are shown.
+In \Cref{fig:hier-hiercomp}, the boundaries (top) and the results (bottom) of two different hierarchical segmentations are shown.
 In this case, the estimated boundaries contain a third additional layer covering the first two large segments of its second layer.
 Note that the lowest two layers of the estimation are exactly the same as the two layers of the reference.
 The scores with a small window of 3 or less seconds show a perfect agreement for both SHAG grades.
-However, as $w$ increases we see how the oversegmentation grade $\mathpzc{H}_o$ decreases as expected, since the estimation has found an additional segment (even if this new segment creates a new layer it still oversegments).
-The undersegmentation grade remains at 100\% with any window length as expected.
+However, as $w$ increases, we see how the over-segmentation grade $\shag_o$ decreases as expected, since the estimation has found an additional segment.
+% (even if this new segment creates a new layer it still oversegments).
+The under-segmentation grades remains at 100\% with any window length, as expected.
 
 
-\begin{figure}
+\begin{figure}[t]
   \centering
   \begin{subfigure}{0.5\textwidth}
     \centering
@@ -475,7 +493,7 @@ The undersegmentation grade remains at 100\% with any window length as expected.
     \vspace{10pt}
     \begin{tabular}{|c|c|c|}
       \hline
-      $w$       & $\mathpzc{H}_u$       & $\mathpzc{H}_o$      \\
+      $w$       & $\shag_u$       & $\shag_o$      \\
       \hline
       0.5       & 100       & 100      \\     
       3         & 100       & 100      \\
@@ -491,19 +509,12 @@ The undersegmentation grade remains at 100\% with any window length as expected.
 
 
 \subsection{Non-synthesized Examples}
+Finally, we examine the behavior of SHAG on real data, using two types of examples.
+First, \Cref{fig:SALAMI-SALAMI} illustrates SHAG scores when comparing two manually-constructed hierarchical annotations on a track from the SALAMI dataset.
+While the two annotators tend to agree at the small scale, they differ at the large scale, and tend to group small-scale components in a slightly different manner from each-other.
+However, since the two structures are overall quite similar, both SHAG scores remain high across all sufficiently large window sizes.
 
-Up to this point we have seen SHAG examples on synthesized annotations in order to clearly show how our method behaves in a controlled scenario.
-In this subsection, we aim to illustrate how SHAG reacts to actual musical pieces with real human annotations and algorithm estimations.
-
-In Figure \ref{fig:SALAMI-SALAMI} we see the boundaries (top) and the results (bottom) of the evaluation of two human annotations extracted from the SALAMI dataset\footnote{This is the track number 636 of the SALAMI dataset}.
-This dataset not only contains hierarchical annotations, but also more than one human annotation per track for the vast majority of the set.
-As we can see on the top right plot, annotator 2 (used here as the estimation) provides three layers of annotations (the third layer only appears on the second to last frame) instead of the only two of annotator 1 (treated as the reference).
-Moreover, annotator 2 tends to oversegment compared to the other annotator, and this is reflected in $\mathpzc{H}_o$, especially when $w=30$ seconds.
-Note that when the time window is the whole duration of the track (i.e. $w = \infty$), the oversegmentation score obtains a better grade, since across the entire track the scores average across all the frames and they tend to over estimate the results when they are sufficiently similar.
-This is not desirable, since qualitatively the amount of oversegmentation of the estimation should be greater than the undersegmentation, which shows how it is not always optimal to use a time window covering the entire piece.
-The undersegmentation scores remain greater or equal than the ones of the oversegmentation, since the reference is clearly undersegmented compared to the estimation.
-
-\begin{figure}
+\begin{figure}[t]
   \centering
   \begin{subfigure}{0.5\textwidth}
     \centering
@@ -515,7 +526,7 @@ The undersegmentation scores remain greater or equal than the ones of the overse
     \vspace{10pt}
     \begin{tabular}{|c|c|c|}
       \hline
-      $w$       & $\mathpzc{H}_u$       & $\mathpzc{H}_o$      \\
+      $w$       & $\shag_u$       & $\shag_o$      \\
       \hline
       0.5       & 78.17       & 80.27      \\     
       3         & 95.39       & 95.27      \\
@@ -525,17 +536,15 @@ The undersegmentation scores remain greater or equal than the ones of the overse
       \hline
     \end{tabular}
   \end{minipage}
-  \caption{SALAMI 636 annotation 1 vs annotation 2 boundaries (top) and scores(bottom).}
+  \caption{Hierarchical annotations for SALAMI track \#636 from the two different human annotators. Top: boundaries and frame-level segment agreement; bottom: SHAG scores.}
   \label{fig:SALAMI-SALAMI}
 \end{figure}
 
-Finally, in this last example we use the same annotator 1 of the SALAMI track 636 as the reference, but we use as the estimation the output of one of the few published boundary algorithms that is capable of estimating hierarchical boundaries: Ordinal Linear Discriminative Analysis (OLDA) \cite{McFee2014}\footnote{The source code can be found in: https://github.com/bmcfee/olda}.
-This automatic estimation returns 17 layers of boundaries, which is clearly oversegmented with respect to the reference --- which has only 2 layers.
-This results in an over penalization of the oversegmentation metric when using a time window that comprises the entire track ($\mathpzc{H}_o = 16.39\%$).
-Moreover, we see how unreliable SHAG can be when using a short time window, where the undersegmentation score is really slow and the oversegmentation grade is 100\%.
-The undersegmentation grade is also low when using the proposed time window (i.e. $w=30$ seconds), since even if the estimation contains many more layers than the reference, the segments tend to be much larger than the ones in the reference.
+% SALAMI 636 annotator 1 vs OLDA\cite{McFee2014}  output \ref{fig:SALAMI-OLDA}.
+Finally, in the last example, we illustrate a comparison between a hierarchical estimation against a hierarchical reference, using the same SALAMI track.  The hierarchical estimation
+was produced by the agglomerative clustering method of McFee and Ellis~\cite{McFee2014}.  Note that the estimate produces many more layers than the reference.
 
-\begin{figure}
+\begin{figure}[t]
   \centering
   \begin{subfigure}{0.5\textwidth}
     \centering
@@ -547,7 +556,7 @@ The undersegmentation grade is also low when using the proposed time window (i.e
     \vspace{10pt}
     \begin{tabular}{|c|c|c|}
       \hline
-      $w$       & $\mathpzc{H}_u$       & $\mathpzc{H}_o$      \\
+      $w$       & $\shag_u$       & $\shag_o$      \\
       \hline
       0.5       & 14.28       & 100      \\     
       3         & 19.84       & 99.91      \\
@@ -561,17 +570,14 @@ The undersegmentation grade is also low when using the proposed time window (i.e
   \label{fig:SALAMI-OLDA}
 \end{figure}
 
+%\section{Evaluating Automatic Algorithm}
+
+%Olda\cite{McFee2014} with SALAMI.
+
 
 \section{Conclusions}\label{sec:conclusions}
 
-The presentation of $\mathpzc{H}_u$ and $\mathpzc{H}_o$ should shed enough light to researchers in order to successfully evaluate and compare various hierarchical boundary algorithms.
-
-Limitations:
-Computation efficiency.
-
-Future work:
 Extend to labeling score.
-Compact the SHAG measure using the F-measure as in OLDA\cite{McFee2014} and 2D-FMC \cite{Nieto2014}.
 
 \bibliography{refs}
 
