@@ -354,7 +354,7 @@ It becomes apparent how boundary deviation metrics are not always reliable, sinc
       \hline
     \end{tabular}
   \end{minipage}
-  \caption{Flat vs flat boundaries (top) and scores (bottom).  In the boundary plots, black indicates segment membership agreement, and white indicates disagreement.}
+  \caption{Flat vs. flat boundaries (top) and SHAG scores (bottom).  In the boundary plots, black indicates segment membership agreement, and white indicates disagreement.}
   \label{fig:flat-flat}
 \end{figure}
 
@@ -421,7 +421,7 @@ When using small time windows ($w \leq 3$), the under-segmentation score is 40\%
       \hline
     \end{tabular}
   \end{minipage}
-  \caption{Hierarchical vs. flat, large-scale boundaries (top) and scores (bottom).  Color corresponds to depth of the least common ancestor of the row- and column-frames 
+  \caption{Hierarchical vs. flat, large-scale boundaries (top) and SHAG scores (bottom).  Color corresponds to depth of the least common ancestor of the row- and column-frames 
   within the reference annotation (white being the root, black being a leaf).}
   \label{fig:hier-flatlarge}
 \end{figure}
@@ -463,7 +463,8 @@ large enough to span multiple small segments.
       \hline
     \end{tabular}
   \end{minipage}
-  \caption{Hierarchical vs flat small scale boundaries (top) and scores (bottom)}
+  \caption{Hierarchical vs. flat, small-scale boundaries (top) and SHAG scores
+  (bottom).}
   \label{fig:hier-flatsmall}
 \end{figure}
 
@@ -528,7 +529,7 @@ The under-segmentation grades remain at 100\% with any window length, as expecte
       \hline
     \end{tabular}
   \end{minipage}
-  \caption{2-layer vs 3-layer Hierarchical boundaries (top) and scores (bottom)}
+  \caption{2-layer vs. 3-layer hierarchical boundaries (top) and SHAG scores (bottom).}
   \label{fig:hier-hiercomp}
 \end{figure}
 
@@ -600,7 +601,8 @@ comparatively higher.
       \hline
     \end{tabular}
   \end{minipage}
-  \caption{SALAMI 636 annotation 1 vs OLDA output boundaries (top) and scores(bottom).}
+  \caption{Hierarchical annotation for SALAMI track \#636 vs. hierarchical boundary
+  estimates~\cite{McFee2014} (top) and SHAG scores (bottom).}
   \label{fig:SALAMI-OLDA}
 \end{figure}
 
