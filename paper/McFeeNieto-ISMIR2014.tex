@@ -106,7 +106,14 @@ is used to define precision and recall scores:
 \begin{equation}
 P \defeq \frac{H}{n_e}, \quad\quad R \defeq \frac{H}{n_r},
 \end{equation}
-where $n_e$ and $n_r$ denote the number of boundaries in the estimated and reference annotations, respectively.  
+where $n_e$ and $n_r$ denote the number of boundaries in the estimated and reference
+annotations, respectively.
+
+Boundary estimation has also been evaluated by
+\emph{deviation}~\cite{turnbull2007supervised}.  This is done by measuring the median
+time differential between each reference boundary and the nearest estimate, and vice 
+versa. Boundary deviation is useful for quantifying the temporal accuracy of a detection
+event, but it can be sensitive to number of estimated boundaries.
 % As is standard in information retrieval, $P$ and $R$ are combined into an $F$-measure by computing their harmonic mean.
 
 The precision-recall paradigm has been critical to quantifying improvements in segmentation algorithms over the past several years,
