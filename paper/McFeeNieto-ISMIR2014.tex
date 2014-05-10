@@ -81,7 +81,7 @@ dimension of \emph{depth} has been practically ignored in the evaluation of musi
 %Nevertheless, the vast majority of music segmentation algorithms only operate at a flat level instead of following the hierarchical approach that most musicologists follow.
 
 In this work we present the \emph{Segment Hierarchy Agreement Grades} (SHAG), a method to evaluate the accuracy of boundaries in hierarchical segmentations.
-The proposed metric works at a frame-level --- similar to the method proposed by Levy and Sandler to evaluate structural annotations~\cite{Levy2008} --- and it is based on a rank retrieval evaluation where each frame is ranked depending on whether it belongs to the \emph{correct} segment.
+The proposed metrics work at a frame-level --- similar to the method proposed by Levy and Sandler to evaluate structural annotations~\cite{Levy2008} --- and they are based on a rank retrieval evaluation where each frame is ranked depending on whether it belongs to the \emph{correct} segment.
 The correctness of the segment is evaluated simultaneously across all hierarchical layers, thus resulting in a metric that can both evaluate hierarchical and flat boundary annotations. 
 (Note that a flat segmentation is only a specific case of a hierarchical one, where the number of layers is one.)
 With SHAG, we facilitate the evaluation of existing flat estimations against hierarchical reference annotations (like those of~\cite{Smith2011}), and encourage new publications on richer hierarchical algorithms.
