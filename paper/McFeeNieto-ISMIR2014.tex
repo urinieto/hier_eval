@@ -354,8 +354,9 @@ The SHAG scores for the flat annotations are shown on the left side of the table
 Since the estimated boundaries are under-segmented, we obtain a low score for $\shag_u$. The estimation does not over-segment at any point, and achieves a perfect score on $\shag_o$.
 In this case, SHAG scores match precision and recall values at short time windows. This is because we are only evaluating one level of boundaries, and $P$ and $R$
 also capture the amount of under and over-segmentation of the estimation respectively.
-For the longer time windows, we see how the over-segmentation grade $\shag_o$ significantly decreases, while $\shag_u$ increases.
-This illustrates how \dots TODO
+For the longer time windows, we observe that $\shag_o$ decreases, while $\shag_u$ 
+increases.  This illustrates how the window size must depend on the duration and scale
+of structure that the practitioner wishes to capture. 
 
 \subsection{Flat vs hierarchical}
 
@@ -414,7 +415,9 @@ Because the reference and estimate agree at the lowest level, the over-segmentat
 % In this case, the higher the $w$, the lower these under-segmentation grades as expected, since we should not evaluate an algorithm as perfect if it only identifies one layer of the hierarchical boundaries found in the reference.
 Note, however, that the reference provides strictly more information than the estimate.  For example, the estimate considers samples at $t=15$ and $t=45$ to be equally irrelevant for a 
 query at $t=5$, while the reference indicates a preference for $t=15$.  These effects are only apparent for sufficiently large window sizes, \eg, larger than the smallest level of
-detail, which in this case, is 15s.  This can be easily observed in the $\shag_u$ scores in \Cref{fig:hier-flatsmall}, which drop rapidly when the window size exceeds 15.
+detail, which in this case, is 15s.  This can be easily observed in the $\shag_u$
+scores in \Cref{fig:hier-flatsmall}, which drop rapidly once the window size becomes
+large enough to span multiple small segments.
 
 \begin{figure}[t]
   \centering
@@ -478,7 +481,7 @@ Note that the lowest two layers of the estimation are exactly the same as the tw
 The scores with a small window of 3 or less seconds show a perfect agreement for both SHAG grades.
 However, as $w$ increases, we see how the over-segmentation grade $\shag_o$ decreases as expected, since the estimation has found an additional segment.
 % (even if this new segment creates a new layer it still oversegments).
-The under-segmentation grades remains at 100\% with any window length, as expected.
+The under-segmentation grades remain at 100\% with any window length, as expected.
 
 
 \begin{figure}[t]
@@ -508,7 +511,7 @@ The under-segmentation grades remains at 100\% with any window length, as expect
 \end{figure}
 
 
-\subsection{Non-synthesized Examples}
+\subsection{Real-world examples}
 Finally, we examine the behavior of SHAG on real data, using two types of examples.
 First, \Cref{fig:SALAMI-SALAMI} illustrates SHAG scores when comparing two manually-constructed hierarchical annotations on a track from the SALAMI dataset.
 While the two annotators tend to agree at the small scale, they differ at the large scale, and tend to group small-scale components in a slightly different manner from each-other.
