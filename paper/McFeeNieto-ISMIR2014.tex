@@ -542,7 +542,14 @@ However, since the two structures are overall quite similar, both SHAG scores re
 
 % SALAMI 636 annotator 1 vs OLDA\cite{McFee2014}  output \ref{fig:SALAMI-OLDA}.
 Finally, in the last example, we illustrate a comparison between a hierarchical estimation against a hierarchical reference, using the same SALAMI track.  The hierarchical estimation
-was produced by the agglomerative clustering method of McFee and Ellis~\cite{McFee2014}.  Note that the estimate produces many more layers than the reference.
+was produced by the agglomerative clustering method of McFee and
+Ellis~\cite{McFee2014}.  Note that the estimate produces many more layers than the
+reference, and the nesting structure is quite different.  In particular, the reference
+provides two levels of structure (large and small), while the estimate tends to mostly
+produce large segments, with more detailed nesting structure at even higher levels.
+Since the estimate does not produce segments at the small-scale level, its
+under-segmentation score tends to be low, while the over-segmentation score remains
+comparatively higher.
 
 \begin{figure}[t]
   \centering
