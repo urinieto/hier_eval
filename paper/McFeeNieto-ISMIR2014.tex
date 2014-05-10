@@ -89,7 +89,7 @@ We demonstrate the behavior of SHAG with multiple synthetic and human examples, 
 
 
 The rest of the paper is organized as follows: In \cref{sec:curr_meth} we review the current evaluation methods of (flat) boundary algorithms. 
-Our metric is formally introduced in \cref{sec:eval_desc}. 
+The proposed metric is formally introduced in \cref{sec:eval_desc}. 
 We provide multiple examples to illustrate the behavior of SHAG in \cref{sec:examples}.
 Finally, we draw conclusions and discuss future work in \cref{sec:conclusions}.
 
@@ -237,7 +237,7 @@ By aggregating over all sample frames $q$, we obtain the SHAG \emph{under-segmen
 \shag_u(H_E) \defeq \frac{1}{n} \sum_q g(q ; H_E).\label{shagunder}
 \end{equation}
 The over-segmentation metric $\shag_o(H_E)$ is defined analogously by swapping the roles of $H_E$ and $H_R$ in \cref{hierrecall}.
-The two metrics, taken together, provide a summary of the structural agreement between the estimated and reference annotations.
+Combined, the two metrics summarize structural agreement between estimated and reference annotations.
 
 % Note this loss is equivalent to that evaluated by for subjective artist similarity~\cite{mcfee2011}.
 % The difference here is that the reference rankings are induced from ordinal data, and not subject to consistency errors.
@@ -293,8 +293,8 @@ pair $(i, k)$ appears twice in the summation.
 
 To counteract this effect, the summation can be restricted to only range over direct
 precedence relations.  In practice, this is accomplished by only comparing samples from
-successive levels in the hierarchy.  As a result, redundant comparisons are
-eliminated, and the dynamic range of $g$ is increased.
+successive levels in the hierarchy.  This eliminates redundant comparisons and increases 
+$g$'s dynamic range.
 
 
 \section{Examples}\label{sec:examples}
@@ -303,8 +303,9 @@ In this section we discuss the behavior of SHAG by showing various synthetic exa
 %We show the two grades of SHAG (undersegmentation, oversegmentation) for all the examples in this sections
 %Two different versions of each metric are used to evaluate these examples: Estimated against Reference boundaries (E2R), and the Reference boundaries against the Estimated ones (R2E).
 %These results will help us illustrate the variation of the scores when swapping the references with the estimations, which, in the case of SHAG, has a significant impact.
-For each example in this section we employ various window times $w$ to better illustrate the behavior of our proposed metric.
-We subdivide this section based on the type of annotations to be evaluated.
+For each example in this section, we illustrate the behavior of our proposed metric
+under different window times $w$.
+This section is subdivided by type of annotations under consideration.
 
 \subsection{Flat vs Flat}
 
@@ -313,9 +314,9 @@ scores.
 The synthesized flat boundaries are displayed on the top of \Cref{fig:flat-flat}, and they aim to capture a situation where an algorithm only estimates --- without any time deviations
 --- a subset of all the reference boundaries.
 
-
 Since we are evaluating flat annotations, we can compute the standard metrics as well. The hit rate scores (top right part of the table of \Cref{fig:flat-flat}) obtain a precision of 100\%, since all the estimated boundaries are also in the reference.
 On the other hand, only four out of seven boundaries were retrieved, so the recall value is 40\%, leaving the F-measure at 57.14\%.
+
 The median deviations, displayed on the bottom right of the table, are always 0 seconds --- the best possible score --- both when evaluating the Estimation against the Reference (E2R) and vice versa (R2E), since we did not add any fluctuation in the boundaries.
 It becomes apparent how boundary deviation metrics are not always reliable, since two sets of boundaries can be quite structurally different while still obtaining the best results for this metric.
 
@@ -351,11 +352,25 @@ It becomes apparent how boundary deviation metrics are not always reliable, sinc
 \end{figure}
 
 The SHAG scores for the flat annotations are shown on the left side of the table in \Cref{fig:flat-flat}.
-Since the estimated boundaries are under-segmented, we obtain a low score for $\shag_u$. The estimation does not over-segment at any point, and achieves a perfect score on $\shag_o$.
-In this case, SHAG scores match precision and recall values at short time windows. This is because we are only evaluating one level of boundaries, and $P$ and $R$
-also capture the amount of under and over-segmentation of the estimation respectively.
+% Since the estimated boundaries are under-segmented, we obtain a low score for $\shag_u$. The estimation does not over-segment at any point, and achieves a perfect score on $\shag_o$.
+% In this case, SHAG scores match precision and recall values at short time windows. This is because we are only evaluating one level of boundaries, and $P$ and $R$
+% also capture the amount of under and over-segmentation of the estimation respectively.
+When the windows are smaller than the segments, SHAG behaves as a boundary detection
+metric.  This is evidenced by the $\shag_u$ and $\shag_o$ matching recall and
+precision for $w \leq 3$.
 For the longer time windows, we observe that $\shag_o$ decreases, while $\shag_u$ 
-increases.  This illustrates how the window size must depend on the duration and scale
+increases.  To understand this, consider the following examples.  First, let
+$(q,i,j) = (5,25,25)$.  In this case, the estimation considers $i$ to be relevant for
+$q$ (since they belong to the same large segment), and $j$ to be irrelevant for $q$;
+meanwhile, the reference considers both $i$ and $j$ to be equally irrelevant for $q$.
+Note that this type of comparison only enters the evaluation for sufficiently large
+windows, at which point, the over-segmentation score decreases.  
+
+In the other direction, $(q,i,j) = (5, 7, 15)$ causes similar behavior in the
+under-segmentation metric.  As $w$ increases, the evaluation becomes dominated by
+long-range interactions, and these localized discrepancies matter less.  As a result,
+the under-segmentation metric increases when $w$ becomes sufficiently large.
+This illustrates how the window size must depend on the duration and scale
 of structure that the practitioner wishes to capture. 
 
 \subsection{Flat vs hierarchical}
@@ -399,8 +414,8 @@ When using small time windows ($w \leq 3$), the under-segmentation score is 40\%
       \hline
     \end{tabular}
   \end{minipage}
-  \caption{Hierarchical vs flat large scale boundaries (top) and scores (bottom).  Color intensity corresponds to depth of the least common ancestor of the row- and column-frames 
-  within the reference annotation (white being 0, black being maximal).}
+  \caption{Hierarchical vs. flat, large-scale boundaries (top) and scores (bottom).  Color corresponds to depth of the least common ancestor of the row- and column-frames 
+  within the reference annotation (white being the root, black being a leaf).}
   \label{fig:hier-flatlarge}
 \end{figure}
 
@@ -449,31 +464,31 @@ large enough to span multiple small segments.
 
 In this subsection we illustrate the behavior of SHAG with two examples of hierarchical boundaries compared to other hierarchical ones.
 
-To start with, we demonstrate SHAG when comparing two equal hierarchical boundaries in \Cref{fig:hier-hier}.
-As expected, SHAG returns 100\% for all the different time windows, showing how we can obtain a perfect score when the reference and 
-estimation are exactly the same across all their layers.
+% To start with, we demonstrate SHAG when comparing two equal hierarchical boundaries in \Cref{fig:hier-hier}.
+% As expected, SHAG returns 100\% for all the different time windows, showing how we can obtain a perfect score when the reference and 
+% estimation are exactly the same across all their layers.
 
-\begin{figure}[t]
-  \centering
-  \begin{subfigure}{0.5\textwidth}
-    \centering
-    \includegraphics[width=0.94\textwidth]{plots/hier-hier.pdf}
-  \end{subfigure}%
-  \\
-  \begin{minipage}{0.5\textwidth}
-    \centering
-    \vspace{10pt}
-    \begin{tabular}{|c|c|c|}
-      \hline
-      $w$       & $\shag_u$    & $\shag_o$      \\
-      \hline
-      any       & 100       & 100      \\     
-      \hline
-    \end{tabular}
-  \end{minipage}
-  \caption{Hierarchical vs same hierarchical boundaries (top) and scores (bottom)}
-  \label{fig:hier-hier}
-\end{figure}
+% \begin{figure}[t]
+%   \centering
+%   \begin{subfigure}{0.5\textwidth}
+%     \centering
+%     \includegraphics[width=0.94\textwidth]{plots/hier-hier.pdf}
+%   \end{subfigure}%
+%   \\
+%   \begin{minipage}{0.5\textwidth}
+%     \centering
+%     \vspace{10pt}
+%     \begin{tabular}{|c|c|c|}
+%       \hline
+%       $w$       & $\shag_u$    & $\shag_o$      \\
+%       \hline
+%       any       & 100       & 100      \\     
+%       \hline
+%     \end{tabular}
+%   \end{minipage}
+%   \caption{Hierarchical vs same hierarchical boundaries (top) and scores (bottom)}
+%   \label{fig:hier-hier}
+% \end{figure}
 
 In \Cref{fig:hier-hiercomp}, the boundaries (top) and the results (bottom) of two different hierarchical segmentations are shown.
 In this case, the estimated boundaries contain a third additional layer covering the first two large segments of its second layer.
@@ -515,7 +530,9 @@ The under-segmentation grades remain at 100\% with any window length, as expecte
 Finally, we examine the behavior of SHAG on real data, using two types of examples.
 First, \Cref{fig:SALAMI-SALAMI} illustrates SHAG scores when comparing two manually-constructed hierarchical annotations on a track from the SALAMI dataset.
 While the two annotators tend to agree at the small scale, they differ at the large scale, and tend to group small-scale components in a slightly different manner from each-other.
-This is reflected in the under and oversegmentation scores: the former is lower at longer time windows, while the latter keeps increasing.
+This is reflected in the under- and over-segmentation scores: the former skews low,
+because the reference's large-scale annotations are coarser than those of the
+estimate, while the latter remains high because both tend to agree at the small scale.
 
 \begin{figure}[t]
   \centering
