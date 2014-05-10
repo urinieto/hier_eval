@@ -321,7 +321,7 @@ scores.
 The synthesized flat boundaries are displayed on the top of \Cref{fig:flat-flat}, and they aim to capture a situation where an algorithm only estimates --- without any time deviations
 --- a subset of all the reference boundaries.
 
-Since we are evaluating flat annotations, we can compute the standard metrics as well. The hit rate scores (top right part of the table of \Cref{fig:flat-flat}) obtain a precision of 100\%, since all the estimated boundaries are also in the reference.
+Since we are evaluating flat annotations, we can compute the standard metrics as well. The hit rate scores (top right part of the table of \Cref{fig:flat-flat}) obtain a precision of 100\%, since all the estimated boundaries are also in the reference.\footnote{For boundary detection metrics, we trim the first and last boundaries, as they mark the beginning and of the track, and are constant across all estimates.} 
 On the other hand, only four out of seven boundaries were retrieved, so the recall value is 40\%, leaving the F-measure at 57.14\%.
 
 The median deviations, displayed on the bottom right of the table, are always 0 seconds --- the best possible score --- both when evaluating the Estimation against the Reference (E2R) and vice versa (R2E), since we did not add any fluctuation in the boundaries.
@@ -354,7 +354,8 @@ It becomes apparent how boundary deviation metrics are not always reliable, sinc
       \hline
     \end{tabular}
   \end{minipage}
-  \caption{Flat vs. flat boundaries (top) and SHAG scores (bottom).  In the boundary plots, black indicates segment membership agreement, and white indicates disagreement.}
+  \caption{Flat vs. flat boundaries (top), SHAG and boundary hit-rate
+  scores (bottom).  In the boundary plots, black indicates segment membership agreement, and white indicates disagreement.}
   \label{fig:flat-flat}
 \end{figure}
 
