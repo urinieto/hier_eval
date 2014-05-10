@@ -249,7 +249,7 @@ First, the score for each query will generally depend on the track duration $n$,
 For large values of $n$, \cref{hierrecall} may be dominated by pairs trivially irrelevant comparison points $j$ which lie far from $q$ in time, \ie, $|q-i| \ll |q-j|$.
 Short-duration tracks with small $n$ have fewer such trivial comparisons.
 Consequently, longer tracks may observe relatively inflated scores when compared to shorter tracks, simply by virtue of having a large number of ``easy'' comparisons.
-Moreover, the calculation of SHAG as defined in \cref{shagunder} can be expensive, taking $\Oh\left(n^3\right)$ using a direct implementation.
+Moreover, the calculation of SHAG as defined in \cref{shagunder} can be expensive, taking $\Oh(n^3)$ using a direct implementation.
 
 To resolve these issues, we propose to use a time window of $w$ seconds in order to both simplify the 
 calculation of the metric and normalize its dynamic range.
@@ -308,14 +308,15 @@ We subdivide this section based on the type of annotations to be evaluated.
 
 \subsection{Flat vs Flat}
 
-To start with, we compare two flat boundary annotations (i.e. one-layer), and see how SHAG behaves compared to the standard hit rate measure at 3 seconds and the median deviations.
-The synthesized flat boundaries are displayed on the top of Figure \ref{fig:flat-flat}, and they aim to capture a situation where an algorithm only estimates --- without any time deviations --- a subset of all the reference boundaries.
+To start with, we compare two flat boundary annotations (\ie, one-layer), and see how SHAG behaves compared to the standard hit rate measure at 3 seconds, as well as boundary deviation
+scores.
+The synthesized flat boundaries are displayed on the top of \Cref{fig:flat-flat}, and they aim to capture a situation where an algorithm only estimates --- without any time deviations --- a subset of all the reference boundaries.
 
 
-Since we are evaluating flat annotations, we can compute the standard metrics as well. The hit rate scores (top right part of the table of Figure \ref{fig:flat-flat}) obtain a precision of 100\%, since all the estimated boundaries are also in the reference.
+Since we are evaluating flat annotations, we can compute the standard metrics as well. The hit rate scores (top right part of the table of \Cref{fig:flat-flat}) obtain a precision of 100\%, since all the estimated boundaries are also in the reference.
 On the other hand, only four out of seven boundaries were retrieved, so the recall value is 40\%, leaving the F-measure at 57.14\%.
-The median deviations, displayed on the bottom right of the table, are always 0 seconds (i.e. highest possible score) both when evaluating the Estimation against the Reference (E2R) and vice versa (R2E), since we did not add any fluctuation in the boundaries.
-It becomes apparent how the medians can not always be reliable, since two sets of boundaries can be quite different while still obtaining the best results for this metric.
+The median deviations, displayed on the bottom right of the table, are always 0 seconds --- the best possible score --- both when evaluating the Estimation against the Reference (E2R) and vice versa (R2E), since we did not add any fluctuation in the boundaries.
+It becomes apparent how boundary deviation metrics are not always reliable, since two sets of boundaries can be quite structurally different while still obtaining the best results for this metric.
 
 \begin{figure}
   \centering
@@ -348,10 +349,11 @@ It becomes apparent how the medians can not always be reliable, since two sets o
   \label{fig:flat-flat}
 \end{figure}
 
-The SHAG scores for the flat annotations are shown on the left side of the table in Figure \ref{fig:flat-flat}.
-Since the estimated boundaries are undersegmented, we obtain a low score for $\mathpzc{H}_u$, but a perfect score for $\mathpzc{H}_o$, since the estimation does not oversegment at any point.
-These grades are exactly the same as the precision and recall values of the hit rate measure at short time windows, since we are only evaluating one level of boundaries and $P$ and $R$ also capture the amount of under and oversegmentation of the estimation respectively.
-For the longer time windows, we see how the oversegmentation grade $\mathpzc{H}_o$ significantly decreases, while the undersegmented one $\mathpzc{H}_u$ increases.
+The SHAG scores for the flat annotations are shown on the left side of the table in \Cref{fig:flat-flat}.
+Since the estimated boundaries are under-segmented, we obtain a low score for $\shag_u$. The estimation does not over-segment at any point, and achieves a perfect score on $\shag_o$.
+In this case, SHAG scores match precision and recall values at short time windows. This is because we are only evaluating one level of boundaries, and $P$ and $R$
+also capture the amount of under and over-segmentation of the estimation respectively.
+For the longer time windows, we see how the over-segmentation grade $\shag_o$ significantly decreases, while $\shag_u$ increases.
 This illustrates how \dots TODO
 
 \subsection{Hierarchical vs Flat}
