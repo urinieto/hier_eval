@@ -234,7 +234,7 @@ error or a lack of specificity~\cite{Lukashevich2008}.
 % Note that the precedence comparisons here are strict, so we never compare two $i$ and $j$ that merge simultaneously with $q$.
 By aggregating over all sample frames $q$, we obtain the SHAG \emph{under-segmentation} metric:
 \begin{equation}
-\shag_u(H_E) \defeq \frac{1}{n} \sum_q g(q ; H_E).
+\shag_u(H_E) \defeq \frac{1}{n} \sum_q g(q ; H_E).\label{shagunder}
 \end{equation}
 The over-segmentation metric $\shag_o(H_E)$ is defined analogously by swapping the roles of $H_E$ and $H_R$ in \cref{hierrecall}.
 The two metrics, taken together, provide a summary of the structural agreement between the estimated and reference annotations.
@@ -244,12 +244,12 @@ The two metrics, taken together, provide a summary of the structural agreement b
 
 \subsection{Windowing in Time}
 
-The calculation of SHAG can be expensive: $\Oh\left(n^3\right)$ using a straightforward 
-implementation.
-The score also varies with $n$, so comparisons between tracks of differing length can
-be problematic.  For large values of $n$, \cref{hierrecall} may be dominated by pairs
-trivially irrelevant comparison points $j$ which lie far from $q$ in time, \ie, $|q-i| \ll |q-j|$.
-Consequently, longer tracks may observe relatively inflated scores when compared to shorter tracks.
+The SHAG metrics described above capture the basic notion of hierarchically nested, frame-level relevance, but it does have two technical limitations.
+First, the score for each query will generally depend on the track duration $n$, which makes comparisons between tracks of differing length problematic.  
+For large values of $n$, \cref{hierrecall} may be dominated by pairs trivially irrelevant comparison points $j$ which lie far from $q$ in time, \ie, $|q-i| \ll |q-j|$.
+Short-duration tracks with small $n$ have fewer such trivial comparisons.
+Consequently, longer tracks may observe relatively inflated scores when compared to shorter tracks, simply by virtue of having a large number of ``easy'' comparisons.
+Moreover, the calculation of SHAG as defined in \cref{shagunder} can be expensive, taking $\Oh\left(n^3\right)$ using a direct implementation.
 
 To resolve these issues, we propose to use a time window of $w$ seconds in order to both simplify the 
 calculation of the metric and normalize its dynamic range.
@@ -262,17 +262,25 @@ Adding this windowing property to the SHAG equations yields the windowed SHAG:
   j)}}{Z_q(m)},\label{windowrecall}
 \end{equation}
 \begin{equation}
-\shag(H_E, m) \defeq \frac{1}{n} \sum_q g(q,m ; S_E),
+\shag_u(H_E, m) \defeq \frac{1}{n} \sum_q g(q,m ; S_E),
 \end{equation}
 where $m_s = \min\{0,q-m/2\}$ and $m_e = \max\{q+m/2,n\}$ are the start and ending, respectively, of the current window in sample indices.
+The resulting metric has reduced computational complexity $\Oh(nm^2)$.  Moreover, excluding edge cases near the beginning and end of the track, each query frame $q$ now operates over a
+fixed number of comparisons $(i, j)$, regardless of the track duration.
 
-****
-FIXME: Move this next part down to 3.1
+\subsection{Choosing a time window}
 
-Small windows (\eg, $w \leq 3$) only capture the local changes, losing precision since most of the segments will be more than this small window.
-We want a window that is long enough to capture the boundaries of the current segments, and that is the same for all tracks in order to be able to easily compare results within a reasonable dynamic range.
-In the task of music segmentation, most of the segments will be less than 45 seconds (30?).
-****
+The choice of window size will clearly have a dramatic impact on the evaluation.
+Small windows (\eg, $w \leq 3$) generally capture local changes, since large-scale structural changes are not typically confined to such small time intervals.
+Ideally, the window should be long enough to capture boundaries of segments at multiple resolutions, but not so large as to become dominated by trivial comparisons.
+While there may not be a single window length that satisfies this criteria for all songs, we consider two practical approaches to window selection.
+
+First, an appropriate window length can be estimated by examining the segment duration statistics of the reference annotations.  
+For example, one may take the average duration of high-level segment annotations, as they can be expected to contain multiple small segments, and thus suffices to capture local structure.
+Second, one may report results for a multiple window parameters, as is currently done for boundary detection as described in \cref{sec:curr_meth}.  
+
+% Ideally, the window should be long enough to capture the boundaries of the current segments, and that is the same for all tracks in order to be able to easily compare results within a reasonable dynamic range.
+
 
 \subsection{Transitivity}
 
@@ -288,9 +296,6 @@ precedence relations.  In practice, this is accomplished by only comparing sampl
 successive levels in the hierarchy.  As a result, redundant comparisons are
 eliminated, and the dynamic range of $g$ is increased.
 
-\subsection{Choosing a Time Window}
-
-TODO
 
 \section{Examples}\label{sec:examples}
 
