@@ -371,9 +371,9 @@ On the top of \Cref{fig:hier-flatlarge}, the boundaries are plotted.
 The estimated boundaries in this example correspond to the highest layer of the hierarchical reference annotation.
 At the bottom of this figure, we observe that SHAG scores behave as expected: the over-segmentation value $\shag_o$ is always 100\%, since the reference annotation agrees with the
 estimation at the high level.
-When using small time windows ($w \leq 3$), the under-segmentation score is 0. Since all the boundaries are ranked to different hierarchies at these short $w$, since the flat boundaries correspond to the higher layer of the reference ones.
-However, as $w$ increases, the SHAG calculation captures multiple levels of granularity, and the metric is able to correctly rank the flat boundaries against the hierarchical ones.
-As a result, the under-segmentation score increases at larger $w$, indicating the importance of choosing a sufficiently large window.
+When using small time windows ($w \leq 3$), the under-segmentation score is 40\%, also as expected, since it resembles the situation of the first example, but adding an extra layer in the reference.
+%However, as $w$ increases, the SHAG calculation captures multiple levels of granularity, and the metric is able to correctly rank the flat boundaries against the hierarchical ones.
+%As a result, the under-segmentation score increases at larger $w$, indicating the importance of choosing a sufficiently large window.
 
 
 \begin{figure}
@@ -390,11 +390,11 @@ As a result, the under-segmentation score increases at larger $w$, indicating th
       \hline
       $w$       & $\shag_u$    & $\shag_o$      \\
       \hline
-      0.5       & 0         & 100      \\     
-      3         & 0         & 100      \\
-      15        & 37.21     & 100    \\
-      30        & 69.66     & 100    \\
-      $\infty$  & 80.16     & 100    \\
+      0.5       & 40.0      & 100      \\     
+      3         & 40.0      & 100      \\
+      15        & 51.10     & 100    \\
+      30        & 81.76     & 100    \\
+      $\infty$  & 88.94     & 100    \\
       \hline
     \end{tabular}
   \end{minipage}
@@ -432,9 +432,9 @@ detail, which in this case, is 15s.  This can be easily observed in the $\shag_u
       \hline
       0.5       & 100       & 100      \\     
       3         & 100       & 100      \\
-      15        & 62.79     & 100    \\
-      30        & 30.34     & 100    \\
-      $\infty$  & 19.84     & 100    \\
+      15        & 76.31     & 100    \\
+      30        & 58.91     & 100    \\
+      $\infty$  & 55.31     & 100    \\
       \hline
     \end{tabular}
   \end{minipage}
@@ -497,9 +497,9 @@ The under-segmentation grades remains at 100\% with any window length, as expect
       \hline
       0.5       & 100       & 100      \\     
       3         & 100       & 100      \\
-      15        & 100       & 98.32    \\
-      30        & 100       & 78.81    \\
-      $\infty$  & 100       & 61.85    \\
+      15        & 100       & 99.13    \\
+      30        & 100       & 88.75    \\
+      $\infty$  & 100       & 79.41    \\
       \hline
     \end{tabular}
   \end{minipage}
@@ -512,7 +512,7 @@ The under-segmentation grades remains at 100\% with any window length, as expect
 Finally, we examine the behavior of SHAG on real data, using two types of examples.
 First, \Cref{fig:SALAMI-SALAMI} illustrates SHAG scores when comparing two manually-constructed hierarchical annotations on a track from the SALAMI dataset.
 While the two annotators tend to agree at the small scale, they differ at the large scale, and tend to group small-scale components in a slightly different manner from each-other.
-However, since the two structures are overall quite similar, both SHAG scores remain high across all sufficiently large window sizes.
+This is reflected in the under and oversegmentation scores: the former is lower at longer time windows, while the latter keeps increasing.
 
 \begin{figure}[t]
   \centering
@@ -528,11 +528,11 @@ However, since the two structures are overall quite similar, both SHAG scores re
       \hline
       $w$       & $\shag_u$       & $\shag_o$      \\
       \hline
-      0.5       & 78.17       & 80.27      \\     
-      3         & 95.39       & 95.27      \\
-      15        & 95.65       & 90.52    \\
-      30        & 95.73       & 87.98    \\
-      $\infty$  & 95.75       & 95.75    \\
+      0.5       & 82.41       & 79.89      \\     
+      3         & 96.34       & 93.28      \\
+      15        & 80.37       & 81.98    \\
+      30        & 70.58       & 87.27    \\
+      $\infty$  & 67.50       & 97.15    \\
       \hline
     \end{tabular}
   \end{minipage}
@@ -558,11 +558,11 @@ was produced by the agglomerative clustering method of McFee and Ellis~\cite{McF
       \hline
       $w$       & $\shag_u$       & $\shag_o$      \\
       \hline
-      0.5       & 14.28       & 100      \\     
-      3         & 19.84       & 99.91      \\
-      15        & 33.22       & 56.13    \\
-      30        & 37.20       & 53.12    \\
-      $\infty$  & 37.36       & 16.39    \\
+      0.5       & 27.72       & 54.54      \\     
+      3         & 33.97       & 71.80      \\
+      15        & 66.25       & 70.21    \\
+      30        & 79.87       & 58.09    \\
+      $\infty$  & 92.73       & 41.99    \\
       \hline
     \end{tabular}
   \end{minipage}
