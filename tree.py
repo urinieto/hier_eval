@@ -63,7 +63,7 @@ import numpy as np
 from collections import Counter
 
 # Not so common modules
-import jams2
+from msaf import jams2
 
 
 class Segment(object):

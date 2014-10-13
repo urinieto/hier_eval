@@ -113,7 +113,7 @@ Boundary estimation has also been evaluated by
 \emph{deviation}~\cite{turnbull2007supervised}.  This is done by measuring the median
 time differential between each reference boundary and the nearest estimate, and vice 
 versa. Boundary deviation is useful for quantifying the temporal accuracy of a detection
-event, but it can be sensitive to number of estimated boundaries.
+event, but it can be sensitive to the number of estimated boundaries.
 % As is standard in information retrieval, $P$ and $R$ are combined into an $F$-measure by computing their harmonic mean.
 
 The precision-recall paradigm has been critical to quantifying improvements in segmentation algorithms over the past several years,
@@ -142,6 +142,7 @@ $(a,b,c)$ ---  but distinct structural interpretations.\label{trees}}
 \end{figure}
 
 \section{Segment Hierarchy Agreement Grades}\label{sec:eval_desc}
+\sloppy
 The proposed evaluation scheme (SHAG) explicitly accounts for cross-layer structure in segmentation, and directly accommodates 
 multiple layers of specificity in both the reference and estimation.  The evaluation is based on a reduction to ranking evaluation,
 which we describe in detail below.
@@ -198,7 +199,7 @@ f(q ; S_E) \defeq
 That is, the score for sample $q$ is the fraction of pairs $(i, j)$ for which $S_E$
 agrees with $S_R$ with respect to $q$ (\ie, membership in the segment).
 
-Averaging over all samples $q$ yields an mean sample recall score:
+Averaging over all samples $q$ yields a mean sample recall score:
 \begin{equation}
 \rho(S_E) \defeq \frac{1}{n} \sum_q f(q ; S_E).\label{avgrecall}
 \end{equation}
@@ -234,7 +235,7 @@ within the estimated hierarchy $H_E$ plays the role of the relevance threshold.
 
 Because $g(q; H_E)$ acts as a generalization of recall, an estimate $H_E$ will achieve 
 a low score if it fails to distinguish between pairs $i$ and $j$.  Similar to the 
-normalized conditional entropy metrics for structural annotation, this can be interpreted 
+normalized conditional entropy metrics for structural estimation, this can be interpreted 
 as a form of \emph{under-segmentation}, in that a low score indicates either an ordering 
 error or a lack of specificity~\cite{Lukashevich2008}.  
 
@@ -244,7 +245,7 @@ By aggregating over all sample frames $q$, we obtain the SHAG \emph{under-segmen
 \shag_u(H_E) \defeq \frac{1}{n} \sum_q g(q ; H_E).\label{shagunder}
 \end{equation}
 The over-segmentation metric $\shag_o(H_E)$ is defined analogously by swapping the roles of $H_E$ and $H_R$ in \cref{hierrecall}.
-Combined, the two metrics summarize structural agreement between estimated and reference annotations.
+Combined, the two metrics summarize structural agreement between estimated and reference hierarchical annotations.
 
 % Note this loss is equivalent to that evaluated by for subjective artist similarity~\cite{mcfee2011}.
 % The difference here is that the reference rankings are induced from ordinal data, and not subject to consistency errors.
@@ -253,7 +254,7 @@ Combined, the two metrics summarize structural agreement between estimated and r
 
 The SHAG metrics described above capture the basic notion of hierarchically nested, frame-level relevance, but it does have two technical limitations.
 First, the score for each query will generally depend on the track duration $n$, which makes comparisons between tracks of differing length problematic.  
-For large values of $n$, \cref{hierrecall} may be dominated by pairs trivially irrelevant comparison points $j$ which lie far from $q$ in time, \ie, $|q-i| \ll |q-j|$.
+For large values of $n$, \cref{hierrecall} may be dominated by trivially irrelevant comparison points $j$ which lie far from $q$ in time, \ie, $|q-i| \ll |q-j|$.
 Short-duration tracks with small $n$ have fewer such trivial comparisons.
 Consequently, longer tracks may observe relatively inflated scores when compared to shorter tracks, simply by virtue of having a large number of ``easy'' comparisons.
 Moreover, the calculation of SHAG as defined in \cref{shagunder} can be expensive, taking $\Oh(n^3)$ using a direct implementation.

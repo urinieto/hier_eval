@@ -1,0 +1,504 @@
+Titan,
+
+I have re-read all the comments and tried to write down my thoughts for 
+the most relevant ones.
+As a summary, here you have what I think we should address in order to have
+a successful submission:
+
+- The introduction could include some mention to the pattern discovery task.
+- The description of the metric needs to be rewritten: more context, more examples.
+- The examples are not clear: we should be concise regarding frames and seconds.
+- Add a real word example by running an algortihm over the SALAMI dataset:
+    -- A good thing to do might be: 
+        --- run "flat" algorithm and compare it with 2-layer SALAMI.
+        --- run "hierarchical" algorithm and compare it with 2-layer SALAMI.
+- We need a better name for our metric (SHAG means "sex" in London apparently).
+
+If you want to go over all the comments, see below.
+
+Finally, could you meet on Thursday around 4pm to discuss the next steps of this?
+
+Thanks,
+uri
+
+Title: HIERARCHICAL EVALUATION OF MUSIC SEGMENT BOUNDARY DETECTION
+
+Authors: Brian McFee and Oriol Nieto
+
+============================================================================
+                            REVIEWER #1
+============================================================================
+
+
+---------------------------------------------------------------------------
+Reviewer's Scores
+---------------------------------------------------------------------------
+
+            Scholarly/scientific quality: medium low
+                                 Novelty: medium low
+                      Relevance of topic: medium high
+                              Importance: low
+      Readability and paper organisation: medium high
+                      Title and abstract: yes
+                            Bibliography: yes
+
+
+---------------------------------------------------------------------------
+Comments
+---------------------------------------------------------------------------
+
+The authors propose a new evaluation measure for music structure analysis. The
+novelty lies mainly in the fact that the mesure considers also the possible
+hierarchical information in the annotations and/or result. The paper makes a
+point, but it is relatively difficult to read, as the used syntax is not
+properly explained. Furthermore, there is no clear indication that the proposed
+measure would be the "new king" among the structure analysis evaluation
+measures, so the rather large set is augmented with the proposed one (including
+the variants with the window size).
+
+In the second paragraph of 3.1, the description of the notation needs to be
+clarified. Which way does the containment symbol work wrt the layman's "is a
+part of"? Maybe relate this to Fig. 1.
+
+>>> Maybe add some visual examples on this.
+
+In equation (2), what do the various brace-like things mean? Presumably
+something similar to the cardinality of a set, but why are there then two
+different notations? 
+
+>>> We need to state that the double braces represent the INDICATOR function,
+and the single bar (|) represents the cardinality.
+
+Plus, it looks like it should be possible to move the
+denominator outside of the division. 
+
+>>> Yes, but it looks uglier. However, it might be good in equation (4).
+
+Is this measure approximately the same as
+the F-measure from [4] would be, if one considers each segment separately,
+i.e., ignoring the repetitions?
+
+>>> This measure is similar to [4] (Pariwise frame clustering) in the sense that
+it also uses frames (like the entropy scores too).
+
+Because I didn't fully understand the notation, I can't really comment on the
+further equations.
+
+The examples in 4.1. "(q,i,j) = (5,25,25)". i and j are both 25, so why is i
+relevant for q and j is not? Confusing.
+
+>>> I think we should redo the plots of the examples with time in frames instead
+of seconds, otherwise I agree that it is confusing (if the top plot in Figure 2
+would be in frames, then the example should be (q,i,j) = (5,15,15).
+
+Even though the paper raises in a way valid points, I fail to see a real need
+for this, especially when the output consists of two numbers and depends from a
+window-length parameter. If one could extend this into evaluating the music
+structure analysis results including the labeling or grouping of the segments,
+the work would have much more value in my eyes.
+
+>>> We might need to evaluate a couple of algorithms on a standard dataset like
+SALAMI in order to better illustrate the behavior of this metric.
+
+============================================================================
+                            REVIEWER #2
+============================================================================
+
+
+---------------------------------------------------------------------------
+Reviewer's Scores
+---------------------------------------------------------------------------
+
+            Scholarly/scientific quality: medium low
+                                 Novelty: medium high
+                      Relevance of topic: medium high
+                              Importance: medium low
+      Readability and paper organisation: high
+                      Title and abstract: yes
+                            Bibliography: yes
+
+
+---------------------------------------------------------------------------
+Comments
+---------------------------------------------------------------------------
+
+A pair of evaluation metrics called under-segmentation metric H_u and
+over-segmentation metric H_o are defined and exemplified for toy segmentations
+of an audio track, and towards the close for some real-world data. The metrics
+rely on a window parameter w, and are intended to address a shortcoming of flat
+segmentation annotations, namely that music more often than not is hierarchical
+in structure. The acknowledgment and nuancing of a previously oversimple MIR
+task is a clear development. The extent to which the solution proposed here
+will work is less clear.
+
+1. This paper needs to provide more context for structural segmentation in MIR
+and musicology, and temper some of its claims as a result. Specifically, the
+task of discovering motives, themes, and repeated sections has been introduced
+to the MIR world in the last eighteen months (
+http://www.music-ir.org/mirex/wiki/2013:Discovery_of_Repeated_Themes_%26_Sectio
+ns ), including a ground truth in which patterns (the umbrella term for
+motives, themes, sections) are defined in terms of actual note collections.
+Furthermore these note collections may overlap with one another or nest (e.g.,
+a motive appears several times within a theme occurrence) and still be part of
+the ground truth. The corresponding evaluation metrics take this
+overlapping/nesting into account, so it is over-claiming for the authors to say
+"Recently, collections of hierarchical structure annotations have been
+published, but at present, no evaluation techniques exist to evaluate against
+these rich structural annotations". The current paper ought to recognise the
+existence of the pattern discovery task, in order to make its own contribution
+more clear.
+
+If you would like a paper reference rather than the above-mentioned MIREX URL,
+then please use:
+
+Collins, T., S. Böck, F. Krebs, and G. Widmer. Bridging the audio-symbolic
+gap: the discovery of repeated note content directly from polyphonic music
+audio. In Proceedings of the Audio Engineering Society's 53rd Conference on
+Semantic Audio (London, 2014). URL:
+http://tomcollinsresearch.net/pdf/collinsEtAlAES2014.pdf
+
+>>> We might need to clearly distinguish between pattern discovery and music 
+segmentation. Acknowledging the pattern discovery task (and maybe enumerating
+its metrics) would be a good thing, as long as it is clear to the reader that
+we want to evaluate the SALAMI dataset (i.e. large and small scale levels of
+structure) than to identify non-consecutive overlapping motives.
+
+2. The choice of time window and its effect on the metrics is a major weakness
+of this work. The authors acknowledge the weakness in section 3.5. According to
+parameter w's value, there is for instance a range of 27.72-92.73 for H_u and
+41.99-71.80 for H_o in Figure 7. The paper contains four toy segmentations
+(Figs. 2-5), but only one example of algorithm output on real-world data (Fig.
+7). Real-world data is where the validity of the metrics really matters, and we
+should (but do not) get a sense from this paper of whether they will work. I do
+not think it is possible to choose w to be "long enough to capture boundaries
+of segments at multiple resolutions, but not so large as to become dominated by
+trivial comparisons" (p. 3).
+
+>>> Again, we should run various algorithms on a dataset like the SALAMI.
+
+3. Section 2 pgh. 1. The authors point out that segmentation algorithms are
+evaluated on both boundary detection and labeling, then say that the current
+paper will address the evaluation of boundary detection only. A short
+justification for why it was not possible to also address the evaluation of
+labeled hierarchical segmentations should be provided.
+
+>>> Maybe we should explicitly state that metrics in music segmentation evaluate
+boundaries and labels SEPARATELY.
+
+4. Section 3.1. A reader with my background should not have been lost so
+quickly in the mathematical preliminaries. I understand that H(i) is the
+segment at the deepest layer of the hierarchy that contains sample i. The
+sentence "H(i, j) will denote the least common ancestor of H(i) and H(j)" makes
+no sense to me, however. It and subsequent definitions really need relating
+back to the example in Fig. 1. If we let i be such that b = H(i) and j be such
+that c = H(j), then what is H(i, j) in Fig. 1? I guess maybe it is B = H(i, j),
+because b \prec B and c \prec B, but then the name "least common ancestor" does
+not seem appropriate. It is disappointing to be lost so early on, and makes it
+difficult for me to assess the remainder of the paper because, as you say,
+these early concepts are key to the evaluation.
+
+>>> Similar to reviewer 1. We might need some visual examples, and maybe more
+context.
+
+5. The conclusion section is too short. As in my point 1, It would be
+appropriate to step back and say how what you have done relates to MIR and
+musicology in general. Here are some other questions that could be discussed:
+what do you see as the advantages/disadvantages of segmentation compared with
+pattern discovery? For instance, segmentation has an appealing simplicity, but
+in specifying actual note content, the annotations used in pattern discovery
+are more detailed. Is incorporating hierarchical evaluation into segmentation a
+step towards uniting the two tasks of segmentation and pattern discovery? That
+could be exciting for future work.
+
+
+>>> Yes, it would be exciting for future work, but I don't think that's the point.
+I don't think it is necessary to mention it in this work.
+
+6. p. 3 col. 1 pgh. 6, beginning "Equation (4) can be alternately be viewed
+as…". There are several problems with this sentence: first the grammar "be
+alternately be"; 
+
+>>> YES. We should change that.
+
+second I am not sure it deserves a paragraph in itself;
+thirdly it is a very dense reference to AUC, a concept that, up to this point,
+is external to the paper. You ought instead to continue relating eqs. 2-4 to a
+worked example. Some of the mathematics and surrounding explanations seem
+wilfully opaque, whereas they should be helping the reader to gain an
+understanding.
+
+>>> Maybe adding more AUC context would help.
+
+7. p. 3 col. 1 last pgh. The long/short track bias of H_u and H_o and the
+proposed solution in subsequent paragraphs may also benefit from an example,
+rather than simply stating that windowing addresses the bias.
+
+>>> Maybe.
+
+8. The term "dynamic range" appears twice (p. 3 col. 2 pgh. 2 and p. 4 col. 1
+pgh. 1) and is confusing on both occasions. What does it mean to
+normalize/increase this metric's dynamic range?
+
+>>> Again, maybe add examples.
+
+9. The restriction of the metric to direct precedence relations only (section
+3.6) seems to contradict the authors' claim that this metric assesses entire
+hierarchies. That is, if the reference annotation contains a precedence
+sequence a \prec b \prec c and the estimated annotation contains a precedence
+sequence a' \prec b' \prec x \prec c', where a and a' are very similar
+segments, as are b and b', and c and c', and x is an erroneously estimated
+segment, how does the metric respond, pre- and post-introduction of the
+restriction to direct precedence relations only? Clarification on this point
+may be beneficial.
+
+>>> This should be solved by adding examples in the preliminaries I think.
+
+10. While sections 4.1-4.3 are a little longwinded, they are interpretable.
+This material does not obviate the need for references to examples mentioned in
+my points 4, 6, 7, because those early concepts can still be better explained.
+But here in 4.1-4.3 things are improving. Although in point 2 I mention there
+may be too many toy segmentations, Figs. 2-5 are set out clearly.
+
+>>> Same issue of missing some context / examples in the metric definition.
+
+11. p. 4 col. 2 pgh. 2. First mention of SALAMI requires a reference (to [9]?)
+and maybe unpacking the acronym. The first mention of [9] on p. 1 col. 2 line 1
+is a bit shoehorned. I think after "manner [8]" on p. 1 col. 1 last line you
+should just start a new sentence stating that "A large dataset of…". First
+use of "SALAMI" could be moved back to here.
+
+>>> Yes, we should do that.
+
+>>> The following is a list of "syntax errors" that I do not feel I'm able to
+properly comment due to my English limitations.
+
+12. The analysis of the structure in music has been one of the main areas of
+interest by musicologists for many years
+
+-> The analysis of structure in music has been a central area of interest for
+musicology over many years.
+
+Or something more elegant along these lines.
+
+13. p. 1 col. 2 pgh. 4. evaluated for two distinct goals -> evaluated according
+to two distinct goals.
+
+14. p. 1 col. 2 pgh. 4. accuracy at detection transition -> accuracy at
+detecting transition.
+
+15. p. 2. Use a lower-case h in and around eq. 1 to avoid confusion with H in
+subsequent sections.
+
+16. p. 2 col. 1. These are apt, well presented criticisms of flat
+segmentations.
+
+17. p. 2 col. 1 last pgh. by evaluating layer independently -> by evaluating
+layers independently
+
+18. p. 2 col. 2 pgh. 7. formally describe a sample recall metric -> formally
+define a sample recall metric
+
+19. p. 3 col. 1 pgh. 2. yields an mean sample -> yields a mean sample
+
+20. p. 3 col. 1 last pgh. but it does -> but they do
+
+Refers to metrics plural, so "they".
+
+21. p. 3 col. 1 last pgh. eq. (4) may be dominated by pairs trivially
+irrelevant comparison points -> eq. (4) may be dominated by pairs of trivially
+irrelevant comparison points.
+
+22. p. 3 col. 2 pgh. 2. we propose to use -> we propose using.
+
+23. p. 3 col. 2 pgh. 3. start and ending -> start and end.
+
+24. p. 3 col. 2 pgh. 5. and thus suffices -> and thus suffice
+
+"Suffice" refers to "they", which refers to "high-level segment annotations",
+so it should be "suffice" and not "suffices".
+
+25. Throughout, I would change "on the top/bottom of Figures" to "at the
+top/bottom of Figures".
+
+26. Section 4.1 first pgh. an algorithm only estimates — without any time
+deviations — a subset of all the reference boundaries
+
+-> an algorithm only estimates a subset of all the reference boundaries,
+without any time deviations.
+
+27. p. 4 col. 1 pgh. 5. quite structurally different -> quite different
+structurally.
+
+28. p. 4 col. 1 pgh. 6. First, let (q, i, j) = (5, 25, 25) -> First, let (q, i,
+j) = (25, 5, 25).
+
+29. p. 4 col. 2 pgh. 2. We no longer can -> We can no longer.
+
+30. p. 5 col. 2. The two paragraphs here both start with "finally", which
+probably ought to be altered.
+
+31. p. 6 col. 2 ref. 10. Please fill in a bit more information to make the
+reference consistent with [5], [7], [9]. I think ISMIR 2007 was in Vienna.
+
+32. I expect the authors are aware that SHAG is British slang for sex. I felt
+obliged to point this out in case they were not aware, so that they can modify
+the acronym if they wish!
+
+>>> !!! Ok, we should change that. Or maybe I like it even more now.
+
+============================================================================
+                            REVIEWER #3
+============================================================================
+
+
+---------------------------------------------------------------------------
+Reviewer's Scores
+---------------------------------------------------------------------------
+
+            Scholarly/scientific quality: medium low
+                                 Novelty: high
+                      Relevance of topic: high
+                              Importance: medium low
+      Readability and paper organisation: medium high
+                      Title and abstract: yes
+                            Bibliography: yes
+
+
+---------------------------------------------------------------------------
+Comments
+---------------------------------------------------------------------------
+
+The work is impressive, but it is not clear how useful is the proposed method.
+
+About the reduction of segmentation evaluation to ranking evaluation (§3.2):
+it should be proved whether or not equation (2) used for flat segmentation is
+equivalent to precision-recall paradigm, so that it could be considered as a
+generalization to hierarchical segmentation. If not, it should be explained how
+the different paradigm is interesting.
+
+>>> More examples basically, in order to give more context.
+
+We might wonder also why the model needs to be that complex, using three moving
+variables q, i and j?
+
+>>> I don't think he got the point. Even though I agree that having the additional
+window parameter makes our metric a bit more confusing.
+
+The SHAG measures are very difficult to interpret without taking much time
+understanding what the model is about. The measures do not directly describe
+the structural similarities but describes the particularities of the chosen
+evaluation model.
+
+The three main limitations of the method as indicated in 3.4 and 3.6 (dependent
+on length, problem of scaling, not working with multiple levels) indicate the
+limited use of the method. The solution based on windowing reintroduced the
+focus on particular hierarchical level, which was supposed to be overcome in
+the paper. In fact, “the window size must depend on the duration and scale of
+structure that the practitioner wishes to capture.”
+
+The example 4.1 for flat hierarchy comparison is not convincing as a
+generalized method for comparison. It gets very complicated to interpret,
+compared to a classical measure. For which advantage?
+
+>>> Maybe because I think we had a problem by mixing "seconds" and "frames".
+
+1-Hu would rather be the under segmentation metrics, no? Same for 1-Ho.
+
+“Traditional analyses usually provide multiple levels of annotation”: maybe
+“usually” is a little exaggerated?
+
+>>> Not agree.
+
+“deviation sensitive to number of estimated boundaries”: reference needed.
+
+>>> We could reference Doug's paper (where he introduces these metrics).
+
+problem of formalization of samples and hierarchy. What is X? Why is S a
+partition? not hierarchical?  What are these hierarchy nodes? f_r is not
+defined.
+
+In 3.1, it is not made clear that the precedence relation is considered as
+strict.
+
+It should be explained why (4) is a generalization of AUC. (And AUC should be
+explained too, and how it is used here.)
+
+“dynamic range” is unclear.
+
+>>> Second reviewer who complains about this. We need to clarify this.
+
+In (6), is there a sum over m?
+
+>>> No, why? Don't understand.
+
+A figure showing example of containment of segments with q, i, j (and why not
+k) would clarify the explanation.
+
+Paragraph 3.6 is not clear.
+
+>>> More context
+
+There should be an error in “(q, i, j) = (5, 25, 25)”, i and j should be
+different, right?
+
+>>> No, they should be the same, but it is not clear in the plot. 
+If we were to use seconds, and by looking at the plot, we should have
+(5, 15, 15).
+
+A few grammatical and lexical errors.
+
+============================================================================
+                            REVIEWER #4
+============================================================================
+
+
+---------------------------------------------------------------------------
+Reviewer's Scores
+---------------------------------------------------------------------------
+
+            Scholarly/scientific quality: medium low
+                                 Novelty: medium low
+                      Relevance of topic: medium high
+                              Importance: medium low
+      Readability and paper organisation: medium high
+                      Title and abstract: yes
+                            Bibliography: yes
+
+
+---------------------------------------------------------------------------
+Comments
+---------------------------------------------------------------------------
+
+=====================================
+This is a meta-review
+=====================================
+
+The reviewers agree that this paper addresses an important problem that has not
+yet received suffient attention in our MIR community. The problem is nicely
+motivated and illustrated. However, the reviewers also agree that this paper
+has several weaknesses:
+
+* First, the technical details do not always become clear.
+
+>>> Agreed, let's add more context / examples.
+
+* Second, the dependency on a time window and its effect on the metrics has
+been considered a major weakness. It seems that the solution based on windowing
+reintroduces the original problem that is to be solved.
+
+>>> I think this is because readers did not understand our paper (likely because
+we were not clear enough).
+
+* Third, the usefulness of the introduced metrics has been questioned.
+
+>>> Add examples of algorithms running on an existing dataset (SALAMI would be
+great because it already has 2 layers of annotations).
+
+I feel that the paper would largely benefit from a detailed re-evaluation of
+exsiting structure analysis approaches using the proposed metrics. Only by
+means of large-scale experiments, one may be able to see if the proposed
+metrics really allow for better understanding the shortcomings of existing
+methods.
+
+
+>>> Agreed.
