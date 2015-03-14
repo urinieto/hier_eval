@@ -53,8 +53,8 @@ separately.
 """
 
 __author__      = "Oriol Nieto"
-__copyright__   = "Copyright 2014, Music and Audio Research Lab (MARL)"
-__license__     = "GPLv3"
+__copyright__   = "Copyright 2015, Music and Audio Research Lab (MARL)"
+__license__     = "MIT"
 __version__     = "1.0"
 __email__       = "oriol@nyu.edu"
 

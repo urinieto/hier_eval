@@ -75,7 +75,7 @@
           }, 
           "end": {
             "confidence": 1.0, 
-            "value": 187.79424036281179
+            "value": 187.787
           }, 
           "label": {
             "confidence": 1.0, 
@@ -150,7 +150,7 @@
           }, 
           "end": {
             "confidence": 1.0, 
-            "value": 187.79424036281179
+            "value": 187.787
           }, 
           "label": {
             "confidence": 1.0, 
@@ -240,7 +240,7 @@
           }, 
           "end": {
             "confidence": 1.0, 
-            "value": 187.79424036281179
+            "value": 187.787
           }, 
           "label": {
             "confidence": 1.0, 
@@ -345,7 +345,7 @@
           }, 
           "end": {
             "confidence": 1.0, 
-            "value": 187.79424036281179
+            "value": 187.787
           }, 
           "label": {
             "confidence": 1.0, 
@@ -465,7 +465,7 @@
           }, 
           "end": {
             "confidence": 1.0, 
-            "value": 187.79424036281179
+            "value": 187.787
           }, 
           "label": {
             "confidence": 1.0, 
@@ -600,7 +600,7 @@
           }, 
           "end": {
             "confidence": 1.0, 
-            "value": 187.79424036281179
+            "value": 187.787
           }, 
           "label": {
             "confidence": 1.0, 
@@ -750,7 +750,7 @@
           }, 
           "end": {
             "confidence": 1.0, 
-            "value": 187.79424036281179
+            "value": 187.787
           }, 
           "label": {
             "confidence": 1.0, 
@@ -915,7 +915,7 @@
           }, 
           "end": {
             "confidence": 1.0, 
-            "value": 187.79424036281179
+            "value": 187.787
           }, 
           "label": {
             "confidence": 1.0, 
@@ -1095,7 +1095,7 @@
           }, 
           "end": {
             "confidence": 1.0, 
-            "value": 187.79424036281179
+            "value": 187.787
           }, 
           "label": {
             "confidence": 1.0, 
@@ -1290,7 +1290,7 @@
           }, 
           "end": {
             "confidence": 1.0, 
-            "value": 187.79424036281179
+            "value": 187.787
           }, 
           "label": {
             "confidence": 1.0, 
@@ -1500,7 +1500,7 @@
           }, 
           "end": {
             "confidence": 1.0, 
-            "value": 187.79424036281179
+            "value": 187.787
           }, 
           "label": {
             "confidence": 1.0, 
@@ -1725,7 +1725,7 @@
           }, 
           "end": {
             "confidence": 1.0, 
-            "value": 187.79424036281179
+            "value": 187.787
           }, 
           "label": {
             "confidence": 1.0, 
@@ -1965,7 +1965,7 @@
           }, 
           "end": {
             "confidence": 1.0, 
-            "value": 187.79424036281179
+            "value": 187.787
           }, 
           "label": {
             "confidence": 1.0, 
@@ -2220,7 +2220,7 @@
           }, 
           "end": {
             "confidence": 1.0, 
-            "value": 187.79424036281179
+            "value": 187.787
           }, 
           "label": {
             "confidence": 1.0, 
@@ -2490,7 +2490,7 @@
           }, 
           "end": {
             "confidence": 1.0, 
-            "value": 187.79424036281179
+            "value": 187.787
           }, 
           "label": {
             "confidence": 1.0, 
@@ -2508,7 +2508,7 @@
     "mbid": "", 
     "version": 0.01, 
     "echonest_id": "", 
-    "duration": 187.79424036281179, 
+    "duration": 187.787, 
     "md5": ""
   }
 }
