@@ -147,11 +147,12 @@ class Node(object):
 class SegmentTree(object):
     """A hierarchical segmentation of a musical piece.
     """
-    def __init__(self, jam_file, annotation_id=0):
+    def __init__(self, jams_file, annotation_id=0):
         """Initialize a segment tree using a jam annotation file and a
         specific annotation id in case the jam file contains multiple
         annotations."""
-        self._jam = jams2.load(jam_file)
+        self._jams_file = jams_file
+        self._jam = jams2.load(jams_file)
 
         def get_levels():
             """Obtains the set of unique levels contained in the jams
@@ -166,7 +167,7 @@ class SegmentTree(object):
         def get_segments_in_range(start, end, level):
             """Gets the segments that are within a specific range at a certain
                 level."""
-            intervals, labels = jams2.converters.load_jams_range(jam_file,
+            intervals, labels = jams2.converters.load_jams_range(jams_file,
                     "sections", annotator=annotation_id, context=level)
             segments = []
             for i, interval in enumerate(intervals):
@@ -213,6 +214,10 @@ class SegmentTree(object):
     @property
     def levels(self):
         return self._levels
+
+    @property
+    def jams_file(self):
+        return self._jams_file
 
     def _is_level_correct(self, level=None, level_idx=None):
         """Makes sure that the level provided is correct."""
