@@ -77,6 +77,8 @@ Nevertheless, it has been shown that even these segments tend to be organized in
 % estimate hierarchical segments, no method to evaluate them has been proposed.
 However, current evaluation methodologies are defined only for flat segmentations, both in the estimation (algorithm output) and reference human annotation data.
 Therefore, the dimension of \emph{depth} has been practically ignored in the evaluation of music segmentation algorithms.
+This contrasts with the task of \emph{pattern discovery}, where overlapping segments that do not necessarily cover the entire piece are allowed, and numerous metrics to evaluate these patterns have been proposed~\cite{Collins2013}.
+As it has been shown, these two tasks share multiple attributes~\cite{Nieto2014_Motives}, and steps towards a generic task to discover the structure of music could be made by evaluating segmentation in a hierarchical manner.
 
 %This automatic task could facilitate, e.g., the intra-piece navigation, generation of music summaries, or segment-based recommendation systems, especially nowadays when listeners have easy access to large digital music collections.
 %Nevertheless, the vast majority of music segmentation algorithms only operate at a flat level instead of following the hierarchical approach that most musicologists follow.
