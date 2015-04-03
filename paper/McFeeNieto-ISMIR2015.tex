@@ -54,9 +54,9 @@
 \maketitle
 %
 \begin{abstract}
-Structure in music is traditionally analyzed hierarchically: large scale sections at the highest level can be sub-divided and refined down to the short melodic ideas at the motivic level. 
+Structure in music is traditionally analyzed hierarchically: large-scale sections at the highest level can be sub-divided and refined down to the short melodic ideas at the motivic level. 
 However, typical algorithmic approaches to structural annotation produce flat temporal partitions of a track, which are commonly evaluated against a similarly flat, human-produced
-annotation, effectively discarding all notions of structural depth in the annotation.
+annotation. This effectively discards all notions of structural depth in the evaluation.
 Recently, collections of hierarchical structure annotations have been published, but at present, no evaluation techniques exist to evaluate against these rich structural annotations.
 We propose a method to evaluate structural boundary detection in the context of hierarchical annotation.
 The proposed method transforms boundary detection into a ranking problem, and facilitates the comparison of flat and hierarchical annotations.
@@ -71,30 +71,34 @@ Traditional analyses usually provide multiple levels of annotation (\eg, Schenke
 Consequently, tree representations are commonly used to both model and analyze hierarchical forms in music~\cite{Lerdahl1983}.
 
 In the music information research literature, \emph{music segmentation} (also known as \emph{music structure analysis}) is a task that aims to automatically identify the structure of music~\cite{Paulus2010}.
-As opposed to other, more traditional approaches, the segmentation task has generally focused on partitioning a song into non-overlapping segments (or sections).
+Historically, the segmentation task has been geared toward the design of algorithms which partition a song into non-overlapping (or \emph{flat}) segments of time.
 Nevertheless, it has been shown that even these segments tend to be organized in a hierarchical manner~\cite{Peeters2009}, and even a large dataset of hierarchically-structured human annotations is now publicly available~\cite{Smith2011}.
 % Still, most existing algorithms only operate at a flat level, likely because (i) this task is already challenging at this level~\cite{Skywalker2014}, and (ii) even if an algorithm could 
 % estimate hierarchical segments, no method to evaluate them has been proposed.
 However, current evaluation methodologies are defined only for flat segmentations, both in the estimation (algorithm output) and reference human annotation data.
 Therefore, the dimension of \emph{depth} has been practically ignored in the evaluation of music segmentation algorithms.
 This contrasts with the task of \emph{pattern discovery}, where overlapping segments that do not necessarily cover the entire piece are allowed, and numerous metrics to evaluate these patterns have been proposed~\cite{Collins2013}.
-As it has been shown, these two tasks share multiple attributes~\cite{Nieto2014_Motives}, and steps towards a generic task to discover the structure of music could be made by evaluating segmentation in a hierarchical manner.
+These two tasks share multiple attributes~\cite{Nieto2014_Motives}, and steps toward a more general formulation musical structure analysis could be made by evaluating segmentation in 
+a hierarchical manner.
 
 %This automatic task could facilitate, e.g., the intra-piece navigation, generation of music summaries, or segment-based recommendation systems, especially nowadays when listeners have easy access to large digital music collections.
 %Nevertheless, the vast majority of music segmentation algorithms only operate at a flat level instead of following the hierarchical approach that most musicologists follow.
 
-In this work we present the \emph{Tree Measures} ($T$-measures), a set of scores to evaluate the accuracy of boundaries in hierarchical segmentations.
-The proposed metrics work at a frame-level ---similar to the method proposed by Levy and Sandler to evaluate structural annotations~\cite{Levy2008}--- and they are based on a rank retrieval evaluation where each frame is ranked depending on whether it belongs to the \emph{correct} segment.
-The correctness of the segment is evaluated simultaneously across all hierarchical layers, thus resulting in a metric that can both evaluate hierarchical and flat boundary annotations. 
-(Note that a flat segmentation is only a specific case of a hierarchical one, where the number of layers is one.)
+\subsection{Our contributions}
+In this work we present the \emph{Tree Measures} ($T$-measures), a set of scores to evaluate the accuracy of boundary detection in hierarchical segmentations.
+%The proposed metrics work at a frame-level --- similar to the method proposed by Levy and Sandler to evaluate structural annotations~\cite{Levy2008} --- and they are based on a rank retrieval evaluation where each frame is ranked depending on whether it belongs to the \emph{correct} segment.
+In simple terms, the proposed $T$-measures operate by first computing similarities between frames of a track according to distance in the hierarchy, and these similarities are scored by
+a measure of ranking correlation against the reference annotation.
+The segmentation is evaluated simultaneously across all hierarchical layers, and the resulting scores can be applied to either hierarchical or flat boundary annotations.
+%(Note that a flat segmentation is only a specific case of a hierarchical one, where the number of layers is one.)
 With the $T$-measures, we facilitate the evaluation of existing flat estimations against hierarchical reference annotations (like those of~\cite{Smith2011}), and encourage new publications on richer hierarchical algorithms.
 We demonstrate the behavior of the $T$-measures with multiple synthetic and human examples, and compare the scores with the existing methods when possible.
 
-The rest of the paper is organized as follows:
-In \cref{sec:curr_meth} we review the current evaluation methods of (flat) boundary algorithms. 
-The proposed metric is formally introduced in \cref{sec:eval_desc}. 
-We provide multiple examples to illustrate the behavior of the $T$-measures in \cref{sec:examples}.
-Finally, we draw conclusions and discuss future work in \cref{sec:conclusions}.
+%The rest of the paper is organized as follows:
+%In \cref{sec:curr_meth} we review the current evaluation methods of (flat) boundary algorithms. 
+%The proposed metric is formally introduced in \cref{sec:eval_desc}. 
+%We provide multiple examples to illustrate the behavior of the $T$-measures in \cref{sec:examples}.
+%Finally, we draw conclusions and discuss future work in \cref{sec:conclusions}.
 
 \section{Segment Boundary Evaluation}\label{sec:curr_meth}
 
