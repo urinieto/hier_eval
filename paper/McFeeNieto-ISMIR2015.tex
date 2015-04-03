@@ -148,7 +148,8 @@ This hierarchical information would be lost by any form of independent, layer-wi
 
 \section{The Tree Measures}\label{sec:eval_desc}
 \sloppy
-The proposed evaluation scheme explicitly accounts for cross-layer structure in segmentation, and directly accommodates multiple layers of specificity in both the reference and estimation.
+In this section, we derive the \emph{tree measures} for evaluating multi-level structural boundary detection.
+%The proposed evaluation scheme explicitly accounts for cross-layer structure in segmentation, and directly accommodates multiple layers of specificity in both the reference and estimation.
 The evaluation is based on a reduction to ranking evaluation, which we describe in detail below.
 
 \subsection{Preliminaries}
@@ -160,57 +161,58 @@ The evaluation is based on a reduction to ranking evaluation, which we describe 
 % temporally contiguous regions, so that $X=[X_1|X_2|\cdots|X_m]$.  
 % Instead, we will allow for a hierarchical decomposition
 
-Let $S \in \mathcal{P}(X)$ denote a flat, temporally contiguous partition of the time range spanning the track in question.
+Let $S $ denote a flat, temporally contiguous partition of the time range spanning the track in question.
 We will use the subscripts $S_R$ and $S_E$ to denote \emph{reference} and \emph{estimation}, respectively.
 We will assume that samples are generated at some fixed resolution $f_r$ (\eg, 10Hz), although non-uniform samplings (\eg, beat- or onset-aligned samples) are easily accommodated.  
 $S(i)$ will denote the identifier of the partition containing the $i$th sample.
 As in frame-based structural annotation evaluation, we require that the same collection of samples be applied to both reference and estimated annotations~\cite{levy2008structural}.
 
-Hierarchical segmentations will be denoted by $H$ and follow the subscript conventions above.
-$H(i)$ will denote the most specific segment containing $i$, that is, the segment containing $i$ at the deepest level in the hierarchy.
-$H(i, j)$ will denote the least common ancestor of $H(i)$ and $H(j)$.
-We will denote precedence (containment) of segments by $\prec$: \eg, $H(i) \prec H(i, j)$. 
+Hierarchical segmentations will be denoted by $H_R$ and $H_E$ for reference and estimated annotations.
+For a hierarchical segmentation $H$, $H(i,j)$ will denote the most specific segment containing samples $i$ and $j$.
+We will denote precedence (containment) of segments by $\prec$: \eg, $H(j, k) \prec H(i, k)$.
 
-To exemplify this notation, a three-level hierarchy is plotted in Figure~\ref{fig:hier-example}.
-In this context, $H(1)$ would refer to the most specific segment in frame 1, which is the first segment in ``level\_2.''
-The same segment would be referred to if we use, e.g., $H(1,3)$.
-Furthermore, when expressing $H(1, 20)$, one would be pointing to the first segment in ``level\_0.''
-Finally, $H(35)$ would indicate the fourth segment in ``level\_2'', which is hierarchically independent from the aforementioned segments.
-Therefore, the following is true: $H(1) \prec H(1, 3) \prec H(1, 20) \nprec H(35)$, 
+To exemplify this notation, a three-level hierarchy is plotted in \Cref{fig:hier-example}.
+In this context, $H(i, i)$ denotes the most specific segment containing frame $i$, which is the first segment in ``level\_2.''
+Similarly, $H(j,j)$ and $H(k,k)$ refer to the second and third segments in  ``level\_2``, while $H(j,k)$ refers to their least common ancestor: the second segment in ``level\_1``.
+We can then infer membership and precedence relations, such as
+\begin{equation}
+j \in H(j, j) \prec H(j, k) \prec H(i, j) = H(j, k).
+\end{equation}
+
 
 \begin{figure}
   \centering
   \includegraphics[width=0.45\textwidth]{figs/hier-example.pdf}
-  \caption{Synthetic example of a three-level hierarchical segmentation.}
+  \caption{An example of a synthetic, three-level hierarchical segmentation.
+  Frames $i, j, k,$ and $m$ are indicated along the $x$-axis, and some of their containing segments are indicated within the figure, \eg, $H(i, j)$.}
   \label{fig:hier-example}
 \end{figure}
 
 Note that flat segmentations are a special case of hierarchical segmentations, where there is one node at the root of the hierarchy containing all samples, and then $m$ segments at the next level down which form a full partition of the track.
 
 If we restrict attention to a query sample $q$, then $H(q, \cdot)$ induces a partial ranking over the remaining samples.
-Frames contained in $H(q)$ are considered maximally relevant, followed by those in $H(q)$'s immediate ancestor, and so on.
+Frames contained in $H(q, q)$ are considered maximally relevant, followed by those in $H(q, \cdot)$'s immediate ancestor, and so on.
 This observation will be the key to our evaluation, as it provides a connection between hierarchical time-series decompositions and ranking evaluation.
 
 \subsection{Flat segmentation and bipartite ranking}
 
 We can reduce segmentation evaluation to a ranking evaluation problem as follows.
-Let $q$ denote an arbitrary sample, and let $i$ and $j$ denote any two samples such that $S_R(q) = S_R(i)$ and $S_R(q) \neq S_R(j)$.
+Let $q$ denote an arbitrary frame, and let $i$ and $j$ denote any two frames such that $S_R(q) = S_R(i)$ and $S_R(q) \neq S_R(j)$.
 In this case, $i$ may be considered \emph{relevant} for $q$, and $j$ is considered \emph{irrelevant} for $q$.
 This leads to a straightforward reduction to bipartite ranking.
 
-Assuming that both $S_E$ and $S_R$ have $n$ samples, we can formally describe a sample 
-recall metric as
+A per-frame recall metric can be formally defined as
 \begin{equation}
 f(q ; S_E) \defeq 
 \sum_{\substack{i \in S_R(q)\\ j \notin S_R(q)}}
 \frac{\ind{S_E(q) = S_E(i) \neq S_E(j) }}{|S_R(q)|\cdot (n -
 |S_R(q)|)}.\label{flatrecall}
 \end{equation}
-where $\ind{\cdot}$ is the indicator function, and $|\cdot|$ is the length of the list.
-That is, the score for sample $q$ is the fraction of pairs $(i, j)$ for which $S_E$
+where $\ind{\cdot}$ is the indicator function, and $n$ denotes the number of frames in the track.
+The score for frame $q$ is the fraction of pairs $(i, j)$ for which $S_E$
 agrees with $S_R$ with respect to $q$ (\ie, membership in the segment).
 
-Averaging over all samples $q$ yields a mean sample recall score:
+Averaging over all frames $q$ yields a mean sample recall score:
 \begin{equation}
 \rho(S_E) \defeq \frac{1}{n} \sum_q f(q ; S_E).\label{avgrecall}
 \end{equation}
@@ -226,7 +228,7 @@ Averaging over all samples $q$ yields a mean sample recall score:
 
 \Cref{flatrecall} is defined in terms of segment membership (in)equalities, but we can equivalently express the function using strict precedences in a (flat) segment hierarchy.
 Rather than compare $i$ and $j$ where $S(q) = S(i) \neq S(j)$, we can express this as $H(q, i) \prec H(q, j)$.
-That is, the pair $(q,i)$ merge before $(q,j)$:
+That is, the pair $(q,i)$ merge deeper in the hierarchy than do $(q,j)$:
 \begin{equation}
 g(q ; H_E) \defeq \sum_{\substack{(i, j)\\ H_R(q, i) \prec H_R(q, j)}}
 \frac{\ind{H_E(q, i) \prec H_E(q, j)}}{Z_q},\label{hierrecall}
@@ -286,21 +288,23 @@ Ideally, the window should be long enough to capture boundaries of segments at m
 While there may not be a single window length that satisfies this criteria for all songs, we consider two practical approaches to window selection.
 
 First, an appropriate window length can be estimated by examining the segment duration statistics of the reference annotations.  
-For example, one may take the average duration of high-level segment annotations, as they can be expected to contain multiple small segments, and thus suffices to capture local structure.
+For example, one may take the average duration of high-level segment annotations, as they can be expected to contain multiple small segments, and thus capture local structure.
 Second, one may report results for a multiple window parameters, as is currently done for boundary detection as described in \cref{sec:curr_meth}.  
 
 % Ideally, the window should be long enough to capture the boundaries of the current segments, and that is the same for all tracks in order to be able to easily compare results within a reasonable dynamic range.
 
 
-\subsection{Transitivity}
+\subsection{Transitive reduction}
 
 Just as \cref{hierrecall} can be dominated by long-range interactions in the absence of windowing, deep hierarchies can also pose a problem.
 To see this, consider the sequence $H_R(q, i) \prec H_R(q, j) \prec H_R(q, k)$.
 Due to the transitive containment structure of $H_R$, we have $i \in H_R(q, i) \subseteq H_R(q, j)$.
-Since the summation in \cref{hierrecall} ranges over all precedence comparisons, the pair $(i, k)$ appears twice in the summation.
+Since the summation in \cref{hierrecall} ranges over all precedence comparisons, the pair $(i, k)$ appears twice in the summation when computing the
+recall from frame $q$.  Since segments grow in size at higher levels in the hierarchy, this over-counting can dominate the score function as well.
 
 To counteract this effect, the summation can be restricted to only range over direct precedence relations.
-In practice, this is accomplished by only comparing samples from successive levels in the hierarchy.
+In practice, this is accomplished by only comparing samples from successive levels in the hierarchy, \ie, 
+replacing the partial ranking generated by $q$ with its transitive reduction.
 This eliminates redundant comparisons and increases $g$'s dynamic range.
 
 
