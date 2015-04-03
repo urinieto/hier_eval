@@ -1,4 +1,4 @@
-SRC = McFeeNieto-ISMIR2014
+SRC = McFeeNieto-ISMIR2015
 
 all: $(SRC).tex
 	pdflatex $<
