@@ -383,7 +383,6 @@ This illustrates how the window size must depend on the duration and scale of st
 Here we present two different examples of flat estimations (large- and small-scale) against a hierarchical reference.
 This situation often arises when we try to evaluate an algorithm that tends to under-segment (large scale) or over-segment (small scale) against a track that is annotated
 hierarchically, such as in the SALAMI dataset.
-We no longer can compare our metric against the standard ones because at least one set of boundaries is hierarchical.
 
 \subsubsection{Flat, large-scale}
 
@@ -418,7 +417,7 @@ When using small time windows ($w \leq 3$), the under-segmentation score is 40\%
       \hline
     \end{tabular}
   \end{minipage}
-  \caption{Hierarchical vs.\ flat, large-scale boundaries (top) and $T$-measures (bottom).}
+  \caption{Hierarchical reference vs.\ flat (large-scale) estimation (top) and $T$-measures (bottom).}
   \label{fig:hier-flatlarge}
 \end{figure}
 
@@ -459,7 +458,7 @@ large enough to span multiple small segments.
       \hline
     \end{tabular}
   \end{minipage}
-  \caption{Hierarchical vs.\ flat, small-scale boundaries (top) and $T$-measures (bottom).}
+  \caption{Hierarchical reference vs.\ flat (small-scale) estimation (top) and $T$-measures (bottom).}
   \label{fig:hier-flatsmall}
 \end{figure}
 
@@ -566,7 +565,6 @@ Finally, in the last example, we illustrate a comparison between a hierarchical 
 The hierarchical estimation was produced by the agglomerative clustering method of McFee and Ellis~\cite{McFee2014}.
 Note that the estimate produces many more layers than the reference, and the nesting structure is quite different.
 In particular, the reference provides two levels of segmentation (large and small), while the estimate tends to mostly produce large segments, with more detailed nesting structure at even higher levels.
-Since the estimate does not produce segments at the small-scale level, its under-segmentation score tends to be low, while the over-segmentation score remains comparatively higher.
 
 \begin{figure}[t]
   \centering
