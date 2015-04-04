@@ -19,7 +19,7 @@
 
 % Title.
 % ------
-\title{Hierarchical Evaluation of Music Segment Boundary Detection}
+\title{Hierarchical Evaluation of Segment Boundary Detection}
 
 % Single address
 % To use with only one author or several with the same address
@@ -421,6 +421,31 @@ When using small time windows ($w \leq 3$), the under-segmentation score is 40\%
   \label{fig:hier-flatlarge}
 \end{figure}
 
+\begin{figure}
+  \centering
+  \begin{subfigure}{0.5\textwidth}
+    \centering
+    \includegraphics[width=0.94\textwidth]{figs/hier-flatlarger.pdf}
+  \end{subfigure}%
+  \\
+  \begin{minipage}{0.5\textwidth}
+    \centering
+    \vspace{10pt}
+    \begin{tabular}{|c|c|c|}
+      \hline
+      $w$       & $\shag_u$    & $\shag_o$      \\
+      \hline
+      0.5       & 20.0      & 100      \\     
+      3         & 20.0      & 100      \\
+      15        & 25.51     & 93.71    \\
+      30        & 43.50     & 71.46    \\
+      $\infty$  & 59.29     & 66.58    \\
+      \hline
+    \end{tabular}
+  \end{minipage}
+  \caption{Hierarchical reference vs.\ flat (larger-scale) estimation (top) and $T$-measures (bottom).}
+  \label{fig:hier-flatlarger}
+\end{figure}
 \subsubsection{Flat, small-scale}
 
 Here we analyze the behavior of $T$-measures in the case of a flat algorithm that tends to over-segment its estimations, producing small-scale estimated segments.
@@ -462,6 +487,31 @@ large enough to span multiple small segments.
   \label{fig:hier-flatsmall}
 \end{figure}
 
+\begin{figure}[t]
+  \centering
+  \begin{subfigure}{0.5\textwidth}
+    \centering
+    \includegraphics[width=0.94\textwidth]{figs/hier-flatsmall.pdf}
+  \end{subfigure}%
+  \\
+  \begin{minipage}{0.5\textwidth}
+    \centering
+    \vspace{10pt}
+    \begin{tabular}{|c|c|c|}
+      \hline
+      $w$       & $\shag_u$    & $\shag_o$      \\
+      \hline
+      0.5       & 100       & 55.56      \\     
+      3         & 97.79     & 56.43      \\
+      15        & 53.30     & 86.28    \\
+      30        & 39.69     & 92.47    \\
+      $\infty$  & 36.69     & 93.94    \\
+      \hline
+    \end{tabular}
+  \end{minipage}
+  \caption{Hierarchical reference vs.\ flat (smaller-scale) estimation (top) and $T$-measures (bottom).}
+  \label{fig:hier-flatsmaller}
+\end{figure}
 \subsection{Hierarchical vs Hierarchical}
 
 In this subsection we illustrate the behavior of the $T$-measures with two examples of hierarchical boundaries compared to other hierarchical ones.
