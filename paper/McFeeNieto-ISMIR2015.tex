@@ -173,10 +173,11 @@ We will denote precedence (containment) of segments by $\prec$: \eg, $H(j, k) \p
 
 To exemplify this notation, a three-level hierarchy is plotted in \Cref{fig:hier-example}.
 In this context, $H(i, i)$ denotes the most specific segment containing frame $i$, which is the first segment in ``level\_2.''
-Similarly, $H(j,j)$ and $H(k,k)$ refer to the second and third segments in  ``level\_2``, while $H(j,k)$ refers to their least common ancestor: the second segment in ``level\_1``.
+Similarly, $H(j,j)$ and $H(k,k)$ refer to the second and third segments in  ``level\_2'',
+while $H(j,k)$ refers to their least common ancestor: the second segment in ``level\_1''.
 We can then infer membership and precedence relations, such as
 \begin{equation}
-j \in H(j, j) \prec H(j, k) \prec H(i, j) = H(j, k).
+j \in H(j, j) \prec H(j, k) \prec H(i, j) = H(i, k).
 \end{equation}
 
 
