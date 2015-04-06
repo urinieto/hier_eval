@@ -635,7 +635,7 @@ This is reflected in the under- and over-segmentation scores: the former skews l
 \begin{figure}
     \centering
     \includegraphics[width=\columnwidth]{figs/tfw}
-    \caption{$\shag_F$ scores between human annotators for SALAMI tracks for a range of values of $w$.\label{fig:salami-agree}}
+    \caption{$\shag_F$ scores between human annotators for SALAMI tracks over a range of window sizes $w$.\label{fig:salami-agree}}
 \end{figure}
 
 To further investigate inter-annotator agreement, we computed $T$-measure scores between hierarchical
@@ -646,16 +646,23 @@ for $w \geq 15$.\footnote{The analogous plots for $\shag_o$ and $\shag_u$ (omitt
 trend.} 
 The example given in \cref{fig:SALAMI-SALAMI} lies slightly above the average agreement ($\shag_F = 82.04$ at
 $w=15$),
-but is generally representative of inter-annotator agreement in general.
+but is generally representative of inter-annotator agreement.
 The out-lying low scores tend to be examples where one annotator simply ignored structure annotated
-by the other.
+by the other: for example, one annotator only marked \emph{silence} boundaries in track \#68.
+
+This analysis reemphasizes prior observations that humans do not perfectly agree upon structural
+annotations~\cite{Smith2013}, and suggests an accuracy ceiling near 80\% for hierarchical boundary detection.
+Similarly, it suggests that $w=15$ provides a reasonable default value for the SALAMI dataset.  This setting
+is large enough to capture multiple small-scale segments: in the tracks considered for this evaluation, 
+the median small-scale segment duration was 6.66s, with a 95th percentile of 15.69s.
 
 % SALAMI 636 annotator 1 vs OLDA\cite{McFee2014}  output \ref{fig:SALAMI-OLDA}.
 \subsection{Annotator vs algorithm}
-Finally, we illustrate a comparison between a hierarchical estimation against a hierarchical reference, using the same SALAMI track.
+Finally, \cref{fig:SALAMI-OLDA} compares a hierarchical estimation against a hierarchical reference.
 The hierarchical estimation was produced by the agglomerative clustering method of McFee and Ellis~\cite{McFee2014}.
 Note that the estimate produces many more layers than the reference, and the nesting structure is quite different.
-In particular, the reference provides two levels of segmentation (large and small), while the estimate tends to mostly produce large segments, with more detailed nesting structure at even higher levels.
+In particular, the reference provides two levels of segmentation (large and small), while the estimate tends
+to mostly produce large segments.
 
 \begin{figure}[t]
   \centering
