@@ -74,7 +74,7 @@ Consequently, tree representations are commonly used to both model and analyze h
 
 In the music information research literature, \emph{music segmentation} (also known as \emph{music structure analysis}) is a task that aims to automatically identify the structure of music~\cite{Paulus2010}.
 Historically, the segmentation task has been geared toward the design of algorithms which partition a song into non-overlapping, \emph{flat} segments of time.
-Nevertheless, it has been shown that even these segments tend to be organized in a hierarchical manner~\cite{Peeters2009}, and even a large dataset of hierarchically-structured human annotations is now publicly available~\cite{Smith2011}.
+Nevertheless, it has been shown that these segments tend to be organized in a hierarchical manner~\cite{Peeters2009}, and even a large dataset of hierarchically-structured human annotations is now publicly available~\cite{Smith2011}.
 % Still, most existing algorithms only operate at a flat level, likely because (i) this task is already challenging at this level~\cite{Skywalker2014}, and (ii) even if an algorithm could 
 % estimate hierarchical segments, no method to evaluate them has been proposed.
 However, current evaluation methodologies are defined only for flat segmentations, both in the estimation (algorithm output) and reference human annotation data.
@@ -95,7 +95,7 @@ The segmentation is evaluated simultaneously across all hierarchical layers, and
 %(Note that a flat segmentation is only a specific case of a hierarchical one, where the number of layers is one.)
 With the $T$-measures, we facilitate the evaluation of existing flat estimations against hierarchical reference annotations (like those of~\cite{Smith2011}), and encourage the development of new algorithms
 to produce richer representations of structure.
-We demonstrate the behavior of the $T$-measures with multiple synthetic and human examples, and compare the scores with the existing methods when possible.
+We demonstrate the behavior of the $T$-measures with multiple synthetic and human examples, and compare the scores with existing methods when possible.
 
 %The rest of the paper is organized as follows:
 %In \cref{sec:curr_meth} we review the current evaluation methods of (flat) boundary algorithms. 
@@ -107,7 +107,7 @@ We demonstrate the behavior of the $T$-measures with multiple synthetic and huma
 
 Music segmentation algorithms are typically evaluated for two distinct goals.  
 The first goal, known as \emph{boundary detection}, evaluates the estimated segmentation's accuracy at detecting the times of transitions between segments.
-The second goal, known as \emph{structural annotation}, evaluates the labeling applied to the estimated segmentation, and thus quantifies the ability of an
+The second goal, known as \emph{structural grouping}, evaluates the labeling applied to the estimated segmentation, and thus quantifies the ability of an
 algorithm to detect repeated forms, such as verses or refrains. 
 In this paper, we focus exclusively on the boundary detection task.
 
@@ -126,7 +126,7 @@ Boundary deviation is useful for quantifying the temporal accuracy of a detectio
 However, it can be sensitive to the number of estimated boundaries.
 
 \subsection{The limitations of flat evaluation}
-The precision-recall paradigm has been critical to quantifying improvements in segmentation algorithms over the past several years, but it has several 
+The precision-recall paradigm has been critical to quantifying improvements in segmentation algorithms over the past several years, but it has numerous 
 limitations when confronted with hierarchical annotations.
 The most obvious limitation is that both the reference and estimated annotations must have flat structure.
 This is sometimes resolved by collecting multiple flat reference annotations for each track, 
@@ -179,7 +179,7 @@ Let $X$ denote a set of sample frames generated from the track at some fixed res
 10Hz).\footnote{Non-uniform samplings (\eg, beat- or onset-aligned samples) are also easily accommodated.}
 Let $S $ denote a flat, temporally contiguous partition of $X$,
 and let $S(i)$ identify the segment containing the $i$th frame in $X$.
-We will use the subscripts $S_R$ and $S_E$ to denote \emph{reference} and \emph{estimated} annotations.
+We will use the subscripts $S_R$ and $S_E$ to denote \emph{reference} and \emph{estimated} annotations, respectively.
 
 A \emph{hierarchical segmentation} $H$ is defined as a sequence of flat segmentations $(S^0, S^1, \dots, S^d)$ where each layer is a \emph{refinement}
 of the preceding layer.\footnote{A partition $S^{i+1}$ is a refinement of partition $S^{i}$ if each member of $S^{i+1}$ is contained within exactly one member of $S^i$.}
@@ -629,7 +629,7 @@ This is reflected in the under- and over-segmentation scores: the former skews l
       \hline
     \end{tabular}
   \end{minipage}
-  \caption{Hierarchical annotations for SALAMI track \#636 from the two different human annotators. Top: boundaries and frame-level segment agreement; bottom: $T$-measures scores.}
+  \caption{Hierarchical annotations for SALAMI track \#636 from the two different human annotators. Top: hierarchical reference and estimation; bottom: $T$-measures scores.}
   \label{fig:SALAMI-SALAMI}
 \end{figure}
 
