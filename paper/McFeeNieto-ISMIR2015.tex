@@ -128,27 +128,37 @@ However, it can be sensitive to the number of estimated boundaries.
 \subsection{The limitations of flat evaluation}
 The precision-recall paradigm has been critical to quantifying improvements in segmentation algorithms over the past several years, but it has several 
 limitations when confronted with hierarchical annotations.
-First, it confines both the reference and estimated annotations to have a flat structure.
-This is sometimes resolved by collecting multiple flat annotations for each track, each corresponding to a different level of analysis~\cite{Smith2011}.  
+The most obvious limitation is that both the reference and estimated annotations must have flat structure.
+This is sometimes resolved by collecting multiple flat reference annotations for each track, 
+each corresponding to a different level of analysis~\cite{Smith2011}.
 
-When evaluating a segmentation algorithm, it is not immediately clear how one should report accuracy when evaluating multiple layers for each track.
-For example, direct aggregation of accuracy scores across layers would imply that boundaries at all layers are equally important.
-Moreover, due to hierarchical constraints, boundaries at low levels outnumber those at high levels, which may convey more information about the overall structure of the piece, but end up contributing less to the overall metric.
+Even when evaluating a flat estimation, it is not obvious to compute accuracy against multiple layers.
+Na\"ive aggregation of boundaries across all layers (prior to, \eg, precision-recall scoring) would imply 
+that all boundaries are equally informative.
+Due to the hierarchical constraints, boundaries at low levels necessarily outnumber those at high levels, and thus contribute more to the score.
+However, high-level boundaries may convey more information about the overall structure of the piece, but due to their relative scarcity, contributing less to the score.
 
-On the other hand, reporting statistical score summaries for each individual layer can be problematic as well.
-If the dataset is heterogeneous and spans many genres, there may be no consistent way in which to stratify hierarchical levels across the entire collection.
-The resulting scores may exhibit unnecessarily high variance due simply to ill-defined stratification parameters.
+On the other hand, flat scoring before aggregation across layers can be problematic as well, 
+since it discards the relational structure between layers in the reference annotation.
+Consequently, this makes interpretation of the results difficult, as it conflates
+inaccurate boundary detection with mismatch between the target level of the estimate and reference
+annotations~\cite{Smith2013}.
 
-Furthermore, by evaluating each level independently, the relational structure between layers is lost.
-As an example, \cref{trees} depicts two distinct structural decompositions of a song $S$, first into high-level components $A$ and $B$, and then into small components $a, b, c$.
-While both trees produce the same set of boundaries at each level, the structural interpretation is significantly different.
-This hierarchical information would be lost by any form of independent, layer-wise evaluation.
+Finally, the above strategies provide no means for directly comparing \emph{two} hierarchical annotations
+to each-other.  While one may imagine simple comparison strategies when both hierarchies have a small
+number of layers --- \eg, SALAMI's \emph{large}- and \emph{small}-scale annotations --- such an approach is
+likely to become unwieldy when the depth of the hierarchies becomes large or is otherwise uncontrolled.
+% Talk about how good performance at one vs the other leads to difficult interpretation, eg 0.5 vs 3s in smith 2014
 
-\begin{figure}
-\Tree[.S [.A [.\emph{a} ] [.\emph{b} ] ] [.B \emph{c} ] ]
-\Tree[.S [.A [.\emph{a} ] ] [.B [.\emph{b} ] [.\emph{c} ] ] ]
-\caption{A toy example of two hierarchical annotation structures with identical flat segmentations at each layer ---$(A, B)$ and $(a,b,c)$---  but distinct structural interpretations.\label{trees}}
-\end{figure}
+%As an example, \cref{trees} depicts two distinct structural decompositions of a song $S$, first into high-level components $A$ and $B$, and then into small components $a, b, c$.
+%While both trees produce the same set of boundaries at the bottom layer, the structural interpretation is significantly different.
+%This hierarchical information would be lost by any form of independent, layer-wise evaluation.
+
+%\begin{figure}
+%  \centering
+%  \includegraphics[width=0.45\textwidth]{figs/toy-examples.pdf}
+%\caption{A toy example of two hierarchical annotation structures with identical flattened segmentations, but distinct structural interpretations.\label{trees}}
+%\end{figure}
 
 \section{The Tree Measures}\label{sec:eval_desc}
 \sloppy
@@ -166,20 +176,20 @@ The evaluation is based on a reduction to ranking evaluation, which we describe 
 % Instead, we will allow for a hierarchical decomposition
 
 Let $S $ denote a flat, temporally contiguous partition of the time range spanning the track in question.
-We will use the subscripts $S_R$ and $S_E$ to denote \emph{reference} and \emph{estimation}, respectively.
-We will assume that samples are generated at some fixed resolution $f_r$ (\eg, 10Hz), although non-uniform samplings (\eg, beat- or onset-aligned samples) are easily accommodated.  
-$S(i)$ will denote the identifier of the partition containing the $i$th sample.
-As in frame-based structural annotation evaluation, we require that the same collection of samples be applied to both reference and estimated annotations~\cite{levy2008structural}.
+We will assume that sample frames $X$ are generated from the track at some fixed resolution $f_r$ (\eg, 10Hz), although non-uniform samplings (\eg, beat- or onset-aligned samples) are easily accommodated.  
+$S$ therefore is a disjoint partition of $X$, and $S(i)$ will identify the segment containing the $i$th frame.
+We will use the subscripts $S_R$ and $S_E$ to denote \emph{reference} and \emph{estimated} annotations.
 
-Hierarchical segmentations will be denoted by $H_R$ and $H_E$ for reference and estimated annotations.
-For a hierarchical segmentation $H$, $H(i,j)$ will denote the most specific segment containing samples $i$ and $j$.
+A \emph{hierarchical segmentation} $H$ is defined as a sequence of flat segmentations $(S^0, S^1, \dots, S^d)$ where each layer is a \emph{refinement}
+of the preceding layer.\footnote{A partition $S^{i+1}$ is a refinement of partition $S^{i}$ if each member of $S^{i+1}$ is contained within exactly one member of $S^i$.}
+Let $H(i,j)$ identify the smallest (most refined) segment containing frames $i$ and $j$.
 We will denote precedence (containment) of segments by $\prec$: \eg, $H(j, k) \prec H(i, k)$.
 
-To exemplify this notation, a three-level hierarchy is plotted in \Cref{fig:hier-example}.
-In this context, $H(i, i)$ denotes the most specific segment containing frame $i$, which is the first segment in ``level\_2.''
-Similarly, $H(j,j)$ and $H(k,k)$ refer to the second and third segments in  ``level\_2'',
-while $H(j,k)$ refers to their least common ancestor: the second segment in ``level\_1''.
-We can then infer membership and precedence relations, such as
+As illustrated in \Cref{fig:hier-example}, hierarchical segmentations can be represented as tree structures.
+Here, $H(i, i), H(j, j)$ and $H(k,k)$ denote the most specific segments containing frame $i, j$ and $k$,
+respectively.
+From the figure, we observe that $H(j,k)$ refers to the least common ancestor of frames $j$ and $k$.
+We can generally infer membership and precedence relations, such as
 \begin{equation}
 j \in H(j, j) \prec H(j, k) \prec H(i, j) = H(i, k).
 \end{equation}
@@ -187,37 +197,39 @@ j \in H(j, j) \prec H(j, k) \prec H(i, j) = H(i, k).
 
 \begin{figure}
   \centering
-  \includegraphics[width=0.45\textwidth]{figs/hier-example.pdf}
+  \includegraphics[width=\columnwidth]{figs/hier-example.pdf}
   \caption{An example of a synthetic, three-level hierarchical segmentation.
   Frames $i, j, k,$ and $m$ are indicated along the $x$-axis, and some of their containing segments are indicated within the figure, \eg, $H(i, j)$.}
   \label{fig:hier-example}
 \end{figure}
 
-Note that flat segmentations are a special case of hierarchical segmentations, where there is one node at the root of the hierarchy containing all samples, and then $m$ segments at the next level down which form a full partition of the track.
+Note that flat segmentations are a special case of hierarchical segmentations, where there are only two
+levels of segmentation, and the first layer contains no boundaries.
 
+% FIXME move this
 If we restrict attention to a query sample $q$, then $H(q, \cdot)$ induces a partial ranking over the remaining samples.
 Frames contained in $H(q, q)$ are considered maximally relevant, followed by those in $H(q, \cdot)$'s immediate ancestor, and so on.
 This observation will be the key to our evaluation, as it provides a connection between hierarchical time-series decompositions and ranking evaluation.
 
 \subsection{Flat segmentation and bipartite ranking}
 
-We can reduce segmentation evaluation to a ranking evaluation problem as follows.
+Segmentation evaluation can be reduced to a ranking evaluation problem as follows.
 Let $q$ denote an arbitrary frame, and let $i$ and $j$ denote any two frames such that $S_R(q) = S_R(i)$ and $S_R(q) \neq S_R(j)$.
-In this case, $i$ may be considered \emph{relevant} for $q$, and $j$ is considered \emph{irrelevant} for $q$.
-This leads to a straightforward reduction to bipartite ranking.
+In this case, $i$ may be considered \emph{relevant} for $q$, and $j$ is considered \emph{irrelevant}.
 
 A per-frame recall metric can be formally defined as
-\begin{equation}
-f(q ; S_E) \defeq 
-\sum_{\substack{i \in S_R(q)\\ j \notin S_R(q)}}
-\frac{\ind{S_E(q) = S_E(i) \neq S_E(j) }}{|S_R(q)|\cdot (n -
-|S_R(q)|)}.\label{flatrecall}
-\end{equation}
-where $\ind{\cdot}$ is the indicator function, and $n$ denotes the number of frames in the track.
+\begin{align}
+f(q ; S_E) &\defeq &
+\sum_{\substack{i \in S_R(q) \\ i \neq q\\ j \notin S_R(q)}}
+\frac{\ind{S_E(q) = S_E(i) \neq S_E(j) }}{Z_q} \label{flatrecall}\\
+Z_q &\defeq& (|S_R(q)| - 1)\cdot (n - |S_R(q)| + 1), \label{flatrecallnorm}
+\end{align}
+where $\ind{\cdot}$ is the indicator function, $n$ denotes the number of frames in the track, and $Z_q$
+counts the number of terms in the summation.
 The score for frame $q$ is the fraction of pairs $(i, j)$ for which $S_E$
-agrees with $S_R$ with respect to $q$ (\ie, membership in the segment).
+agrees with $S_R$ with respect to $q$.
 
-Averaging over all frames $q$ yields a mean sample recall score:
+Averaging over all frames $q$ yields a mean recall score:
 \begin{equation}
 \rho(S_E) \defeq \frac{1}{n} \sum_q f(q ; S_E).\label{avgrecall}
 \end{equation}
@@ -231,14 +243,18 @@ Averaging over all frames $q$ yields a mean sample recall score:
 
 \subsection{Hierarchies and partial ranking}
 
-\Cref{flatrecall} is defined in terms of segment membership (in)equalities, but we can equivalently express the function using strict precedences in a (flat) segment hierarchy.
-Rather than compare $i$ and $j$ where $S(q) = S(i) \neq S(j)$, we can express this as $H(q, i) \prec H(q, j)$.
-That is, the pair $(q,i)$ merge deeper in the hierarchy than do $(q,j)$:
+\Cref{flatrecall} is defined in terms of segment membership (in)equalities, but we can generalize this notion 
+to express the function using strict precedences in a hierarchy.
+Rather than compare $i$ and $j$ where $S(q) = S(i) \neq S(j)$, we can instead compare where
+$H(q, i) \prec H(q, j)$: \ie, the pair $(q,i)$ merge deeper in the hierarchy than do $(q,j)$.
+This leads to the following generalization of \cref{flatrecall}:
 \begin{equation}
-g(q ; H_E) \defeq \sum_{\substack{(i, j)\\ H_R(q, i) \prec H_R(q, j)}}
-\frac{\ind{H_E(q, i) \prec H_E(q, j)}}{Z_q},\label{hierrecall}
+g(q ; H_E) \defeq \sum_{\substack{(i, j)\\ i \neq q\\ H_R(q, i) \prec H_R(q, j)}}
+\frac{\ind{H_E(q, i) \prec H_E(q, j)}}{Z_q}.\label{hierrecall}
 \end{equation}
-where $Z_q$ is a normalization term that counts the number of terms in the summation.
+where $Z_q$ is suitably modified to count the number of terms in the summation.
+This definition is equivalent to \cref{flatrecall} for flat hierarchies, but can now be applied to
+hierarchies of arbitrary (and unequal) depth.
 
 Just as in \cref{flatrecall}, $g$ can be viewed as a classification accuracy of correctly predicting pairs $(i, j)$ as positive ($q$ and $i$ merge first) or negative ($q$ and $j$ merge first).
 The case where $H(q, i) = H(q, j)$ is precluded by the strict precedence operator in the summation.
