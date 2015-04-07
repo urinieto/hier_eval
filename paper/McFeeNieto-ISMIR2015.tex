@@ -62,7 +62,8 @@ measure an algorithm's accuracy against these rich structural annotations.
 We propose a method to evaluate structural boundary detection in the context of hierarchical annotation.
 The proposed method transforms boundary detection into a ranking problem, and facilitates the comparison of
 both flat and hierarchical annotations.
-We demonstrate the proposed method with various synthetic and real examples. 
+We demonstrate the behavior of the proposed method with various synthetic and real
+examples drawn from the SALAMI dataset. 
 \end{abstract}
 %
 \section{Introduction}\label{sec:introduction}
@@ -74,22 +75,24 @@ Consequently, tree representations are commonly used to both model and analyze h
 
 In the music information research literature, \emph{music segmentation} (also known as \emph{music structure analysis}) is a task that aims to automatically identify the structure of music~\cite{Paulus2010}.
 Historically, the segmentation task has been geared toward the design of algorithms which partition a song into non-overlapping, \emph{flat} segments of time.
-Nevertheless, it has been shown that these segments tend to be organized in a hierarchical manner~\cite{Peeters2009}, and even a large dataset of hierarchically-structured human annotations is now publicly available~\cite{Smith2011}.
+Nevertheless, it has been shown that segments in music can exhibit hierarchical
+structure~\cite{Peeters2009}, and a large dataset of hierarchically-structured human annotations is now publicly available~\cite{Smith2011}.
 % Still, most existing algorithms only operate at a flat level, likely because (i) this task is already challenging at this level~\cite{Skywalker2014}, and (ii) even if an algorithm could 
 % estimate hierarchical segments, no method to evaluate them has been proposed.
 However, current evaluation methodologies are defined only for flat segmentations, both in the estimation (algorithm output) and reference human annotation data.
 Therefore, the dimension of \emph{depth} has been practically ignored in the evaluation of music segmentation algorithms.
 This contrasts with the task of \emph{pattern discovery}, where overlapping segments that do not necessarily cover the entire piece are allowed, and numerous metrics to evaluate these patterns have been proposed~\cite{Collins2013}.
-These two tasks share multiple attributes~\cite{Nieto2014_Motives}, and steps toward a more general formulation musical structure analysis could be made by evaluating segmentation in 
+These two tasks share multiple attributes~\cite{Nieto2014_Motives}, and steps toward a general formulation musical structure analysis could be made by evaluating segmentation in 
 a hierarchical manner.
 
 %This automatic task could facilitate, e.g., the intra-piece navigation, generation of music summaries, or segment-based recommendation systems, especially nowadays when listeners have easy access to large digital music collections.
 %Nevertheless, the vast majority of music segmentation algorithms only operate at a flat level instead of following the hierarchical approach that most musicologists follow.
 
 \subsection{Our contributions}
-In this work we present the \emph{Tree Measures} ($T$-measures), a set of scores designed to evaluate the accuracy of boundary detection in hierarchical segmentations.
+In this work we present the \emph{Tree Measures} ($T$-measures), a set of scores designed
+to evaluate the accuracy of boundary detection in hierarchical segmentations.
 %The proposed metrics work at a frame-level --- similar to the method proposed by Levy and Sandler to evaluate structural annotations~\cite{Levy2008} --- and they are based on a rank retrieval evaluation where each frame is ranked depending on whether it belongs to the \emph{correct} segment.
-In simple terms, the proposed $T$-measures operate by first computing similarities between frames of a track according to distance in the segment hierarchy, and these similarities are scored by
+The $T$-measures operate by first computing similarities between frames of a track according to distance in the segment hierarchy, and these similarities are scored by
 a measure of ranking correlation against those of the reference annotation.
 The segmentation is evaluated simultaneously across all hierarchical layers, and the resulting scores can be applied to either hierarchical or flat boundary annotations.
 %(Note that a flat segmentation is only a specific case of a hierarchical one, where the number of layers is one.)
@@ -98,10 +101,10 @@ to produce richer representations of structure.
 We demonstrate the behavior of the $T$-measures with multiple synthetic and human examples, and compare the scores with existing methods when possible.
 
 %The rest of the paper is organized as follows:
-%In \cref{sec:curr_meth} we review the current evaluation methods of (flat) boundary algorithms. 
-%The proposed metric is formally introduced in \cref{sec:eval_desc}. 
-%We provide multiple examples to illustrate the behavior of the $T$-measures in \cref{sec:examples}.
-%Finally, we draw conclusions and discuss future work in \cref{sec:conclusions}.
+%In \Cref{sec:curr_meth} we review the current evaluation methods of (flat) boundary algorithms. 
+%The proposed metric is formally introduced in \Cref{sec:eval_desc}. 
+%We provide multiple examples to illustrate the behavior of the $T$-measures in \Cref{sec:examples}.
+%Finally, we draw conclusions and discuss future work in \Cref{sec:conclusions}.
 
 \section{Segment Boundary Evaluation}\label{sec:curr_meth}
 
@@ -126,8 +129,7 @@ Boundary deviation is useful for quantifying the temporal accuracy of a detectio
 However, it can be sensitive to the number of estimated boundaries.
 
 \subsection{The limitations of flat evaluation}
-The precision-recall paradigm has been critical to quantifying improvements in segmentation algorithms over the past several years, but it has numerous 
-limitations when confronted with hierarchical annotations.
+The precision-recall paradigm has been critical to quantifying improvements in segmentation algorithms, but it has numerous limitations when confronted with hierarchical annotations.
 The most obvious limitation is that both the reference and estimated annotations must have flat structure.
 This is sometimes resolved by collecting multiple flat reference annotations for each track, 
 each corresponding to a different level of analysis~\cite{Smith2011}.
@@ -148,9 +150,9 @@ Finally, the above strategies provide no means for directly comparing \emph{two}
 to each-other.  While one may imagine simple comparison strategies when both hierarchies have a small
 number of layers --- \eg, SALAMI's \emph{large}- and \emph{small}-scale annotations --- such an approach is
 likely to become unwieldy when the depth of the hierarchies becomes large or is otherwise uncontrolled.
-% Talk about how good performance at one vs the other leads to difficult interpretation, eg 0.5 vs 3s in smith 2014
+% Talk about how good performance at one vs. the other leads to difficult interpretation, eg 0.5 vs. 3s in smith 2014
 
-%As an example, \cref{trees} depicts two distinct structural decompositions of a song $S$, first into high-level components $A$ and $B$, and then into small components $a, b, c$.
+%As an example, \Cref{trees} depicts two distinct structural decompositions of a song $S$, first into high-level components $A$ and $B$, and then into small components $a, b, c$.
 %While both trees produce the same set of boundaries at the bottom layer, the structural interpretation is significantly different.
 %This hierarchical information would be lost by any form of independent, layer-wise evaluation.
 
@@ -242,16 +244,16 @@ Frames contained in $H(q, q)$ are considered maximally relevant, followed by tho
 
 Rather than compare $i$ and $j$ where $S(q) = S(i) \neq S(j)$, we can instead compare where
 $H(q, i) \prec H(q, j)$: \ie, the pair $(q,i)$ merge deeper in the hierarchy than do $(q,j)$.
-This leads to the following generalization of \cref{flatrecall}:
+This leads to the following generalization of \Cref{flatrecall}:
 \begin{equation}
 g(q ; H_E) \defeq \sum_{\substack{(i, j),\\ i \neq q,\\ H_R(q, i) \prec H_R(q, j)}}
 \frac{\ind{H_E(q, i) \prec H_E(q, j)}}{Z_q}.\label{hierrecall}
 \end{equation}
 where $Z_q$ is suitably modified to count the number of terms in the summation.
-This definition is equivalent to \cref{flatrecall} for flat hierarchies, but can now be applied to
+This definition is equivalent to \Cref{flatrecall} for flat hierarchies, but can now be applied to
 hierarchies of arbitrary (and unequal) depth.
 
-Just as in \cref{flatrecall}, $g$ can be viewed as a classification accuracy of correctly predicting pairs $(i, j)$ as positive ($q$ and $i$ merge first) or negative ($q$ and $j$ merge first).
+Just as in \Cref{flatrecall}, $g$ can be viewed as a classification accuracy of correctly predicting pairs $(i, j)$ as positive ($q$ and $i$ merge first) or negative ($q$ and $j$ merge first).
 The case where $H(q, i) = H(q, j)$ is precluded by the strict precedence operator in the summation.
 
 \Cref{hierrecall} can be alternately be viewed as a generalized area under the curve (AUC) over the partial
@@ -266,7 +268,7 @@ By aggregating over all sample frames $q$, we obtain the \emph{under-segmentatio
 \begin{equation}
 \shag_u(H_E) \defeq \frac{1}{n} \sum_q g(q ; H_E).\label{shagunder}
 \end{equation}
-The over-segmentation metric $\shag_o(H_E)$ is defined analogously by swapping the roles of $H_E$ and $H_R$ in \cref{hierrecall}.
+The over-segmentation metric $\shag_o(H_E)$ is defined analogously by swapping the roles of $H_E$ and $H_R$ in \Cref{hierrecall}.
 Combined, the two metrics summarize agreement between estimated and reference hierarchical annotations.
 
 % Note this loss is equivalent to that evaluated by for subjective artist similarity~\cite{mcfee2011}.
@@ -277,9 +279,9 @@ Combined, the two metrics summarize agreement between estimated and reference hi
 
 The $T$-measures defined above capture the basic notion of hierarchically nested, frame-level relevance, but they pose two technical limitations.
 First, the score for each query will generally depend on the track duration $n$, which makes comparisons between tracks of differing length problematic.  
-For large values of $n$, \cref{hierrecall} may be dominated by trivially irrelevant comparison points $j$ which lie far from $q$ in time, \ie, $|q-i| \ll |q-j|$.
+For large values of $n$, \Cref{hierrecall} may be dominated by trivially irrelevant comparison points $j$ which lie far from $q$ in time, \ie, $|q-i| \ll |q-j|$.
 Longer tracks may produce relatively inflated scores when compared to shorter tracks, simply by virtue of having a large number of ``easy'' comparisons.
-Moreover, the calculation of the $T$-measures as defined in \cref{shagunder} can be expensive, taking $\Oh(n^3)$ using a direct implementation.
+Moreover, the calculation of the $T$-measures as defined in \Cref{shagunder} can be expensive, taking $\Oh(n^3)$ using a direct implementation.
 
 To resolve these issues, we propose to use a time window of $w$ seconds in order to both simplify the 
 calculation of the metric and normalize its dynamic range.
@@ -301,9 +303,9 @@ fixed maximum number of comparisons $(i, j)$, regardless of the track duration.
 
 \subsection{Transitive reduction}
 
-Just as \cref{hierrecall} can be dominated by long-range interactions in the absence of windowing, deep hierarchies can also pose a problem.
+Just as \Cref{hierrecall} can be dominated by long-range interactions in the absence of windowing, deep hierarchies can also pose a problem.
 To see this, consider the sequence $H_R(q, i) \prec H_R(q, j) \prec H_R(q, k)$.
-Since the summation in \cref{hierrecall} ranges over all precedence comparisons, the pair $(i, k)$ appears twice in the summation when computing the recall from frame $q$.  
+Since the summation in \Cref{hierrecall} ranges over all precedence comparisons, the pair $(i, k)$ appears twice in the summation when computing the recall from frame $q$.  
 Since segments grow in size at higher levels in the hierarchy, over-counting can dominate the score function as well.
 
 To counteract this effect, the summation can be restricted to only range over direct precedence relations.
@@ -319,7 +321,7 @@ This eliminates redundant comparisons and increases $g$'s dynamic range.
 
 %First, an appropriate window length can be estimated by examining the segment duration statistics of the reference annotations.  
 %For example, one may take the average duration of high-level segment annotations, as they can be expected to contain multiple small segments, and thus capture local structure.
-%Second, one may report results for a multiple window parameters, as is currently done for boundary detection as described in \cref{sec:curr_meth}.  
+%Second, one may report results for a multiple window parameters, as is currently done for boundary detection as described in \Cref{sec:curr_meth}.  
 
 % Ideally, the window should be long enough to capture the boundaries of the current segments, and that is the same for all tracks in order to be able to easily compare results within a reasonable dynamic range.
 
@@ -334,13 +336,14 @@ In this section we discuss the behavior of the $T$-measures by showing various s
 For each example in this section, we illustrate the behavior of our proposed metric under different window times $w$.
 This section is subdivided by type of annotations under consideration.
 
-\subsection{Flat vs Flat}
+\subsection{Flat vs. flat annotations}
 
 We first compare two flat boundary annotations to demonstrate how the $T$-measures behave compared to the standard hit rate measure at 3 seconds, as well as boundary deviation scores.
 The synthesized flat boundaries are displayed on the top of \Cref{fig:flat-flat}, and they aim to capture a situation where an algorithm only estimates --- without any time deviations --- a subset of all the reference boundaries.
 
 The hit rate scores obtain a precision of 100\% and recall of 40\%, since all estimated boundaries are also 
-in the reference, but only two out of five boundaries were retrieved.\footnote{We trim the first and last boundaries, as they mark the beginning and end of the track, and are constant across all estimates.}
+in the reference, but only two out of five boundaries were retrieved.\footnote{The first and last boundaries ($0$ and $60$s) mark the beginning and end of the track, and since they 
+are constant across all estimates, we suppress them during evaluation to avoid score inflation.}
 
 The median deviations are always 0 both when evaluating the estimation against the reference (E2R) and vice
 versa (R2E) since we did not add any fluctuation in the boundaries.
@@ -380,17 +383,18 @@ versa (R2E) since we did not add any fluctuation in the boundaries.
 When the windows are smaller than the minimum segment duration, the $T$-measures behave as boundary detection metrics.
 This is evidenced by the $\shag_u$ and $\shag_o$ matching recall and precision for $w \leq 3$.
 For the longer time windows, we observe that $\shag_o$ decreases, while $\shag_u$ increases.
-To understand this, consider the following examples.
+
+To understand the decrease in $\shag_o$, consider the following examples.
 First, let $(q,i,j) = (5,15,25)$.
 In this case, the estimation considers $i$ to be relevant for $q$ (since they belong to the same large segment), and $j$ to be irrelevant for $q$; meanwhile, the reference considers both $i$ and $j$ to be equally irrelevant for $q$.
 Note that this type of comparison only enters the evaluation for sufficiently large windows, at which point, the over-segmentation score decreases.  
+Conversely, the triplet $(q,i,j) = (5, 7, 15)$ causes similar behavior in the under-segmentation metric.
 
-Conversely, $(q,i,j) = (5, 7, 15)$ causes similar behavior in the under-segmentation metric.
-As $w$ increases, the evaluation becomes dominated by long-range interactions, and these localized discrepancies matter less.
-As a result, the under-segmentation metric increases when $w$ becomes sufficiently large.
+In general, as $w$ increases, the evaluations become more sensitive to long-range interactions, and localized discrepancies matter less.
+%As a result, the under-segmentation metric increases when $w$ becomes sufficiently large.
 This illustrates how the window size must depend on the duration and scale of structure that the practitioner wishes to capture. 
 
-\subsection{Flat vs hierarchical}
+\subsection{Flat vs. hierarchical annotations}
 
 Here we present four different examples of flat estimations against a fixed hierarchical reference.
 This situation arises when evaluating an algorithm that tends to under- or over-segment against a
@@ -401,15 +405,13 @@ hierarchical annotation, such as in the SALAMI dataset.
 \Cref{fig:hier-flatlarge} illustrates a flat estimation corresponding to the highest layer of the hierarchical reference.
 We observe that $T$-measures behave as expected: the over-segmentation value $\shag_o$ is always 100\%, since the reference annotation agrees with the estimation at the high level.
 When using small time windows ($w \leq 3$), the under-segmentation score is 40\%, also as expected, since it
-resembles the situation of \cref{fig:flat-flat}, but with an extra layer in the reference.
+resembles the situation of \Cref{fig:flat-flat}, but with an extra layer in the reference.
 
-\Cref{fig:hier-flatlarger} illustrates an example of a pure under-segmentation.  Again, small values of $w$
-yield $T$-measures which match boundary detection metrics.  Larger windows increase the
-under-segmentation score since the reference is relatively \emph{less} under-segmented by the estimation.
-However, the over-segmentation declines because the estimation is \emph{more} over-segmented by the
-reference when large windows are observed.
-%However, as $w$ increases, the $T$-measures calculation captures multiple levels of granularity, and the metric is able to correctly rank the flat boundaries against the hierarchical ones.
-%As a result, the under-segmentation score increases at larger $w$, indicating the importance of choosing a sufficiently large window.
+\Cref{fig:hier-flatlarger} illustrates an example of a pure under-segmentation: the estimation misses a high-level structural change at 20s.  
+Just as before, small values of $w$ yield $T$-measures which coincide with standard boundary detection metrics.
+Larger windows increase the under-segmentation score since the reference is relatively \emph{less} under-segmented by the estimation.
+However, the over-segmentation declines because the it introduces long-range interactions that expose high-level structural disagreement.
+For example, let $(q, i, j) = (5, 35, 55)$: in \Cref{fig:hier-flatlarger}, we have $H_E(q, i) \prec H_E(q, j)$ but $H_R(q, i) \nprec H_R(q, j)$, which consequently degrades $\shag_o$.
 
 
 \begin{figure}
@@ -468,22 +470,22 @@ reference when large windows are observed.
 \subsubsection{Small-scale and over-segmentation}
 
 % Since, as in the large scale case, we are not over-segmenting, the over-segmentation grades are 100\% for all the time windows.
-\Cref{fig:hier-flatsmall} illustrates an example comparable to \cref{fig:hier-flatlarge}, except that the
+\Cref{fig:hier-flatsmall} illustrates an example comparable to \Cref{fig:hier-flatlarge}, except that the
 estimate now corresponds to the bottom layer of the reference annotation.
-Because the reference and estimate agree at the lowest level, the over-segmentation score is maximal for all time windows.
+Because the reference and estimate agree at the lowest level, every triple derived from $H_E$ is satisfied in $H_R$, and the over-segmentation score is maximal for all time windows.
 % As opposed to the previous example, now the lower layer of the reference boundaries match exactly with the estimations, that results into perfect under-segmentation scores for the shorter time windows.
 % In this case, the higher the $w$, the lower these under-segmentation grades as expected, since we should not evaluate an algorithm as perfect if it only identifies one layer of the hierarchical boundaries found in the reference.
-Note, however, that the reference provides strictly more information than the estimate.  For example, the estimate considers samples at $t=15$ and $t=45$ to be equally irrelevant for a 
-query at $t=5$, while the reference indicates a preference for $t=15$.  These effects are only apparent for sufficiently large window sizes, \eg, larger than the smallest level of
+Note, however, that the reference provides strictly more information than the estimate.  For example, the estimate considers samples at $i=15$ and $j=45$ to be equally irrelevant for a 
+query at $q=5$, while the reference indicates a preference for $i=15$.
+These effects are only apparent for sufficiently large window sizes, \eg, larger than the smallest level of
 detail, which in this case, is 15s.  This can be easily observed in the $\shag_u$
 scores in \Cref{fig:hier-flatsmall}, which decline when the window size grows
 large enough to span multiple small segments.
 
-Similarly, \cref{fig:hier-flatsmaller} illustrates an \emph{over-segmentation}, where the flat estimate
-predicts more boundaries than the deepest layer of the reference.  Again, the under-segmentation scores begin
-large and decay when the window captures multiple short segments.  In this example, large window sizes
-improve the over-segmentation scores because the comparisons are dominated by long-range interactions, as
-described in \cref{sec:window}.
+Similarly, \Cref{fig:hier-flatsmaller} illustrates an \emph{over-segmentation}, where the flat estimate
+predicts more boundaries than the deepest layer of the reference.  Again, the under-segmentation scores decay when the window captures multiple short segments.
+Unlike the over-segmented example in \Cref{fig:hier-flatlarger}, long-range interactions derived from $H_E$ are mostly satisfied by $H_R$, so $\shag_o$ increases
+rather than decreases.
 
 \begin{figure}[t]
   \centering
@@ -536,7 +538,7 @@ described in \cref{sec:window}.
   \caption{Hierarchical reference vs.\ flat over-segmentation (top) and $T$-measures (bottom).}
   \label{fig:hier-flatsmaller}
 \end{figure}
-\subsection{Hierarchical vs Hierarchical}
+\subsection{Hierarchical vs. hierarchical}
 
 % To start with, we demonstrate $T$-measures when comparing two equal hierarchical boundaries in \Cref{fig:hier-hier}.
 % As expected, $T$-measures returns 100\% for all the different time windows, showing how we can obtain a perfect score when the reference and 
@@ -560,7 +562,7 @@ described in \cref{sec:window}.
 %       \hline
 %     \end{tabular}
 %   \end{minipage}
-%   \caption{Hierarchical vs same hierarchical boundaries (top) and scores (bottom)}
+%   \caption{Hierarchical vs. same hierarchical boundaries (top) and scores (bottom)}
 %   \label{fig:hier-hier}
 % \end{figure}
 
@@ -602,7 +604,7 @@ The under-segmentation grades remain at 100\% with any window length, as expecte
 
 
 \subsection{Human annotator agreement}
-\Cref{fig:SALAMI-SALAMI} illustrates two hierarchical annotations from two human annotators on one track in
+\Cref{fig:SALAMI-SALAMI} illustrates hierarchical annotations obtained from two human annotators on one track in
 the SALAMI dataset, using the large- and small-scale segmentations.
 While the two annotators tend to agree at the small scale, they differ at the large scale.
 This is reflected in the under- and over-segmentation scores: the former skews low, because the reference's large-scale annotations are coarser than those of the estimate, while the latter remains high because both tend to agree at the small scale.
@@ -643,9 +645,9 @@ To further investigate inter-annotator agreement, we computed $T$-measure scores
 reference annotations for 410 tracks in the SALAMI dataset.  To simplify the analysis, we denote by $\shag_F$
 the harmonic mean of $\shag_u$ and $\shag_o$.  \Cref{fig:salami-agree} illustrates the distribution of
 per-track $\shag_F$ scores as a function of $w$.  We observe that the score distribution is relatively stable
-for $w \geq 15$.\footnote{The analogous plots for $\shag_o$ and $\shag_u$ (omitted for brevity) illustrate the same
+for $w \geq 15$.\footnote{The analogous plots for $\shag_o$ and $\shag_u$ are omitted for brevity, but illustrate the same
 trend.} 
-The example given in \cref{fig:SALAMI-SALAMI} lies slightly above the average agreement ($\shag_F = 82.04$ at
+The example given in \Cref{fig:SALAMI-SALAMI} lies slightly above the average agreement ($\shag_F = 82.04$ at
 $w=15$),
 but is generally representative of inter-annotator agreement.
 The out-lying low scores tend to be examples where one annotator simply ignored structure annotated
@@ -657,9 +659,9 @@ Similarly, it suggests that $w=15$ provides a reasonable default value for the S
 is large enough to capture multiple small-scale segments: in the tracks considered for this evaluation, 
 the median small-scale segment duration was 6.66s, with a 95th percentile of 15.69s.
 
-% SALAMI 636 annotator 1 vs OLDA\cite{McFee2014}  output \ref{fig:SALAMI-OLDA}.
-\subsection{Annotator vs algorithm}
-Finally, \cref{fig:SALAMI-OLDA} compares a hierarchical estimation against a hierarchical reference.
+% SALAMI 636 annotator 1 vs. OLDA\cite{McFee2014}  output \ref{fig:SALAMI-OLDA}.
+\subsection{Annotator vs. algorithm}
+Finally, \Cref{fig:SALAMI-OLDA} compares a hierarchical estimation against a hierarchical reference.
 The hierarchical estimation was produced by the agglomerative clustering method of McFee and Ellis~\cite{McFee2014}.
 Note that the estimate produces many more layers than the reference, and the nesting structure is quite different.
 In particular, the reference provides two levels of segmentation (large and small), while the estimate tends
