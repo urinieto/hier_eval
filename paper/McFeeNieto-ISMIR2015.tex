@@ -218,10 +218,9 @@ In this case, $i$ may be considered \emph{relevant} for $q$, and $j$ is consider
 
 A per-frame recall metric can be formally defined as
 \begin{align}
-f(q ; S_E, S_R) &\defeq &
-\sum_{\substack{i \in S_R(q) \setminus \{q\},\\ j \notin S_R(q)}}
-\frac{\ind{S_E(q) = S_E(i) \neq S_E(j) }}{Z_q} \notag\\
-Z_q &\defeq& (|S_R(q)| - 1)\cdot (n - |S_R(q)| + 1), \label{flatrecall}
+f(q ; S_E, S_R) &\defeq  \hspace{-1.5em} \sum_{\substack{i \in S_R(q) \setminus \{q\},\\ j \notin S_R(q)}}
+\hspace{-1.5em}\frac{\ind{S_E(q) = S_E(i) \neq S_E(j) }}{Z_q} \label{flatrecall}\\
+Z_q &\defeq (|S_R(q)| - 1)\cdot (n - |S_R(q)| + 1), \notag
 \end{align}
 where $\ind{\cdot}$ is the indicator function, $n$ denotes the number of frames in the track, and $Z_q$
 counts the number of terms in the summation.
@@ -246,8 +245,8 @@ Rather than compare $i$ and $j$ where $S(q) = S(i) \neq S(j)$, we can instead co
 $H(q, i) \prec H(q, j)$: \ie, the pair $(q,i)$ merge deeper in the hierarchy than do $(q,j)$.
 This leads to the following generalization of \Cref{flatrecall}:
 \begin{equation}
-g(q ; H_E, H_R) \defeq \sum_{\substack{(i, j),\\ i \neq q,\\ H_R(q, i) \prec H_R(q, j)}}
-\frac{\ind{H_E(q, i) \prec H_E(q, j)}}{Z_q}.\label{hierrecall}
+    g(q ; H_E, H_R) \defeq \hspace{-1.5em} \sum_{\substack{(i, j),\\ i \neq q,\\ H_R(q, i) \prec H_R(q, j)}}
+    \hspace{-1.5em} \frac{\ind{H_E(q, i) \prec H_E(q, j)}}{Z_q}.\label{hierrecall}
 \end{equation}
 where $Z_q$ is suitably modified to count the number of terms in the summation.
 This definition is equivalent to \Cref{flatrecall} for flat hierarchies, but can now be applied to
@@ -291,9 +290,10 @@ calculation of the metric and normalize its dynamic range.
 We restrict the number of samples under consideration to $m = \lceil w \cdot f_r \rceil$.
 Adding this windowing property to equations (\ref{hierrecall},~\ref{shagunder}) yields the windowed $T$-measures:
 \begin{equation}
-  g(q ; H_E, H_R, m) \defeq \sum_{\substack{
+    g(q ; H_E, H_R, m) \defeq \hspace{-1.5em} \sum_{\substack{
   m_s \leq i,j \leq m_e \\ 
-  H_R(q, i) \prec H_R(q, j) }} \frac{\ind{H_E(q, i) \prec H_E(q,
+  H_R(q, i) \prec H_R(q, j) }}
+  \hspace{-1.5em} \frac{\ind{H_E(q, i) \prec H_E(q,
   j)}}{Z_q(m)},\label{windowrecall}
 \end{equation}
 \begin{equation}
