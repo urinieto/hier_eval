@@ -204,8 +204,8 @@ j \in H(j, j) \prec H(j, k) \prec H(i, j) = H(i, k).
 \begin{figure}
   \centering
   \includegraphics[width=\columnwidth]{figs/hier-example.pdf}
-  \caption{An example of a synthetic, three-level hierarchical segmentation.
-  Frames $i, j, k,$ and $m$ are indicated along the $x$-axis, and some of their containing segments are indicated within the figure, \eg, $H(i, j)$.}
+  \caption{An example of a three-level hierarchical segmentation.
+  Example frames $i, j,$ and $k$ are indicated along the $x$-axis, and their containing segments are indicated within the figure, \eg, $H(i, j)$.}
   \label{fig:hier-example}
 \end{figure}
 
@@ -361,25 +361,19 @@ versa (R2E) since we did not add any fluctuation in the boundaries.
   \begin{minipage}{0.5\textwidth}
     \centering
     \vspace{10pt}
-    \begin{tabular}{|c|c|c||c|c|c|}
+    \begin{tabular}{l|rr|rr}
+      & \multicolumn{2}{c|}{\textbf{$T$-measures}} & \multicolumn{2}{c}{\textbf{Hit Rate}} \\
+      $w$ & $\shag_R$   & $\shag_P$ &  $R$     & $P$ \\
       \hline
-      \multicolumn{3}{|c||}{\textbf{$T$-measures}} & \multicolumn{3}{c|}{\textbf{Hit Rate (trimmed)}} \\
-      \hline
-      $w$ & $\shag_R$   & $\shag_P$ & $F$     & $P$     & $R$ \\
-      \hline
-      0.5       & 40.0   & 100   & 57.14  & 100 & 40.0 \\
-      \cline{4-6}
-      3         & 40.0   & 100  \\
-      \cline{4-6}
-      15        & 39.39  & 52.77 & \multicolumn{3}{c|}{\textbf{Median Deviations}}   \\
-      \cline{4-6}
-      30        & 69.46  & 49.75 & \multicolumn{2}{c|}{E2R} & 0 \\
-      $\infty$  & 80.0   & 49.75 & \multicolumn{2}{c|}{R2E} & 0 \\  
-      \hline
+      0.5       & 0.40   & 1.00   & 0.40 & 1.00 \\
+      3         & 0.40   & 1.00   & 0.40 & 1.00 \\
+      15        & 0.39  & 0.53 \\
+      30        & 0.69  & 0.50 \\
+      $\infty$  & 0.80   & 0.50 
     \end{tabular}
   \end{minipage}
-  \caption{Flat vs.\ flat boundaries (top), $T$-measures and boundary hit-rate
-  scores (bottom).}
+  \caption{Flat vs.\ flat boundaries (top), $T$-measures and boundary detection
+    (hit-rate) scores (bottom).}
   \label{fig:flat-flat}
 \end{figure}
 
@@ -428,16 +422,15 @@ For example, let $(q, i, j) = (5, 35, 55)$: in \Cref{fig:hier-flatlarger}, we ha
   \begin{minipage}{0.5\textwidth}
     \centering
     \vspace{10pt}
-    \begin{tabular}{|c|c|c|}
+    \begin{tabular}{l|rr|rr}
+      & \multicolumn{2}{c|}{\textbf{Reduced}} & \multicolumn{2}{c}{\textbf{Full}} \\
+      $w$       & $\shag_R$    & $\shag_P$  & $\shag_R$ & $\shag_P$    \\
       \hline
-      $w$       & $\shag_R$    & $\shag_P$      \\
-      \hline
-      0.5       & 0.0      & 100      \\     
-      3         & 0.0      & 100      \\
-      15        & 37.21     & 100    \\
-      30        & 69.66     & 100    \\
-      $\infty$  & 80.16     & 100    \\
-      \hline
+      0.5       & 0.00     & 1.00      & 0.40 & 1.00\\     
+      3         & 0.00     & 1.00      & 0.40 & 1.00 \\
+      15        & 0.37     & 1.00     & 0.51 & 1.00 \\
+      30        & 0.70     & 1.00     & 0.82 & 1.00 \\
+      $\infty$  & 0.80     & 1.00            & 0.89 & 1.00
     \end{tabular}
   \end{minipage}
   \caption{Hierarchical reference vs.\ flat (large-scale) estimation (top) and $T$-measures (bottom).}
@@ -454,16 +447,15 @@ For example, let $(q, i, j) = (5, 35, 55)$: in \Cref{fig:hier-flatlarger}, we ha
   \begin{minipage}{0.5\textwidth}
     \centering
     \vspace{10pt}
-    \begin{tabular}{|c|c|c|}
+    \begin{tabular}{l|rr|rr}
+      & \multicolumn{2}{c|}{\textbf{Reduced}} & \multicolumn{2}{c}{\textbf{Full}} \\
+      $w$       & $\shag_R$    & $\shag_P$  & $\shag_R$ & $\shag_P$    \\
       \hline
-      $w$       & $\shag_R$    & $\shag_P$      \\
-      \hline
-      0.5       & 0.0      & 100      \\     
-      3         & 0.0      & 100      \\
-      15        & 18.60     & 93.71    \\
-      30        & 37.10     & 71.46    \\
-      $\infty$  & 53.44     & 66.58    \\
-      \hline
+      0.5       & 0.0      & 1.00   & 0.20 & 1.00   \\     
+      3         & 0.0      & 1.00   & 0.20 & 1.00   \\
+      15        & 0.19     & 0.94   & 0.26 & 0.94 \\
+      30        & 0.37     & 0.71   & 0.44 & 0.71 \\
+      $\infty$  & 0.53     & 0.67     & 0.59 & 0.67\\
     \end{tabular}
   \end{minipage}
   \caption{Hierarchical reference vs.\ flat under-segmentation (top) and $T$-measures (bottom).}
@@ -503,16 +495,15 @@ rather than decreases.
   \begin{minipage}{0.5\textwidth}
     \centering
     \vspace{10pt}
-    \begin{tabular}{|c|c|c|}
+    \begin{tabular}{l|rr|rr}
+      & \multicolumn{2}{c|}{\textbf{Reduced}} & \multicolumn{2}{c}{\textbf{Full}} \\
+      $w$       & $\shag_R$    & $\shag_P$  & $\shag_R$ & $\shag_P$    \\
       \hline
-      $w$       & $\shag_R$    & $\shag_P$      \\
-      \hline
-      0.5       & 100       & 100      \\     
-      3         & 100       & 100      \\
-      15        & 62.79     & 100    \\
-      30        & 30.34     & 100    \\
-      $\infty$  & 19.84     & 100    \\
-      \hline
+      0.5       & 1.00       & 1.00  & 1.00 & 1.00    \\     
+      3         & 1.00       & 1.00  & 1.00 & 1.00    \\
+      15        & 0.63     & 1.00    & 0.76 & 1.00 \\
+      30        & 0.30     & 1.00    & 0.59 & 1.00 \\
+      $\infty$  & 0.20     & 1.00   & 0.55 & 1.00
     \end{tabular}
   \end{minipage}
   \caption{Hierarchical reference vs.\ flat, small-scale estimation (top) and $T$-measures (bottom).}
@@ -529,16 +520,15 @@ rather than decreases.
   \begin{minipage}{0.5\textwidth}
     \centering
     \vspace{10pt}
-    \begin{tabular}{|c|c|c|}
+    \begin{tabular}{l|rr|rr}
+      & \multicolumn{2}{c|}{\textbf{Reduced}} & \multicolumn{2}{c}{\textbf{Full}} \\
+      $w$       & $\shag_R$    & $\shag_P$  & $\shag_R$ & $\shag_P$    \\
       \hline
-      $w$       & $\shag_R$    & $\shag_P$      \\
-      \hline
-      0.5       & 100       & 55.56      \\     
-      3         & 98.16     & 56.43      \\
-      15        & 46.31     & 86.28    \\
-      30        & 21.80     & 92.47    \\
-      $\infty$  & 13.16     & 93.94    \\
-      \hline
+      0.5       & 1.00       & 0.56 & 1.0 & 0.56      \\     
+      3         & 0.98     & 0.56   & 0.98 & 0.56   \\
+      15        & 0.46     & 0.86   & 0.53 & 0.86 \\
+      30        & 0.22     & 0.92   & 0.40 & 0.92 \\
+      $\infty$  & 0.13     & 0.94    & 0.37 & 0.94
     \end{tabular}
   \end{minipage}
   \caption{Hierarchical reference vs.\ flat over-segmentation (top) and $T$-measures (bottom).}
@@ -592,16 +582,15 @@ The tree-recall scores remain at 100\% with any window length, as expected.
   \begin{minipage}{0.5\textwidth}
     \centering
     \vspace{10pt}
-    \begin{tabular}{|c|c|c|}
+    \begin{tabular}{l|rr|rr}
+      & \multicolumn{2}{c|}{\textbf{Reduced}} & \multicolumn{2}{c}{\textbf{Full}} \\
+      $w$       & $\shag_R$    & $\shag_P$  & $\shag_R$ & $\shag_P$    \\
       \hline
-      $w$       & $\shag_R$       & $\shag_P$      \\
-      \hline
-      0.5       & 100       & 100      \\     
-      3         & 100       & 100      \\
-      15        & 100       & 98.32    \\
-      30        & 100       & 78.81    \\
-      $\infty$  & 100       & 61.85    \\
-      \hline
+      0.5       & 1.00       & 1.00      & 1.00 & 1.00\\     
+      3         & 1.00       & 1.00      & 1.00 & 1.00\\
+      15        & 1.00       & 0.98      & 1.00 & 0.99\\
+      30        & 1.00       & 0.79      & 1.00 & 0.89\\
+      $\infty$  & 1.00       & 0.62     & 1.00 & 0.79  
     \end{tabular}
   \end{minipage}
   \caption{2-layer vs. 3-layer hierarchical boundaries (top) and $T$-measures scores (bottom).}
@@ -626,16 +615,15 @@ large-scale annotations are coarser than those of the estimate, while the precis
   \begin{minipage}{0.5\textwidth}
     \centering
     \vspace{10pt}
-    \begin{tabular}{|c|c|c|}
+    \begin{tabular}{l|rr|rr}
+      & \multicolumn{2}{c|}{\textbf{Reduced}} & \multicolumn{2}{c}{\textbf{Full}} \\
+      $w$       & $\shag_R$    & $\shag_P$  & $\shag_R$ & $\shag_P$    \\
       \hline
-      $w$       & $\shag_R$       & $\shag_P$      \\
-      \hline
-      0.5       & 78.17       & 79.00      \\     
-      3         & 95.39       & 95.06      \\
-      15        & 75.53       & 74.92    \\
-      30        & 61.81       & 82.67    \\
-      $\infty$  & 56.55       & 95.58    \\
-      \hline
+      0.5       & 0.76       & 0.77      & 0.81 & 0.79\\     
+      3         & 0.95       & 0.95      & 0.96 & 0.93\\
+      15        & 0.75       & 0.75     & 0.80 & 0.84\\
+      30        & 0.62       & 0.83     & 0.71 & 0.89\\
+      $\infty$  & 0.57       & 0.96 & 0.68 & 0.98
     \end{tabular}
   \end{minipage}
   \caption{Hierarchical annotations for SALAMI track \#636 from the two different human annotators. Top: hierarchical reference and estimation; bottom: $T$-measures scores.}
@@ -684,17 +672,16 @@ to mostly produce large segments.
   \begin{minipage}{0.5\textwidth}
     \centering
     \vspace{10pt}
-    \begin{tabular}{|c|c|c|}
+    \begin{tabular}{l|rr|rr}
+      & \multicolumn{2}{c|}{\textbf{Reduced}} & \multicolumn{2}{c}{\textbf{Full}} \\
+      $w$       & $\shag_R$    & $\shag_P$  & $\shag_R$ & $\shag_P$    \\
       \hline
-      $w$       & $\shag_R$       & $\shag_P$      \\
-      \hline
-      0.5       & 14.28       & 100      \\     
-      3         & 19.85       & 99.91      \\
-      15        & 61.63       & 56.13    \\
-      30        & 76.14       & 53.12    \\
-      $\infty$  & 90.29       & 16.39    \\
-      \hline
-    \end{tabular}
+      0.5       & 0.14       & 1.00  & 0.28 & 0.55 \\
+      3         & 0.20       & 1.00  & 0.34 & 0.72    \\
+      15        & 0.62       & 0.56  & 0.66 & 0.70 \\
+      30        & 0.76       & 0.53  & 0.80 & 0.58  \\
+      $\infty$  & 0.90       & 0.16  & 0.93 & 0.42
+  \end{tabular}
   \end{minipage}
   \caption{Hierarchical annotation for SALAMI track \#636 vs.\ hierarchical boundary
   estimates~\cite{McFee2014} (top) and $T$-measures scores (bottom).}

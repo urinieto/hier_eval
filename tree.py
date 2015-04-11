@@ -1,4 +1,3 @@
-#!/usr/bin/env python
 """
 Implementation of a hierarchical segment annotation using a rooted tree.
 
@@ -61,9 +60,6 @@ __email__       = "oriol@nyu.edu"
 import logging
 import numpy as np
 from collections import Counter
-
-# Not so common modules
-from msaf import jams2
 
 
 class Segment(object):
@@ -147,30 +143,29 @@ class Node(object):
 class SegmentTree(object):
     """A hierarchical segmentation of a musical piece.
     """
-    def __init__(self, jams_file, annotation_id=0):
-        """Initialize a segment tree using a jam annotation file and a
-        specific annotation id in case the jam file contains multiple
-        annotations."""
-        self._jams_file = jams_file
-        self._jam = jams2.load(jams_file)
+    def __init__(self, hier_bounds, hier_labels, hier_levels=None):
+        """TODO."""
+        def times_to_intervals(times):
+            """Given a set of times, convert them into intervals.
 
-        def get_levels():
-            """Obtains the set of unique levels contained in the jams
-               sorted by the number of segments they contain."""
-            levels = []
-            annotation = self._jam.sections[annotation_id]
-            [levels.append(segment.label.context)
-             for segment in annotation.data]
-            c = Counter(levels)     # Count frequency
-            return np.asarray(c.keys())[np.argsort(c.values())]     # Sort
+            Parameters
+            ----------
+            times: np.array(N)
+                A set of times.
 
-        def get_segments_in_range(start, end, level):
+            Returns
+            -------
+            inters: np.array(N-1, 2)
+                A set of intervals.
+            """
+            return np.asarray(zip(times[:-1], times[1:]))
+
+        def get_segments_in_range(start, end, times, labels):
             """Gets the segments that are within a specific range at a certain
                 level."""
-            intervals, labels = jams2.converters.load_jams_range(jams_file,
-                    "sections", annotator=annotation_id, context=level)
+            inters = times_to_intervals(times)
             segments = []
-            for i, interval in enumerate(intervals):
+            for i, interval in enumerate(inters):
                 if interval[0] >= start and interval[1] <= end:
                     segments.append(Segment(interval[0], interval[1],
                                             labels[i]))
@@ -182,7 +177,9 @@ class SegmentTree(object):
                 return
 
             for segment in get_segments_in_range(node.segment.start,
-                    node.segment.end, self._levels[level_idx + 1]):
+                                                 node.segment.end,
+                                                 hier_bounds[level_idx],
+                                                 hier_labels[level_idx]):
                 new_node = Node(segment, self._levels[level_idx + 1], node)
                 node.add_child(new_node)
                 build_tree_rec(new_node, level_idx + 1)
@@ -190,7 +187,7 @@ class SegmentTree(object):
         def build_tree():
             """Build the segment tree"""
             # Add the root level segment that comprises the entire track
-            root_segment = Segment(0, self._jam.metadata.duration, "all")
+            root_segment = Segment(0, hier_bounds[0][-1], "all")
 
             # Create the tree recursively
             level_idx = 0
@@ -198,13 +195,14 @@ class SegmentTree(object):
             build_tree_rec(root_node, level_idx)
             return root_node
 
-        # Get the levels of the annotations in the jams file
-        self._levels = get_levels()
+        # Assign standard levels if not passed as parameter
+        if hier_levels is None:
+            hier_levels = ["level_%d" % i for i in range(len(hier_bounds))]
 
         # Add the root level
-        self._levels = np.concatenate((["root"], self._levels))
+        self._levels = np.concatenate((["root"], hier_levels))
 
-        # Build the tree
+        # Build actual tree
         self._root = build_tree()
 
     @property
