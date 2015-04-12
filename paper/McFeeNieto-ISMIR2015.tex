@@ -377,17 +377,18 @@ the boundaries.
   \label{fig:flat-flat}
 \end{figure}
 
-When $w$ does not exceed the minimum segment duration, the $T$-measures behave
-as boundary detection metrics for flat annotations.
-This is evidenced by the $\shag_R$ and $\shag_P$ matching recall and precision for $w \leq 3$.
+When $w$ does not exceed the minimum segment duration, the $T$-measures coincide
+with the boundary detection metrics.
 For larger $w$, we observe that $\shag_P$ decreases, while $\shag_R$ increases.
 
-To understand the decrease in $\shag_P$, consider the following examples.
-First, let $(q,i,j) = (5,15,25)$.
-In this case, the estimation considers $i$ to be relevant for $q$ (since they belong to the same large segment), and $j$ to be irrelevant for $q$; meanwhile, the reference considers both $i$ and $j$ to be equally irrelevant for $q$.
-Note that this situation arises only for sufficiently large
-windows, and causes the precision to decrease.
-Conversely, $(q,i,j) = (5, 7, 15)$ causes similar behavior in the recall metric.
+To understand the relationship between $\shag_P$ and $w$, consider the example 
+$(q,i,j) = (5,15,25)$.
+The estimation considers $i$ to be relevant for $q$ (since they belong to the same large
+segment), and $j$ to be irrelevant for $q$. Meanwhile, the reference considers both $i$
+and $j$ to be equally irrelevant for $q$, so this triple contributes 0 to the precision
+metric.
+Note that this situation arises only when $w$ is large enough to span multiple short
+segments.
 
 In general, sensitivity to long-range interactions increases with $w$.
 This illustrates how the window size must depend on the duration and scale of structure
