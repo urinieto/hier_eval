@@ -56,9 +56,9 @@
 \begin{abstract}
 Structure in music is traditionally analyzed hierarchically: large-scale sections can be sub-divided and refined down to the short melodic ideas at the motivic level. 
 However, typical algorithmic approaches to structural annotation produce flat temporal partitions of a track, which are commonly evaluated against a similarly flat, human-produced
-annotation. Evaluating structure analysis via flat annotations effectively discards all notions of structural depth in the evaluation.
+annotation. Evaluating structure analysis as represented by flat annotations effectively discards all notions of structural depth in the evaluation.
 Although collections of hierarchical structure annotations have been recently published, no techniques yet exist to measure an algorithm's accuracy against these rich structural annotations.
-In this work, we propose a method to evaluate structural boundary detection in the context of hierarchical annotation.
+In this work, we propose a method to evaluate structural boundary detection with hierarchical annotations.
 The proposed method transforms boundary detection into a ranking problem, and facilitates the comparison of
 both flat and hierarchical annotations.
 We demonstrate the behavior of the proposed method with various synthetic and real
@@ -72,31 +72,40 @@ Its goal is to identify and categorize the form of a musical piece by investigat
 Traditional analyses usually provide multiple levels of annotation (\eg, Schenkerian analysis), which reinforce the general assumption that music is structured hierarchically~\cite{Lerdahl1983a}.
 Consequently, tree representations are commonly used to both model and analyze hierarchical forms in music~\cite{Lerdahl1983}.
 
-In the music information research literature, \emph{music segmentation} (also known as \emph{music structure analysis}) is a task that aims to automatically identify the structure of music~\cite{Paulus2010}.
-Historically, the segmentation task has been geared toward the design of algorithms which partition a song into non-overlapping, \emph{flat} segments of time.
-Nevertheless, it has been shown that segments in music can also exhibit hierarchical
-structure~\cite{Peeters2009}, and a large dataset of hierarchically-structured human annotations is now publicly available~\cite{Smith2011}.
+In the music information research literature, \emph{music segmentation} (also known as \emph{music structure
+analysis}) is a task that aims to automatically identify the structure of a musical recording~\cite{Paulus2010}.
+The segmentation task has historically been geared toward algorithms which analyze a recording and produce a
+flat partition of time segments.
+This formalization contrasts with our intuition that music exhibits hierarchical
+structure~\cite{Peeters2009}.
+Even though a large dataset of hierarchically-structured human annotations is now publicly
+available~\cite{Smith2011},
 % Still, most existing algorithms only operate at a flat level, likely because (i) this task is already challenging at this level~\cite{Skywalker2014}, and (ii) even if an algorithm could 
 % estimate hierarchical segments, no method to evaluate them has been proposed.
-However, current evaluation methodologies are defined only for flat segmentations, both in the estimation (algorithm output) and reference human annotation data.
-Therefore, the dimension of \emph{depth} has been practically ignored in the evaluation of music segmentation algorithms.
-This contrasts with the task of \emph{pattern discovery}, where overlapping segments that do not necessarily cover the entire piece are allowed, and numerous metrics to evaluate these patterns have been proposed~\cite{Collins2013}.
-These two tasks share multiple attributes~\cite{Nieto2014_Motives}, and steps toward a general formulation musical structure analysis could be made by evaluating segmentation in 
-a hierarchical manner.
+current evaluation methodologies are defined only for \emph{flat} segmentations.
+As a result, the dimension of \emph{depth} has been practically ignored in the evaluation of music segmentation algorithms.
+
+In contrast to segmentation, the \emph{pattern discovery} task formulation allows output segments to overlap, 
+and the output is not required to cover the entire piece.
+These two tasks share multiple attributes~\cite{Nieto2014_Motives}, and steps toward a 
+general formulation musical structure analysis could be made by accounting for depth in segmentation.
+Numerous metrics to evaluate pattern discovery have been proposed~\cite{Collins2013}.
+However, they are designed to capture repeated patterns, and would be inappropriate for 
+evaluating non-repeating, hierarchical structure.
 
 %This automatic task could facilitate, e.g., the intra-piece navigation, generation of music summaries, or segment-based recommendation systems, especially nowadays when listeners have easy access to large digital music collections.
 %Nevertheless, the vast majority of music segmentation algorithms only operate at a flat level instead of following the hierarchical approach that most musicologists follow.
 
 \subsection{Our contributions}
-In this work we present the \emph{Tree Measures} ($T$-measures), an evaluation framework designed
+We present the \emph{Tree Measures} ($T$-measures): an evaluation framework designed
 to measure the accuracy of boundary detection in hierarchical segmentations.
 %The proposed metrics work at a frame-level --- similar to the method proposed by Levy and Sandler to evaluate structural annotations~\cite{Levy2008} --- and they are based on a rank retrieval evaluation where each frame is ranked depending on whether it belongs to the \emph{correct} segment.
-The $T$-measures operate by first computing similarities between frames of a track according to distance in the segment hierarchy, and these similarities are scored by
-a measure of ranking correlation against those of the reference annotation.
-The segmentation is evaluated simultaneously across all hierarchical layers, and the resulting scores can be applied to either hierarchical or flat boundary annotations.
-%(Note that a flat segmentation is only a specific case of a hierarchical one, where the number of layers is one.)
-With the $T$-measures, we facilitate the evaluation of existing flat estimations against hierarchical reference annotations (like those of~\cite{Smith2011}), and encourage the development of new algorithms
-to produce richer representations of structure.
+The $T$-measures operate by inferring frame-wise similarity from a hierarchical annotation, and then comparing 
+the induced rank-orderings of frames to assess agreement between reference and estimated annotations.
+The $T$-measures integrate information from all layers of a hierarchy, but also trivially
+specialize to handle flat annotations, and require no explicit correspondence between the
+depth of the estimated and reference hierarchies.
+The $T$-measures seamlessly thus encourage the development of new algorithms to produce richer representations of structure.
 We demonstrate the behavior of the $T$-measures with multiple synthetic and human examples, and compare the scores with existing methods when possible.
 
 %The rest of the paper is organized as follows:
@@ -107,20 +116,19 @@ We demonstrate the behavior of the $T$-measures with multiple synthetic and huma
 
 \section{Segment Boundary Evaluation}\label{sec:curr_meth}
 
-Music segmentation algorithms are typically evaluated for two distinct goals.  
-The first goal, known as \emph{boundary detection}, evaluates the estimated segmentation's accuracy at detecting the times of transitions between segments.
-The second goal, known as \emph{structural grouping}, evaluates the labeling applied to the estimated segmentation, and thus quantifies the ability of an
-algorithm to detect repeated forms, such as verses or refrains. 
+Segmentation algorithms are typically evaluated for two distinct goals.  
+The first goal, \emph{boundary detection}, evaluates the algorithm's ability to detect the times of transitions between segments.
+The second goal, \emph{structural grouping}, evaluates the labeling applied to the estimated segmentation, and thus quantifies the ability of an algorithm to detect repeated forms, such as verses or refrains. 
 In this paper, we focus exclusively on the boundary detection task.
 
-Boundary estimates are primarily evaluated in terms of precision and recall~\cite{turnbull2007supervised}.
-Formally, estimated and reference boundaries are matched within a specified tolerance window --- typically either 0.5 or 3 seconds --- and the hit rate $n_h$ (number of successful matches) is used to define precision and recall scores:
+Boundary estimates are typically evaluated by precision and recall~\cite{turnbull2007supervised}.
+Estimated and reference boundaries are matched within a specified tolerance window --- typically either 0.5 or 3 seconds --- and the hit rate $n_h$ (number of matches) is used to define precision and recall scores:
 \begin{equation}
 P \defeq \frac{n_h}{n_e}, \quad\quad R \defeq \frac{n_h}{n_r},
 \end{equation}
 where $n_e$ and $n_r$ denote the number of boundaries in the estimated and reference
 annotations, respectively.
-As is standard in information retrieval, $P$ and $R$ are combined into an $F$-measure by computing their harmonic mean.
+$P$ and $R$ are typically combined into a single $F$-measure by computing their harmonic mean.
 
 Boundary detection has also been evaluated by \emph{deviation}~\cite{turnbull2007supervised}.
 This is done by measuring the median time (absolute) differential between each reference boundary and the nearest estimated boundary (\emph{R2E}), and vice versa (\emph{E2R}).
@@ -128,28 +136,28 @@ Boundary deviation is useful for quantifying the temporal accuracy of a detectio
 However, it can be sensitive to the number of estimated boundaries.
 
 \subsection{The limitations of flat evaluation}
-The precision-recall paradigm has been critical to quantifying improvements in segmentation algorithms, but it has numerous limitations when confronted with hierarchical annotations.
+The precision-recall paradigm has been critical to quantifying improvements in segmentation algorithms, but it has numerous limitations with hierarchical annotations.
 The most obvious limitation is that both the reference and estimated annotations must have flat structure.
 This is sometimes resolved by collecting multiple flat reference annotations for each track, 
 each corresponding to a different level of analysis~\cite{Smith2011}.
 
 When only the estimation is flat, it is still not obvious how to compute accuracy against multiple layers.
-Na\"ive aggregation of reference boundaries across all layers (prior to, \eg, precision-recall scoring) would imply 
+Na\"ive aggregation of reference boundaries across all layers prior to evaluation would imply 
 that all boundaries are equally informative.
-Due to the hierarchical constraints, boundaries at low levels necessarily outnumber those at high levels, and thus contribute more to the score.
-However, high-level boundaries may convey more information about the overall structure of the piece, but due
-to their relative scarcity, contribute less to the score.
+Hierarchical constraints imply that boundaries at low levels outnumber those at high levels.
+However, high-level boundaries often convey more information about the overall structure of the piece, but
+their contribution to the total score may be diluted by the abundance of low-level boundaries.
 
 On the other hand, flat scoring before aggregation across layers can be problematic as well, 
 since it discards the relational structure between layers in the reference annotation.
-Consequently, this makes interpretation of the results difficult, as it conflates
-inaccurate boundary detection with mismatch between the target level of the estimate and reference
-annotations~\cite{Smith2013}.
+This can complicate interpretation of the scores by conflating inaccurate boundary detection
+with mismatch between the target levels of the estimate and reference annotations~\cite{Smith2013}.
 
-Finally, the above strategies provide no means for directly comparing \emph{two} hierarchical annotations
-to each-other.  While one may imagine simple comparison strategies when both hierarchies have a small
-number of layers --- \eg, SALAMI's \emph{large}- and \emph{small}-scale annotations --- such an approach is
-likely to become unwieldy when the depth of the hierarchies becomes large or is otherwise uncontrolled.
+Finally, the above strategies provide no means to directly compare two hierarchical annotations.
+While one may imagine simple comparison strategies when both hierarchies have a small
+number of layers with an obvious layer-wise correspondence 
+--- \eg, SALAMI's \emph{large}- and \emph{small}-scale annotations --- it may not be clear how to proceed in
+more general settings.
 % Talk about how good performance at one vs. the other leads to difficult interpretation, eg 0.5 vs. 3s in smith 2014
 
 %As an example, \Cref{trees} depicts two distinct structural decompositions of a song $S$, first into high-level components $A$ and $B$, and then into small components $a, b, c$.
@@ -190,8 +198,8 @@ We will denote precedence (containment) of segments by $\prec$: \eg, $H(j, k) \p
 Note that flat segmentations are a special case of hierarchical segmentations, where there are only two
 levels of segmentation, and the first layer contains no boundaries.
 
-As illustrated in \Cref{fig:hier-example}, hierarchical segmentations can be represented as tree structures.\footnote{To simplify illustrations, 
-the top-level segment spanning the entire track is suppressed.}
+As illustrated in \Cref{fig:hier-example}, hierarchical segmentations can be represented as tree structures.
+%\footnote{To simplify illustrations, the top-level segment spanning the entire track is suppressed.}
 Here, $H(i, i), H(j, j)$ and $H(k,k)$ denote the most specific segments containing frame $i, j$ and $k$,
 respectively.
 From the figure, we observe that $H(j,k)$ identifies the least common ancestor of frames $j$ and $k$.
@@ -216,19 +224,17 @@ j \in H(j, j) \prec H(j, k) \prec H(i, j) = H(i, k).
 Segmentation evaluation can be reduced to a ranking evaluation problem as follows.
 Let $q$ denote an arbitrary frame, and let $i$ and $j$ denote any two frames such that $S_R(q) = S_R(i)$ and $S_R(q) \neq S_R(j)$.
 In this case, $i$ may be considered \emph{relevant} for $q$, and $j$ is considered \emph{irrelevant}.
-
-A per-frame recall metric can be formally defined as
+This leads to the following per-frame recall metric:
 \begin{align}
 f(q ; S_E, S_R) &\defeq  \hspace{-1.5em} \sum_{\substack{i \in S_R(q) \setminus \{q\},\\ j \notin S_R(q)}}
 \hspace{-1.5em}\frac{\ind{S_E(q) = S_E(i) \neq S_E(j) }}{Z_q} \label{flatrecall}\\
 Z_q &\defeq (|S_R(q)| - 1)\cdot (n - |S_R(q)| + 1), \notag
 \end{align}
-where $\ind{\cdot}$ is the indicator function, $n$ denotes the number of frames in the track, and $Z_q$
+where $\ind{\cdot}$ is the indicator function, $n = |X|$ denotes the total number of frames, and $Z_q$
 counts the number of terms in the summation.
 The score for frame $q$ is the fraction of pairs $(i, j)$ for which $S_E$
 agrees with $S_R$ with respect to $q$.
-
-Averaging over all frames $q$ yields a mean recall score:
+Averaging over all $q$ yields a mean recall score:
 \begin{equation}
 \rho(S_E, S_R) \defeq \frac{1}{n} \sum_q f(q ; S_E, S_R).\label{avgrecall}
 \end{equation}
@@ -249,18 +255,17 @@ This leads to the following generalization of \Cref{flatrecall}:
     \hspace{-1.5em} \frac{\ind{H_E(q, i) \prec H_E(q, j)}}{Z_q}.\label{hierrecall}
 \end{equation}
 where $Z_q$ is suitably modified to count the number of terms in the summation.
-This definition is equivalent to \Cref{flatrecall} for flat hierarchies, but can now be applied to
+This definition is equivalent to \Cref{flatrecall} for flat hierarchies, but it applies more generally to 
 hierarchies of arbitrary (and unequal) depth.
 
 Just as in \Cref{flatrecall}, $g$ can be viewed as a classification accuracy of correctly predicting pairs $(i, j)$ as positive ($q$ and $i$ merge first) or negative ($q$ and $j$ merge first).
-The case where $H(q, i) = H(q, j)$ is precluded by the strict precedence operator in the summation.
-
+Ties ($H(q, i) = H(q, j)$) are precluded by the strict precedence operator in the summation.
 \Cref{hierrecall} can be alternately be viewed as a generalized area under the curve (AUC) over the partial
 ranking induced by the hierarchical segmentation, where depth within the estimated hierarchy $H_E$ plays the
 role of the detection threshold.
 
 % Note that the precedence comparisons here are strict, so we never compare two $i$ and $j$ that merge simultaneously with $q$.
-By aggregating over all sample frames $q$, we obtain the \emph{tree-recall} $T$-measure:
+Averaging over $q$ yields the \emph{tree-recall} $T$-measure:
 \begin{equation}
 \shag_R(H_E, H_R) \defeq \frac{1}{n} \sum_q g(q ; H_E, H_R).\label{shagunder}
 \end{equation}
@@ -269,7 +274,7 @@ The \emph{tree-precision} metric $\shag_P(H_E)$ is defined analogously by swappi
 \shag_P(H_E, H_R) \defeq \shag_R(H_R, H_E).
 \end{equation}
 Intuitively, $\shag_R$ measures how many triplets generated by the reference $H_R$ can be found in the estimate $H_E$, 
-while $\shag_P$ computes the reverse comparison.  The $T$-measures retain interpretability as recall and precision scores,
+while $\shag_P$ computes the converse.  The $T$-measures retain interpretability as recall and precision scores,
 albeit at the level of frame triplets rather than boundaries.  Finally, an analogous $F$-measure $\shag_F$ can 
 be defined in the usual way by computing the harmonic mean of $\shag_P$ and $\shag_R$.
 
@@ -279,11 +284,12 @@ be defined in the usual way by computing the harmonic mean of $\shag_P$ and $\sh
 \subsection{Windowing in Time}
 \label{sec:window}
 
-The $T$-measures defined above capture the basic notion of hierarchically nested, frame-level relevance, but they pose two technical limitations.
+The $T$-measures defined above capture the basic notion of hierarchically nested, frame-level relevance, but
+they pose three technical limitations.
 First, the score for each query will generally depend on the track duration $n$, which makes comparisons between tracks of differing length problematic.  
-For large values of $n$, \Cref{hierrecall} may be dominated by trivially irrelevant comparison points $j$ which lie far from $q$ in time, \ie, $|q-i| \ll |q-j|$.
-Longer tracks may produce relatively inflated scores when compared to shorter tracks, simply by virtue of having a large number of ``easy'' comparisons.
-Moreover, the calculation of the $T$-measures as defined in \Cref{shagunder} can be expensive, taking
+Second, for large values of $n$ (long tracks), \Cref{hierrecall} can be dominated by trivially irrelevant comparison points $j$ which lie far from $q$ in time, \ie, $|q-i| \ll |q-j|$.
+Longer tracks will result in relatively inflated scores when compared to shorter tracks, simply by virtue of having a large number of ``easy'' comparisons.
+Finally, the calculation of the $T$-measures as defined in \Cref{shagunder} can be expensive, taking
 $\Oh(n^3)$ time using a direct implementation.
 
 To resolve these issues, we introduce a time window of $w$ seconds to both simplify the 
@@ -306,7 +312,7 @@ and $Z_q(w)$ is again modified to count the terms in the summation.
 This reduces computational complexity from $O(n^3)$ to $\Oh(nw^2)$.
 Moreover, each query frame $q$ now operates over a fixed maximum number of comparisons
 $(i, j)$, and the windowed $T$-measures are comparable between tracks of different lengths (\eg, when
-aggregating scores over a collection).
+compiling score statistics over a collection).
 
 
 \subsection{Transitive reduction}
@@ -318,11 +324,11 @@ Since the summation in \Cref{hierrecall} ranges over all precedence comparisons,
 triple $(q, i, k)$ is double-counted.
 Since segments grow in size at higher levels in the hierarchy, over-counting can dominate the evaluation.
 
-To counteract this effect, the summation can be restricted to only range over direct precedence relations.
-In practice, this is accomplished by only comparing samples from successive levels in the hierarchy, \ie, 
+To counteract this effect, the summation can be restricted to direct precedence relations.
+In practice, this is accomplished by comparing samples only from successive levels in the hierarchy, \ie, 
 replacing the partial ranking generated by $q$ with its transitive reduction.
 This both eliminates redundant comparisons and increases $g$'s effective range.
-We refer to this modification as the \emph{reduced} $T$-measures.
+We refer to the resulting metrics as \emph{reduced} $T$-measures.
 
 
 %\subsection{Choosing a time window}
