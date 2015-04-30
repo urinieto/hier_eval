@@ -625,13 +625,17 @@ The $\shag_R$ scores remain at 100\% for all $w$, as expected.
 \end{figure}
 
 
-\section{Hierarchy in SALAMI}
+\section{Large-scale evaluation}
+In this section, we apply the $T$-measures to quantify inter-annotator agreement in the SALAMI corpus, and
+evaluate the hierarchical predictions of the agglomerative clustering method (OLDA) of 
+McFee and Ellis~\cite{McFee2014}.
+
 \subsection{Human annotator agreement}
 \Cref{fig:SALAMI-SALAMI} illustrates hierarchical annotations obtained from two human annotators on one track in
-the SALAMI dataset, using the large- and small-scale segmentations.
+the SALAMI dataset.
 While the two annotators tend to agree at the small scale, they differ at the large scale.
 This is reflected in the $T$-measures: at large $w$, the recall skews low because the 
-reference's large-scale annotations are coarser than those of the estimation, while the precision remains high because both tend to agree at the small scale.
+reference's large-scale annotations are coarser than those of the estimation.
 
 \begin{figure}[t]
   \centering
@@ -667,7 +671,7 @@ reference's large-scale annotations are coarser than those of the estimation, wh
 \end{figure}
 
 To further investigate inter-annotator agreement, we computed $T$-measure scores between hierarchical
-reference annotations for 410 tracks in the SALAMI dataset.  To simplify the analysis, we
+reference annotations for 410 tracks in the SALAMI dataset.  To simplify exposition, we
 summarize agreement by $\shag_F$. \Cref{fig:salami-agree} illustrates the distribution of
 per-track $\shag_F$ scores as a function of $w$.  We observe that the score distribution is relatively stable
 for $w \geq 15$.\footnote{The analogous plots for $\shag_P$ and $\shag_R$ are omitted for brevity, but illustrate the same
@@ -678,50 +682,63 @@ but is generally representative of inter-annotator agreement.
 The out-lying low scores tend to be examples where one annotator simply ignored structure annotated
 by the other: for example, one annotator only marked \emph{silence} boundaries in track \#68.
 
-This analysis reemphasizes prior observations that humans do not perfectly agree upon structural
-annotations~\cite{Smith2013}, and suggests an accuracy ceiling near 70\% for hierarchical boundary detection.
+This analysis quantitatively substantiates prior observations that humans do not perfectly agree upon structural
+annotations~\cite{Smith2013}, and suggests an accuracy ceiling near 70\% for hierarchical annotation.
 Similarly, it suggests that $w=15$ provides a reasonable default value for the SALAMI dataset.  This setting
 is large enough to capture multiple small-scale segments: in the tracks considered for this evaluation, 
 the median small-scale segment duration was 6.66s, with a 95th percentile of 15.69s.
 
 % SALAMI 636 annotator 1 vs. OLDA\cite{McFee2014}  output \ref{fig:SALAMI-OLDA}.
 \subsection{Annotator vs.\ algorithm}
-Finally, \Cref{fig:SALAMI-OLDA} compares a hierarchical estimation against a hierarchical reference.
-The hierarchical estimation was produced by the agglomerative clustering method of McFee and Ellis~\cite{McFee2014}.
-Note that the estimate produces many more layers than the reference, and the nesting
-structure is quite different, since each layer introduces only a single new segment.
+Finally, we applied $T$-measures to evaluate the quality of hierarchical segmentations produced by
+OLDA~\cite{McFee2014}.\footnote{To the authors' knowledge, this is the only published method for
+hierarchical boundary detection.}
+\Cref{fig:SALAMI-OLDA} illustrates an example hierarchical estimation against a hierarchical reference.
 The reference provides only two levels of segmentation (large and small), while the 
-estimate produces mainly large segments, but exposes more structure among them.
-Consequently, the scores are lower than the annotator-agreement scores listed in
-\Cref{fig:SALAMI-SALAMI}.
+estimate produces many more layers with generally large segments.
+This example is typical behavior for OLDA, which constructs hierarchies in a bottom-up fashion by
+agglomerative clustering.
+%Consequently, the scores are lower than the annotator-agreement scores listed in
+%\Cref{fig:SALAMI-SALAMI}.
+
+\Cref{fig:salami-olda-stats} displays the $\shag_F$ score distribution for OLDA, measured against annotator $1$.
+These results illustrate a significant gap between inter-annotator agreement
+(\Cref{fig:SALAMI-OLDA}) and the performance of OLDA.  This suggests that there is substantial room for
+improvement in hierarchical boundary estimation algorithms.
 
 \begin{figure}[t]
   \centering
-  \begin{subfigure}{0.5\textwidth}
-    \centering
-    \includegraphics[width=0.94\textwidth]{figs/SALAMI-OLDA.pdf}
-  \end{subfigure}%
-  \\
-  \begin{minipage}{0.5\textwidth}
-    \small
-    \centering
-    \vspace{10pt}
-    \begin{tabular}{l|rr|rr}
-      & \multicolumn{2}{c|}{\textbf{Reduced}} & \multicolumn{2}{c}{\textbf{Full}} \\
-      $w$       & $\shag_R$    & $\shag_P$  & $\shag_R$ & $\shag_P$    \\
-      \hline
-      0.5       & 0.14       & 1.00  & 0.28 & 0.55 \\
-      3         & 0.20       & 1.00  & 0.34 & 0.72    \\
-      15        & 0.62       & 0.56  & 0.66 & 0.70 \\
-      30        & 0.76       & 0.53  & 0.80 & 0.58  \\
-      $\infty$  & 0.90       & 0.16  & 0.93 & 0.42
-  \end{tabular}
-  \end{minipage}
-  \caption{Hierarchical annotation for SALAMI track \#636 vs.\ hierarchical boundary
-  estimates~\cite{McFee2014} (top) and $T$-measures scores (bottom).}
+%  \begin{subfigure}{0.5\textwidth}
+%    \centering
+   \includegraphics[width=\columnwidth]{figs/SALAMI-OLDA}
+%  \end{subfigure}%
+%  \\
+%  \begin{minipage}{0.5\textwidth}
+%    \small
+%    \centering
+%    \vspace{10pt}
+%    \begin{tabular}{l|rr|rr}
+%      & \multicolumn{2}{c|}{\textbf{Reduced}} & \multicolumn{2}{c}{\textbf{Full}} \\
+%      $w$       & $\shag_R$    & $\shag_P$  & $\shag_R$ & $\shag_P$    \\
+%      \hline
+%      0.5       & 0.14       & 1.00  & 0.28 & 0.55 \\
+%      3         & 0.20       & 1.00  & 0.34 & 0.72    \\
+%      15        & 0.62       & 0.56  & 0.66 & 0.70 \\
+%      30        & 0.76       & 0.53  & 0.80 & 0.58  \\
+%      $\infty$  & 0.90       & 0.16  & 0.93 & 0.42
+%  \end{tabular}
+%  \end{minipage}
+  \caption{Hierarchical reference annotation vs.\ OLDA on SALAMI track \#636.}
+  %(top) and $T$-measures scores (bottom).}
   \label{fig:SALAMI-OLDA}
 \end{figure}
 
+\begin{figure}[t]
+    \centering
+    \includegraphics[width=\columnwidth]{figs/salami-olda-stats}
+    \caption{$\shag_F$ scores between OLDA and human reference annotations on the SALAMI dataset.}
+    \label{fig:salami-olda-stats}
+\end{figure}
 %\section{Evaluating Automatic Algorithm}
 
 %Olda\cite{McFee2014} with SALAMI.
