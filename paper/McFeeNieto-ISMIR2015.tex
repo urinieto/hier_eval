@@ -224,19 +224,17 @@ j \in H(j, j) \prec H(j, k) \prec H(i, j) = H(i, k).
 Segmentation evaluation can be reduced to a ranking evaluation problem as follows.
 Let $q$ denote an arbitrary frame, and let $i$ and $j$ denote any two frames such that $S_R(q) = S_R(i)$ and $S_R(q) \neq S_R(j)$.
 In this case, $i$ may be considered \emph{relevant} for $q$, and $j$ is considered \emph{irrelevant}.
-
-A per-frame recall metric can be formally defined as
+This leads to the following per-frame recall metric:
 \begin{align}
 f(q ; S_E, S_R) &\defeq  \hspace{-1.5em} \sum_{\substack{i \in S_R(q) \setminus \{q\},\\ j \notin S_R(q)}}
 \hspace{-1.5em}\frac{\ind{S_E(q) = S_E(i) \neq S_E(j) }}{Z_q} \label{flatrecall}\\
 Z_q &\defeq (|S_R(q)| - 1)\cdot (n - |S_R(q)| + 1), \notag
 \end{align}
-where $\ind{\cdot}$ is the indicator function, $n$ denotes the number of frames in the track, and $Z_q$
+where $\ind{\cdot}$ is the indicator function, $n = |X|$ denotes the total number of frames, and $Z_q$
 counts the number of terms in the summation.
 The score for frame $q$ is the fraction of pairs $(i, j)$ for which $S_E$
 agrees with $S_R$ with respect to $q$.
-
-Averaging over all frames $q$ yields a mean recall score:
+Averaging over all $q$ yields a mean recall score:
 \begin{equation}
 \rho(S_E, S_R) \defeq \frac{1}{n} \sum_q f(q ; S_E, S_R).\label{avgrecall}
 \end{equation}
@@ -267,7 +265,7 @@ ranking induced by the hierarchical segmentation, where depth within the estimat
 role of the detection threshold.
 
 % Note that the precedence comparisons here are strict, so we never compare two $i$ and $j$ that merge simultaneously with $q$.
-By aggregating over all sample frames $q$, we obtain the \emph{tree-recall} $T$-measure:
+Averaging over $q$ yields the \emph{tree-recall} $T$-measure:
 \begin{equation}
 \shag_R(H_E, H_R) \defeq \frac{1}{n} \sum_q g(q ; H_E, H_R).\label{shagunder}
 \end{equation}
