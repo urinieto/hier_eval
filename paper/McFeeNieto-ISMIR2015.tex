@@ -100,12 +100,12 @@ evaluating non-repeating, hierarchical structure.
 We present the \emph{Tree Measures} ($T$-measures): an evaluation framework designed
 to measure the accuracy of boundary detection in hierarchical segmentations.
 %The proposed metrics work at a frame-level --- similar to the method proposed by Levy and Sandler to evaluate structural annotations~\cite{Levy2008} --- and they are based on a rank retrieval evaluation where each frame is ranked depending on whether it belongs to the \emph{correct} segment.
-The $T$-measures operate by first computing similarities between frames of a track according to distance in the segment hierarchy, and these similarities are scored by
-a measure of ranking correlation against those of the reference annotation.
-The segmentation is evaluated simultaneously across all hierarchical layers, and the resulting scores can be applied to either hierarchical or flat boundary annotations.
-%(Note that a flat segmentation is only a specific case of a hierarchical one, where the number of layers is one.)
-With the $T$-measures, we facilitate the evaluation of existing flat estimations against hierarchical reference annotations (like those of~\cite{Smith2011}), and encourage the development of new algorithms
-to produce richer representations of structure.
+The $T$-measures operate by inferring frame-wise similarity from a hierarchical annotation, and then comparing 
+the induced rank-orderings of frames to assess agreement between reference and estimated annotations.
+The $T$-measures integrate information from all layers of a hierarchy, but also trivially
+specialize to handle flat (single-layer) annotations, and require no explicit correspondence between the
+depth of the estimated and reference hierarchies.
+The $T$-measures seamlessly thus encourage the development of new algorithms to produce richer representations of structure.
 We demonstrate the behavior of the $T$-measures with multiple synthetic and human examples, and compare the scores with existing methods when possible.
 
 %The rest of the paper is organized as follows:
@@ -116,20 +116,19 @@ We demonstrate the behavior of the $T$-measures with multiple synthetic and huma
 
 \section{Segment Boundary Evaluation}\label{sec:curr_meth}
 
-Music segmentation algorithms are typically evaluated for two distinct goals.  
-The first goal, known as \emph{boundary detection}, evaluates the estimated segmentation's accuracy at detecting the times of transitions between segments.
-The second goal, known as \emph{structural grouping}, evaluates the labeling applied to the estimated segmentation, and thus quantifies the ability of an
-algorithm to detect repeated forms, such as verses or refrains. 
+Segmentation algorithms are typically evaluated for two distinct goals.  
+The first goal, \emph{boundary detection}, evaluates the algorithm's ability to detect the times of transitions between segments.
+The second goal, \emph{structural grouping}, evaluates the labeling applied to the estimated segmentation, and thus quantifies the ability of an algorithm to detect repeated forms, such as verses or refrains. 
 In this paper, we focus exclusively on the boundary detection task.
 
-Boundary estimates are primarily evaluated in terms of precision and recall~\cite{turnbull2007supervised}.
-Formally, estimated and reference boundaries are matched within a specified tolerance window --- typically either 0.5 or 3 seconds --- and the hit rate $n_h$ (number of successful matches) is used to define precision and recall scores:
+Boundary estimates are typically evaluated by precision and recall~\cite{turnbull2007supervised}.
+Estimated and reference boundaries are matched within a specified tolerance window --- typically either 0.5 or 3 seconds --- and the hit rate $n_h$ (number of matches) is used to define precision and recall scores:
 \begin{equation}
 P \defeq \frac{n_h}{n_e}, \quad\quad R \defeq \frac{n_h}{n_r},
 \end{equation}
 where $n_e$ and $n_r$ denote the number of boundaries in the estimated and reference
 annotations, respectively.
-As is standard in information retrieval, $P$ and $R$ are combined into an $F$-measure by computing their harmonic mean.
+$P$ and $R$ are typically combined into a single $F$-measure by computing their harmonic mean.
 
 Boundary detection has also been evaluated by \emph{deviation}~\cite{turnbull2007supervised}.
 This is done by measuring the median time (absolute) differential between each reference boundary and the nearest estimated boundary (\emph{R2E}), and vice versa (\emph{E2R}).
@@ -137,28 +136,28 @@ Boundary deviation is useful for quantifying the temporal accuracy of a detectio
 However, it can be sensitive to the number of estimated boundaries.
 
 \subsection{The limitations of flat evaluation}
-The precision-recall paradigm has been critical to quantifying improvements in segmentation algorithms, but it has numerous limitations when confronted with hierarchical annotations.
+The precision-recall paradigm has been critical to quantifying improvements in segmentation algorithms, but it has numerous limitations with hierarchical annotations.
 The most obvious limitation is that both the reference and estimated annotations must have flat structure.
 This is sometimes resolved by collecting multiple flat reference annotations for each track, 
 each corresponding to a different level of analysis~\cite{Smith2011}.
 
 When only the estimation is flat, it is still not obvious how to compute accuracy against multiple layers.
-Na\"ive aggregation of reference boundaries across all layers (prior to, \eg, precision-recall scoring) would imply 
+Na\"ive aggregation of reference boundaries across all layers prior to evaluation would imply 
 that all boundaries are equally informative.
-Due to the hierarchical constraints, boundaries at low levels necessarily outnumber those at high levels, and thus contribute more to the score.
-However, high-level boundaries may convey more information about the overall structure of the piece, but due
-to their relative scarcity, contribute less to the score.
+Hierarchical constraints imply that boundaries at low levels outnumber those at high levels.
+However, high-level boundaries often convey more information about the overall structure of the piece, but
+their contribution to the total score may be diluted by the abundance of low-level boundaries.
 
 On the other hand, flat scoring before aggregation across layers can be problematic as well, 
 since it discards the relational structure between layers in the reference annotation.
-Consequently, this makes interpretation of the results difficult, as it conflates
-inaccurate boundary detection with mismatch between the target level of the estimate and reference
-annotations~\cite{Smith2013}.
+This can complicate interpretation of the scores by conflating inaccurate boundary detection
+with mismatch between the target levels of the estimate and reference annotations~\cite{Smith2013}.
 
-Finally, the above strategies provide no means for directly comparing \emph{two} hierarchical annotations
-to each-other.  While one may imagine simple comparison strategies when both hierarchies have a small
-number of layers --- \eg, SALAMI's \emph{large}- and \emph{small}-scale annotations --- such an approach is
-likely to become unwieldy when the depth of the hierarchies becomes large or is otherwise uncontrolled.
+Finally, the above strategies provide no means to directly compare two hierarchical annotations.
+While one may imagine simple comparison strategies when both hierarchies have a small
+number of layers with an obvious layer-wise correspondence 
+--- \eg, SALAMI's \emph{large}- and \emph{small}-scale annotations --- it may not be clear how to proceed in
+more general settings.
 % Talk about how good performance at one vs. the other leads to difficult interpretation, eg 0.5 vs. 3s in smith 2014
 
 %As an example, \Cref{trees} depicts two distinct structural decompositions of a song $S$, first into high-level components $A$ and $B$, and then into small components $a, b, c$.
