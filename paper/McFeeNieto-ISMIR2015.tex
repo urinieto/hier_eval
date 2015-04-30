@@ -344,7 +344,7 @@ We refer to the resulting metrics as \emph{reduced} $T$-measures.
 
 
 
-\section{Examples}\label{sec:examples}
+\section{Synthetic examples}\label{sec:examples}
 
 In this section we discuss the behavior of the $T$-measures by showing various synthetic examples, and compare them against other existing methods when possible.
 %We show the two grades of $T$-measures (undersegmentation, oversegmentation) for all the examples in this sections
@@ -355,14 +355,15 @@ This section is subdivided by type of annotations under consideration.
 
 \subsection{Flat vs.\ flat annotations}
 
-We first compare two flat boundary annotations to demonstrate how the $T$-measures behave compared to the standard hit rate measure at 3 seconds, as well as boundary deviation scores.
-The synthesized flat boundaries are displayed on the top of \Cref{fig:flat-flat}, and they aim to capture a situation where an algorithm only estimates --- without any time deviations --- a subset of all the reference boundaries.
+We first compare two flat boundary annotations to demonstrate how the $T$-measures behave compared to 
+standard boundary detection.
+When both annotations are flat, the reduced $T$-measures behave identically to the full measures, so we omit
+them from this section.
+The synthesized flat boundaries are displayed on the top of \Cref{fig:flat-flat}, and they aim to capture a
+situation where an algorithm correctly detects a subset of the reference boundaries.  
 
-The hit rate scores obtain recall of 40\% and precision of 100\%, since all estimated boundaries are also in the reference, but only two out of five boundaries were retrieved.\footnote{The first and last boundaries ($0$ and $60$s) mark the beginning and end of the track, and since they 
+The hit rate scores obtain recall of 0.40 and precision of 1.0, since all estimated boundaries are also in the reference, but only two out of five boundaries were retrieved.\footnote{The first and last boundaries ($0$ and $60$s) mark the beginning and end of the track, and since they 
 are constant across all estimates, we suppress them during evaluation to avoid score inflation.}
-The median deviations (not shown) are always 0 since we did not add any fluctuation in
-the boundaries.
-
 \begin{figure}
   \centering
   \begin{subfigure}{0.5\textwidth}
@@ -389,45 +390,45 @@ the boundaries.
     (hit-rate) scores (bottom).}
   \label{fig:flat-flat}
 \end{figure}
-
 When $w$ does not exceed the minimum segment duration, the $T$-measures coincide
-with the boundary detection metrics.
-For larger $w$, we observe that $\shag_P$ decreases, while $\shag_R$ increases.
+exactly with the boundary detection metrics.
+For larger $w$, $\shag_P$ decreases, while $\shag_R$ increases.
 
 To understand the relationship between $\shag_P$ and $w$, consider the example 
 $(q,i,j) = (5,15,25)$.
-The estimation considers $i$ to be relevant for $q$ (since they belong to the same large
-segment), and $j$ to be irrelevant for $q$. Meanwhile, the reference considers both $i$
+The estimation considers $i$ to be relevant for $q$ (since they belong to the segment $[0, 20]$), 
+and $j$ to be irrelevant for $q$. Meanwhile, the reference considers both $i$
 and $j$ to be equally irrelevant for $q$, so this triple contributes 0 to the precision
 metric.
-Note that this situation arises only when $w$ is large enough to span multiple short
+Note that this comparison is counted only when $w$ is large enough to span multiple
 segments.
 
 In general, sensitivity to long-range interactions increases with $w$.
-This illustrates how the window size must depend on the duration and scale of structure
+This illustrates how the window size depends on the duration and scale of structure
 that the practitioner wishes to capture.
 
 \subsection{Flat vs.\ hierarchical annotations}
 
-Here we present four different examples of flat estimations against a fixed hierarchical reference.
+Here we present four examples of flat estimations against a fixed hierarchical reference, but note that the
+reverse comparisons can be inferred by swapping $T_P$ and $T_R$.
 
-\subsubsection{Large-scale and over-segmentation}
+\subsubsection{Large-scale and under-segmentation}
 \label{sec:largeover}
 
-\Cref{fig:hier-flatlarge} illustrates a flat estimation corresponding to the highest layer of the hierarchical reference.
+\Cref{fig:hier-flatlarge} illustrates a flat estimation corresponding to the highest layer of 
+a hierarchical reference.
 We report $T$-measures with and without the transitive reduction strategy described in
 \Cref{sec:transitive}.  The $T$-measures behave as expected: the tree-precision score
-$\shag_P$ is always 100\%, since the reference annotation agrees with the estimation at
-the high level.  We also observe the general trend that \emph{full} scores exceed 
+$\shag_P$ is always 100\%, since the reference contains the estimation.
+We also observe the general trend that \emph{full} scores exceed 
 \emph{reduced} scores.
 
-For small time windows ($w \leq 3$), the full tree-recall score is 40\%, since it
-resembles the situation of \Cref{fig:flat-flat}.
+For small time windows ($w \leq 3$), the full tree-recall score is 40\%, just as in the previous example.
 The \emph{reduced} recall scores in this case are 0 because no frame $q$ in the
 estimation has two frames $i, j$ both within $w \leq 3$ seconds that merge within one layer of each-other in the reference. 
 
 
-\Cref{fig:hier-flatlarger} illustrates an example of a pure under-segmentation: the estimation misses a high-level structural change at 20s.  
+\Cref{fig:hier-flatlarger} illustrates an example of under-segmentation: the estimation misses a high-level structural change at 20s.  
 Again, small $w$ yields $T$-measures which coincide with standard boundary detection metrics.
 Larger $w$ increases the tree-recall (and decreases precision)
 since only long-range interactions are well represented in the estimation.
@@ -491,24 +492,22 @@ since only long-range interactions are well represented in the estimation.
 
 % Since, as in the large scale case, we are not over-segmenting, the over-segmentation grades are 100\% for all the time windows.
 \Cref{fig:hier-flatsmall} illustrates an example comparable to \Cref{fig:hier-flatlarge}, except that the
-estimate now corresponds to the bottom layer of the reference annotation.
-Because the reference and estimate agree at the lowest level, every triple derived from
-$H_E$ is satisfied in $H_R$, and the precision score is maximal for all time windows.
+estimation now corresponds to the bottom layer of the reference annotation.
+Again, since the reference contains the estimation, precision is maximal for all $w$.
 % As opposed to the previous example, now the lower layer of the reference boundaries match exactly with the estimations, that results into perfect under-segmentation scores for the shorter time windows.
 % In this case, the higher the $w$, the lower these under-segmentation grades as expected, since we should not evaluate an algorithm as perfect if it only identifies one layer of the hierarchical boundaries found in the reference.
-Note, however, that the reference provides strictly more information than the estimate.  For example, the estimate considers samples at $i=15$ and $j=45$ to be equally irrelevant for a 
-query at $q=5$, while the reference indicates a preference for $i=15$.
-These effects are only apparent with sufficiently large $w$, \ie, larger than the
-smallest segment duration (10s).  This can be easily observed in the $\shag_R$
-scores in \Cref{fig:hier-flatsmall}, which decline when the window size grows
-large enough to span multiple small segments.
+However, the reference provides strictly more information: namely, it encodes structure over 
+the low-level segments.
+%For example, the estimate considers samples at $i=15$ and $j=45$ to be equally irrelevant for a 
+%query at $q=5$, while the reference indicates a preference for $i=15$.
+The $T$-measures quantify the missing information in the estimation
+When $w$ exceeds the smallest segment duration (10s), $\shag_R$ decreases.
+This information would be obscured by independent, layer-wise boundary evaluation.
 
-Similarly, \Cref{fig:hier-flatsmaller} illustrates an \emph{over-segmentation}, where the
-flat estimation
-predicts more boundaries than the deepest layer of the reference.  Again, the tree-recall
-scores decay when the window captures multiple short segments.
-Unlike the over-segmented example in \Cref{fig:hier-flatlarger}, long-range interactions derived from $H_E$ are mostly satisfied by $H_R$, so $\shag_P$ increases
-rather than decreases.
+Similarly, \Cref{fig:hier-flatsmaller} illustrates an \emph{over-segmentation} where the estimation
+predicts more boundaries than the deepest layer of the reference.  
+Again, the $\shag_R$ decays when the window captures multiple short segments.
+Unlike the under-segmented example in \Cref{fig:hier-flatlarger}, long-range interactions derived from $H_E$ are mostly satisfied by $H_R$, so $\shag_P$ increases rather than decreases.
 
 \begin{figure}[t]
   \centering
@@ -589,15 +588,14 @@ rather than decreases.
 %   \label{fig:hier-hier}
 % \end{figure}
 
-In \Cref{fig:hier-hiercomp}, the boundaries (top) and the results (bottom) of two different hierarchical segmentations are shown.
-In this case, the estimated boundaries contain a third additional layer covering the first two large segments of its second layer.
-Note that the lowest two layers of the estimation are exactly the same as the two layers of the reference.
-The scores at small $w$ show a perfect agreement for both $T$-measures, since the window
-is not large enough to resolve the differences between reference and estimation.
-However, as $w$ increases, we see how the precision score $\shag_P$ decreases as expected, since the
-estimation has found an additional segment not captured in the reference.
+\Cref{fig:hier-hiercomp} compares two different hierarchical segmentations.
+In this case, the estimation contains a third, high-level layer, but is otherwise identical to the reference.
+At small $w$, both $T$-measures agree perfectly, since the window
+is not large enough to resolve differences.
+However, as $w$ increases, $\shag_P$ decreases as expected, since the
+estimation has found an additional structural element not captured in the reference.
 % (even if this new segment creates a new layer it still oversegments).
-The tree-recall scores remain at 100\% for all $w$, as expected.
+The $\shag_R$ scores remain at 100\% for all $w$, as expected.
 
 
 \begin{figure}[t]
@@ -627,6 +625,7 @@ The tree-recall scores remain at 100\% for all $w$, as expected.
 \end{figure}
 
 
+\section{Hierarchy in SALAMI}
 \subsection{Human annotator agreement}
 \Cref{fig:SALAMI-SALAMI} illustrates hierarchical annotations obtained from two human annotators on one track in
 the SALAMI dataset, using the large- and small-scale segmentations.
