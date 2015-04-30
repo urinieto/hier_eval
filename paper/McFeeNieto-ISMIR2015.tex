@@ -105,7 +105,7 @@ the induced rank-orderings of frames to assess agreement between reference and e
 The $T$-measures integrate information from all layers of a hierarchy, but also trivially
 specialize to handle flat annotations, and require no explicit correspondence between the
 depth of the estimated and reference hierarchies.
-The $T$-measures seamlessly thus encourage the development of new algorithms to produce richer representations of structure.
+Thus, the $T$-measures seamlessly encourage the development of new algorithms to produce richer representations of structure.
 We demonstrate the behavior of the $T$-measures with multiple synthetic and human examples, and compare the scores with existing methods when possible.
 
 %The rest of the paper is organized as follows:
@@ -172,7 +172,7 @@ more general settings.
 
 \section{The Tree Measures}\label{sec:eval_desc}
 \sloppy
-In this section, we derive the \emph{tree measures} for evaluating multi-level structural boundary detection.
+In this section, we derive the \emph{tree measures} for evaluating multi-level segment boundary detection.
 %The proposed evaluation scheme explicitly accounts for cross-layer structure in segmentation, and directly accommodates multiple layers of specificity in both the reference and estimation.
 The evaluation is based on a reduction to ranking evaluation, which we describe in detail below.
 
@@ -243,7 +243,7 @@ Averaging over all $q$ yields a mean recall score:
 \subsection{Hierarchies and partial ranking}
 
 \Cref{flatrecall} is defined in terms of segment membership (in)equalities, but it has a straightforward 
-generalized to hierarchical segmentations.
+generalization to hierarchical segmentations.
 If we restrict attention to a query sample $q$, then $H(q, \cdot)$ induces a partial ranking over the remaining samples.
 Frames contained in $H(q, q)$ are considered maximally relevant, followed by those in $H(q, q)$'s immediate ancestor, and so on.
 
@@ -346,7 +346,7 @@ We refer to the resulting metrics as \emph{reduced} $T$-measures.
 
 \section{Synthetic examples}\label{sec:examples}
 
-In this section we discuss the behavior of the $T$-measures by showing various synthetic examples, and compare them against other existing methods when possible.
+In this section we discuss the behavior of the $T$-measures by showing various synthetic examples, and comparing them against other existing methods when possible.
 %We show the two grades of $T$-measures (undersegmentation, oversegmentation) for all the examples in this sections
 %Two different versions of each metric are used to evaluate these examples: Estimated against Reference boundaries (E2R), and the Reference boundaries against the Estimated ones (R2E).
 %These results will help us illustrate the variation of the scores when swapping the references with the estimations, which, in the case of $T$-measures, has a significant impact.
@@ -363,7 +363,7 @@ The synthesized flat boundaries are displayed on the top of \Cref{fig:flat-flat}
 situation where an algorithm correctly detects a subset of the reference boundaries.  
 
 The hit rate scores obtain recall of 0.40 and precision of 1.0, since all estimated boundaries are also in the reference, but only two out of five boundaries were retrieved.\footnote{The first and last boundaries ($0$ and $60$s) mark the beginning and end of the track, and since they 
-are constant across all estimates, we suppress them during evaluation to avoid score inflation.}
+are constant across all estimates, we suppress them during the evaluation to avoid score inflation.}
 \begin{figure}
   \centering
   \begin{subfigure}{0.5\textwidth}
@@ -671,7 +671,9 @@ reference's large-scale annotations are coarser than those of the estimation.
 \end{figure}
 
 To further investigate inter-annotator agreement, we computed $T$-measure scores between hierarchical
-reference annotations for 410 tracks in the SALAMI dataset.  To simplify exposition, we
+reference annotations for the 410 tracks in the SALAMI dataset where two annotations are available and
+both mark the start and end times of the song equally at both levels.  
+To simplify exposition, we
 summarize agreement by $\shag_F$. \Cref{fig:salami-agree} illustrates the distribution of
 per-track $\shag_F$ scores as a function of $w$.  We observe that the score distribution is relatively stable
 for $w \geq 15$.\footnote{The analogous plots for $\shag_P$ and $\shag_R$ are omitted for brevity, but illustrate the same
@@ -703,7 +705,7 @@ agglomerative clustering.
 
 \Cref{fig:salami-olda-stats} displays the $\shag_F$ score distribution for OLDA, measured against annotator $1$.
 These results illustrate a significant gap between inter-annotator agreement
-(\Cref{fig:SALAMI-OLDA}) and the performance of OLDA.  This suggests that there is substantial room for
+(\Cref{fig:salami-agree}) and the performance of OLDA.  This suggests that there is substantial room for
 improvement in hierarchical boundary estimation algorithms.
 
 \begin{figure}[t]
