@@ -395,7 +395,9 @@ are constant across all estimates, we suppress them during the evaluation to avo
 \end{figure}
 When $w$ does not exceed the minimum segment duration, the $T$-measures coincide
 exactly with the boundary detection metrics.
-For larger $w$, $\shag_P$ decreases, while $\shag_R$ increases.
+For larger $w$, $\shag_P$ decreases, while $\shag_R$ increases, obtaining a very large boost as $w$ approaches the length of the track.
+As suggested by these results, a sweet spot for $w$ might be around 15 seconds in this specific example.
+This will be further explored in Section~\ref{subsec:human-annotator}.
 
 To understand the relationship between $\shag_P$ and $w$, consider the example 
 $(q,i,j) = (5,15,25)$.
@@ -643,7 +645,7 @@ In this section, we apply the $T$-measures to quantify inter-annotator agreement
 evaluate the hierarchical predictions of the agglomerative clustering method (OLDA) of 
 McFee and Ellis~\cite{McFee2014}.
 
-\subsection{Human annotator agreement}
+\subsection{Human annotator agreement}\label{subsec:human-annotator}
 \Cref{fig:SALAMI-SALAMI} illustrates hierarchical annotations obtained from two human annotators on one track in
 the SALAMI dataset.
 While the two annotators tend to agree at the small scale, they differ at the large scale.
@@ -716,12 +718,13 @@ estimate produces many more layers with generally large segments.
 As a result, for sufficiently large $w$, the estimation achieves high recall and low precision.
 This behavior is typical of the OLDA method, which constructs hierarchies in a bottom-up fashion by
 agglomerative clustering, adding only a single boundary at each layer.
+Furthermore, due to the depth of the estimated boundaries, the Full results are inflated compared to the Reduced ones.
 %Consequently, the scores are lower than the annotator-agreement scores listed in
 %\Cref{fig:SALAMI-SALAMI}.
 
 \Cref{fig:salami-olda-stats} displays the $\shag_F$ score distribution for OLDA, measured against annotator
-$1$ on 726 tracks from SALAMI\@, and using three different window settings.
-These results reveal a significant gap between inter-annotator agreement
+$1$ on 726 tracks from SALAMI\@, and using three different window settings and the reduced type.
+These results reveal a gap of around 30\% between inter-annotator agreement
 (\Cref{fig:salami-agree}) and the performance of OLDA\@.
 This suggests that there is substantial room for improvement in hierarchical boundary estimation algorithms.
 
