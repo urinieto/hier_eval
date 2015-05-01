@@ -366,12 +366,13 @@ The hit rate scores obtain recall of 0.40 and precision of 1.0, since all estima
 are constant across all estimates, we suppress them during the evaluation to avoid score inflation.}
 \begin{figure}
   \centering
-  \begin{subfigure}{0.5\textwidth}
+  \begin{subfigure}{\columnwidth}
     \centering
     \includegraphics[width=0.94\textwidth]{figs/flat-flat.pdf}
   \end{subfigure}%
   \\
-  \begin{minipage}{0.5\textwidth}
+  \vspace{-\baselineskip}
+  \begin{minipage}{\columnwidth}
     \small
     \centering
     \vspace{10pt}
@@ -436,12 +437,13 @@ since only long-range interactions are well represented in the estimation.
 
 \begin{figure}
   \centering
-  \begin{subfigure}{0.5\textwidth}
+  \begin{subfigure}{\columnwidth}
     \centering
     \includegraphics[width=0.94\textwidth]{figs/hier-flatlarge.pdf}
   \end{subfigure}%
   \\
-  \begin{minipage}{0.5\textwidth}
+  \vspace{-\baselineskip}
+  \begin{minipage}{\columnwidth}
     \small
     \centering
     \vspace{10pt}
@@ -462,12 +464,13 @@ since only long-range interactions are well represented in the estimation.
 
 \begin{figure}
   \centering
-  \begin{subfigure}{0.5\textwidth}
+  \begin{subfigure}{\columnwidth}
     \centering
     \includegraphics[width=0.94\textwidth]{figs/hier-flatlarger.pdf}
   \end{subfigure}%
   \\
-  \begin{minipage}{0.5\textwidth}
+  \vspace{-\baselineskip}
+  \begin{minipage}{\columnwidth}
     \small
     \centering
     \vspace{10pt}
@@ -511,12 +514,13 @@ Unlike the under-segmented example in \Cref{fig:hier-flatlarger}, long-range int
 
 \begin{figure}[t]
   \centering
-  \begin{subfigure}{0.5\textwidth}
+  \begin{subfigure}{\columnwidth}
     \centering
     \includegraphics[width=0.94\textwidth]{figs/hier-flatsmall.pdf}
   \end{subfigure}%
   \\
-  \begin{minipage}{0.5\textwidth}
+  \vspace{-\baselineskip}
+  \begin{minipage}{\columnwidth}
     \small
     \centering
     \vspace{10pt}
@@ -537,12 +541,13 @@ Unlike the under-segmented example in \Cref{fig:hier-flatlarger}, long-range int
 
 \begin{figure}[t]
   \centering
-  \begin{subfigure}{0.5\textwidth}
+  \begin{subfigure}{\columnwidth}
     \centering
     \includegraphics[width=0.94\textwidth]{figs/hier-flatsmaller.pdf}
   \end{subfigure}%
   \\
-  \begin{minipage}{0.5\textwidth}
+  \vspace{-\baselineskip}
+  \begin{minipage}{\columnwidth}
     \small
     \centering
     \vspace{10pt}
@@ -568,12 +573,12 @@ Unlike the under-segmented example in \Cref{fig:hier-flatlarger}, long-range int
 
 % \begin{figure}[t]
 %   \centering
-%   \begin{subfigure}{0.5\textwidth}
+%   \begin{subfigure}{\columnwidth}
 %     \centering
 %     \includegraphics[width=0.94\textwidth]{figs/hier-hier.pdf}
 %   \end{subfigure}%
 %   \\
-%   \begin{minipage}{0.5\textwidth}
+%   \begin{minipage}{\columnwidth}
 %     \centering
 %     \vspace{10pt}
 %     \begin{tabular}{|c|c|c|}
@@ -600,12 +605,13 @@ The $\shag_R$ scores remain at 100\% for all $w$, as expected.
 
 \begin{figure}[t]
   \centering
-  \begin{subfigure}{0.5\textwidth}
+  \begin{subfigure}{\columnwidth}
     \centering
     \includegraphics[width=0.94\textwidth]{figs/hier-hiercomp.pdf}
   \end{subfigure}%
   \\
-  \begin{minipage}{0.5\textwidth}
+  \vspace{-\baselineskip}
+  \begin{minipage}{\columnwidth}
     \small
     \centering
     \vspace{10pt}
@@ -639,12 +645,13 @@ reference's large-scale annotations are coarser than those of the estimation.
 
 \begin{figure}[t]
   \centering
-  \begin{subfigure}{0.5\textwidth}
+  \begin{subfigure}{\columnwidth}
     \centering
     \includegraphics[width=0.99\textwidth]{figs/SALAMI-SALAMI.pdf}
   \end{subfigure}%
   \\
-  \begin{minipage}{0.5\textwidth}
+  \vspace{-\baselineskip}
+  \begin{minipage}{\columnwidth}
     \small
     \centering
     \vspace{10pt}
@@ -697,41 +704,44 @@ OLDA~\cite{McFee2014}.\footnote{To the authors' knowledge, this is the only publ
 hierarchical boundary detection.}
 \Cref{fig:SALAMI-OLDA} illustrates an example hierarchical estimation against a hierarchical reference.
 The reference provides only two levels of segmentation (large and small), while the 
-estimate produces many more layers with generally large segments.
-This example is typical behavior for OLDA, which constructs hierarchies in a bottom-up fashion by
-agglomerative clustering.
+estimate produces many more layers with generally large segments.  
+As a result, for sufficiently large $w$, the estimation achieves high recall and low precision.
+This behavior is typical of the OLDA method, which constructs hierarchies in a bottom-up fashion by
+agglomerative clustering, adding only a single boundary at each layer.
 %Consequently, the scores are lower than the annotator-agreement scores listed in
 %\Cref{fig:SALAMI-SALAMI}.
 
-\Cref{fig:salami-olda-stats} displays the $\shag_F$ score distribution for OLDA, measured against annotator $1$.
-These results illustrate a significant gap between inter-annotator agreement
-(\Cref{fig:salami-agree}) and the performance of OLDA.  This suggests that there is substantial room for
-improvement in hierarchical boundary estimation algorithms.
+\Cref{fig:salami-olda-stats} displays the $\shag_F$ score distribution for OLDA, measured against annotator
+$1$ on 726 tracks from SALAMI\@, and using three different window settings.
+These results reveal a significant gap between inter-annotator agreement
+(\Cref{fig:salami-agree}) and the performance of OLDA\@.
+This suggests that there is substantial room for improvement in hierarchical boundary estimation algorithms.
 
 \begin{figure}[t]
   \centering
-%  \begin{subfigure}{0.5\textwidth}
-%    \centering
+  \begin{subfigure}{\columnwidth}
+    \centering
    \includegraphics[width=\columnwidth]{figs/SALAMI-OLDA}
-%  \end{subfigure}%
-%  \\
-%  \begin{minipage}{0.5\textwidth}
-%    \small
-%    \centering
-%    \vspace{10pt}
-%    \begin{tabular}{l|rr|rr}
-%      & \multicolumn{2}{c|}{\textbf{Reduced}} & \multicolumn{2}{c}{\textbf{Full}} \\
-%      $w$       & $\shag_R$    & $\shag_P$  & $\shag_R$ & $\shag_P$    \\
-%      \hline
-%      0.5       & 0.14       & 1.00  & 0.28 & 0.55 \\
-%      3         & 0.20       & 1.00  & 0.34 & 0.72    \\
-%      15        & 0.62       & 0.56  & 0.66 & 0.70 \\
-%      30        & 0.76       & 0.53  & 0.80 & 0.58  \\
-%      $\infty$  & 0.90       & 0.16  & 0.93 & 0.42
-%  \end{tabular}
-%  \end{minipage}
-  \caption{Hierarchical reference annotation vs.\ OLDA on SALAMI track \#636.}
-  %(top) and $T$-measures scores (bottom).}
+  \end{subfigure}%
+  \\
+  \vspace{-\baselineskip}
+  \begin{minipage}{\columnwidth}
+    \small
+    \centering
+    \vspace{10pt}
+    \begin{tabular}{l|rr|rr}
+      & \multicolumn{2}{c|}{\textbf{Reduced}} & \multicolumn{2}{c}{\textbf{Full}} \\
+      $w$       & $\shag_R$    & $\shag_P$  & $\shag_R$ & $\shag_P$    \\
+      \hline
+      0.5       & 0.14       & 1.00  & 0.28 & 0.55 \\
+      3         & 0.20       & 1.00  & 0.34 & 0.72    \\
+      15        & 0.62       & 0.56  & 0.66 & 0.70 \\
+      30        & 0.76       & 0.53  & 0.80 & 0.58  \\
+      $\infty$  & 0.90       & 0.16  & 0.93 & 0.42
+  \end{tabular}
+  \end{minipage}
+  \caption{Hierarchical reference annotation vs.\ OLDA on SALAMI track \#636.
+  (top) and $T$-measures (bottom).}
   \label{fig:SALAMI-OLDA}
 \end{figure}
 
