@@ -101,8 +101,8 @@ evaluating non-repeating, hierarchical structure.
 We present the \emph{Tree Measures} ($T$-measures): an evaluation framework designed
 to measure the accuracy of boundary detection in hierarchical segmentations.
 %The proposed metrics work at a frame-level --- similar to the method proposed by Levy and Sandler to evaluate structural annotations~\cite{Levy2008} --- and they are based on a rank retrieval evaluation where each frame is ranked depending on whether it belongs to the \emph{correct} segment.
-The $T$-measures operate by inferring frame-wise similarity from a hierarchical annotation, and then comparing 
-the induced rank-orderings of frames to assess agreement between reference and estimated annotations.
+The $T$-measures infer frame-wise similarity from a hierarchical annotation, and then
+compare the induced rank-orderings to assess agreement between reference and estimated annotations.
 The $T$-measures integrate information from all layers of a hierarchy, trivially
 specialize to handle flat annotations, and require no explicit correspondence between the
 depth of the estimated and reference hierarchies.
@@ -395,9 +395,10 @@ are constant across all estimates, we suppress them during the evaluation to avo
 \end{figure}
 When $w$ does not exceed the minimum segment duration, the $T$-measures coincide
 exactly with the boundary detection metrics.
-For larger $w$, $\shag_P$ decreases, while $\shag_R$ increases, obtaining a very large boost as $w$ approaches the length of the track.
-As suggested by these results, a sweet spot for $w$ might be around 15 seconds in this specific example.
-This will be further explored in Section~\ref{subsec:human-annotator}.
+For larger $w$, $\shag_P$ decreases, while $\shag_R$ increases as $w$ approaches the track
+duration.
+%As suggested by these results, a sweet spot for $w$ might be around 15 seconds in this specific example.
+The dependency on $w$ is further explored in \Cref{subsec:human-annotator}.
 
 To understand the relationship between $\shag_P$ and $w$, consider the example 
 $(q,i,j) = (5,15,25)$.
@@ -718,7 +719,8 @@ estimate produces many more layers with generally large segments.
 As a result, for sufficiently large $w$, the estimation achieves high recall and low precision.
 This behavior is typical of the OLDA method, which constructs hierarchies in a bottom-up fashion by
 agglomerative clustering, adding only a single boundary at each layer.
-Furthermore, due to the depth of the estimated boundaries, the Full results are inflated compared to the Reduced ones.
+Due to the depth of the estimated boundaries, the \emph{full} scores are inflated
+compared to the \emph{reduced} scores.
 %Consequently, the scores are lower than the annotator-agreement scores listed in
 %\Cref{fig:SALAMI-SALAMI}.
 
