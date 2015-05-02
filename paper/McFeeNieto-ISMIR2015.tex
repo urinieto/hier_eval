@@ -696,11 +696,11 @@ summarize agreement by $\shag_F$. \Cref{fig:salami-agree} illustrates the distri
 per-track $\shag_F$ scores as a function of $w$.  We observe that the score distribution is relatively stable
 for $w \geq 15$.\footnote{The analogous plots for $\shag_P$ and $\shag_R$ are omitted for brevity, but illustrate the same
 trend.} 
-The example given in \Cref{fig:SALAMI-SALAMI} lies slightly above the average agreement
-($\shag_F = 0.75$ at $w=15$),
-but is generally representative of inter-annotator agreement.
-The out-lying low scores tend to be examples where one annotator simply ignored structure annotated
-by the other: for example, one annotator only marked \emph{silence} boundaries in track \#68.
+The example in \Cref{fig:SALAMI-SALAMI} 
+is generally representative of inter-annotator agreement,
+achieving $\shag_F = 0.75$ at $w=15$.
+The out-lying low scores tend to be examples where one annotator ignored structure annotated
+by the other: \eg, in track \#68, one annotator only marked \emph{silence} boundaries.
 
 This analysis quantitatively substantiates prior observations that humans do not perfectly agree upon structural
 annotations~\cite{Smith2013}, and suggests an accuracy ceiling near 70\% for hierarchical annotation.
@@ -710,13 +710,14 @@ the median small-scale segment duration was 6.66s, with a 95th percentile of 15.
 
 % SALAMI 636 annotator 1 vs. OLDA\cite{McFee2014}  output \ref{fig:SALAMI-OLDA}.
 \subsection{Annotator vs.\ algorithm}
-Finally, we applied $T$-measures to evaluate the quality of hierarchical segmentations produced by
+Finally, we evaluated the quality of hierarchical segmentations produced by
 OLDA~\cite{McFee2014}.\footnote{To the authors' knowledge, this is the only published method for
 hierarchical boundary detection.}
-\Cref{fig:SALAMI-OLDA} illustrates an example hierarchical estimation against a hierarchical reference.
-The reference provides only two levels of segmentation (large and small), while the 
-estimate produces many more layers with generally large segments.  
-As a result, for sufficiently large $w$, the estimation achieves high recall and low precision.
+\Cref{fig:SALAMI-OLDA} illustrates one example output of OLDA and the resulting
+$T$-measures.
+The reference provides two levels of segmentation (large and small), while the 
+estimation produces several layers with generally large segments.  
+For sufficiently large $w$, the estimation achieves high recall and low precision.
 This behavior is typical of the OLDA method, which constructs hierarchies in a bottom-up fashion by
 agglomerative clustering, adding only a single boundary at each layer.
 Due to the depth of the estimated boundaries, the \emph{full} scores are inflated
@@ -724,8 +725,8 @@ compared to the \emph{reduced} scores.
 %Consequently, the scores are lower than the annotator-agreement scores listed in
 %\Cref{fig:SALAMI-SALAMI}.
 
-\Cref{fig:salami-olda-stats} displays the $\shag_F$ score distribution for OLDA, measured against annotator
-$1$ on 726 tracks from SALAMI\@, and using three different window settings and the reduced type.
+\Cref{fig:salami-olda-stats} displays the $\shag_F$ score distribution for OLDA, measured
+against annotator $1$ on 726 tracks from SALAMI\@.
 These results reveal a gap of around 30\% between inter-annotator agreement
 (\Cref{fig:salami-agree}) and the performance of OLDA\@.
 This suggests that there is substantial room for improvement in hierarchical boundary estimation algorithms.
