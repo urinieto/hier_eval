@@ -11,9 +11,9 @@
 \usepackage{brian}
 \usepackage{booktabs}
 \usepackage{qtree}
-\usepackage{caption}
+\usepackage[small, it]{caption}
 \usepackage{subcaption}
-% \def\shag{\ensuremath{\text{\textsc{SHAG}}}}
+%\usepackage[small]{titlesec}
 %\def\shag{\ensuremath{\mathpzc{H}}}
 \def\shag{\ensuremath{\mathpzc{T}}}
 \DeclareMathAlphabet{\mathpzc}{OT1}{pzc}{m}{it}
@@ -25,22 +25,22 @@
 % Single address
 % To use with only one author or several with the same address
 % ---------------
-%\oneauthor
-% {Names should be omitted for double-blind reviewing}
-% {Affiliations should be omitted for double-blind reviewing}
+\oneauthor
+ {Brian McFee, Oriol Nieto, and Juan Pablo Bello}
+ {Music and Audio Research Lab\\ New York University\\ {\tt \{brian.mcfee, oriol, jpbello\}@nyu.edu}}
 
 % Two addresses
 % --------------
-\twoauthors%
-  {First author} {School \\ Department}
-  {Second author} {Company \\ Address}
+%\twoauthors%
+  %{First author} {School \\ Department}
+  %{Second author} {Company \\ Address}
 
 % Three addresses
 % --------------
 %\threeauthors
-  %{First author} {Affiliation1 \\ {\tt author1@ismir.edu}}
-  %{Second author} {\bf Retain these fake authors in\\\bf submission to preserve the formatting}
-  %{Third author} {Affiliation3 \\ {\tt author3@ismir.edu}}
+  %{Brian McFee} { \\ {\tt author1@ismir.edu}}
+  %{Oriol Nieto} {\bf Retain these fake authors in\\\bf submission to preserve the formatting}
+  %{Juan Pablo Bello} {Affiliation3 \\ {\tt author3@ismir.edu}}
 
 % Four addresses
 % --------------
@@ -70,15 +70,17 @@ examples drawn from the SALAMI dataset.
 
 The analysis of structure in music has been a principal area of interest by musicologists for many years.
 Its goal is to identify and categorize the form of a musical piece by investigating the organization of its components, such as sections, phrases, melodies, or recurring motives.
-Traditional analyses usually provide multiple levels of annotation (\eg, Schenkerian analysis), which reinforce the general assumption that music is structured hierarchically~\cite{Lerdahl1983a}.
-Consequently, tree representations are commonly used to both model and analyze hierarchical forms in music~\cite{Lerdahl1983}.
+Traditional analyses usually provide multiple levels of annotation (\eg, Schenkerian analysis), which suggest that music is structured hierarchically~\cite{Lerdahl1983a}.
+These structures are commonly modeled and analyzed using tree representations~\cite{Lerdahl1983}.
+Even though not all music can necessarily be modeled using trees~\cite{Wiggins2015}, they are a useful device for moving beyond flat segmentations.
+%Consequently, tree representations are commonly used to both model and analyze hierarchical forms in music~\cite{Lerdahl1983}.
 
 In the music information research literature, \emph{music segmentation} (also known as \emph{music structure
 analysis}) is a task that aims to automatically identify the structure of a musical recording~\cite{Paulus2010}.
-The segmentation task has historically been geared toward algorithms which analyze a recording and produce a
-flat partition of time segments.
+The segmentation task has historically been geared toward algorithms which analyze a recording and produce
+flat partition segments.
 This formalization contrasts with our intuition that music exhibits hierarchical
-structure~\cite{Peeters2009}.
+structure~\cite{Peeters2009, Smith2011}.
 Even though a large dataset of hierarchically-structured human annotations is now publicly
 available~\cite{Smith2011},
 % Still, most existing algorithms only operate at a flat level, likely because (i) this task is already challenging at this level~\cite{Skywalker2014}, and (ii) even if an algorithm could 
@@ -98,6 +100,7 @@ evaluating non-repeating, hierarchical structure.
 %Nevertheless, the vast majority of music segmentation algorithms only operate at a flat level instead of following the hierarchical approach that most musicologists follow.
 
 \subsection{Our contributions}
+\sloppy
 We present the \emph{Tree Measures} ($T$-measures): an evaluation framework designed
 to measure the accuracy of boundary detection in hierarchical segmentations.
 %The proposed metrics work at a frame-level --- similar to the method proposed by Levy and Sandler to evaluate structural annotations~\cite{Levy2008} --- and they are based on a rank retrieval evaluation where each frame is ranked depending on whether it belongs to the \emph{correct} segment.
@@ -192,7 +195,7 @@ Let $S $ denote a flat, temporally contiguous partition of $X$,
 and let $S(i)$ identify the segment containing the $i$th frame in $X$.
 We will use the subscripts $S_R$ and $S_E$ to denote \emph{reference} and \emph{estimated} annotations, respectively.
 
-A \emph{hierarchical segmentation} $H$ is defined as a sequence of flat segmentations $(S^0, S^1, \dots, S^d)$ where each layer is a \emph{refinement}
+A \emph{hierarchical segmentation} $H$ is defined as a tree of flat segmentations $(S^0, S^1, \dots, S^d)$ where each layer is a \emph{refinement}
 of the preceding layer.\footnote{A partition $S^{i+1}$ is a refinement of partition $S^{i}$ if each member of $S^{i+1}$ is contained within exactly one member of $S^i$.}
 Let $H(i,j)$ identify the smallest (most refined) segment containing frames $i$ and $j$.
 We will denote precedence (containment) of segments by $\prec$: \eg, $H(j, k) \prec H(i, k)$.
@@ -363,7 +366,7 @@ them from this section.
 The synthesized flat boundaries are displayed on the top of \Cref{fig:flat-flat}, and they aim to capture a
 situation where an algorithm correctly detects a subset of the reference boundaries.  
 
-The hit rate scores obtain recall of 0.40 and precision of 1.0, since all estimated boundaries are also in the reference, but only two out of five boundaries were retrieved.\footnote{The first and last boundaries ($0$ and $60$s) mark the beginning and end of the track, and since they 
+The hit rate scores obtain a recall of 0.40 and a precision of 1.0, since all estimated boundaries are also in the reference, but only two out of five boundaries were retrieved.\footnote{The first and last boundaries ($0$ and $60$s) mark the beginning and end of the track, and since they 
 are constant across all estimates, we suppress them during the evaluation to avoid score inflation.}
 \begin{figure}
   \centering
@@ -770,7 +773,7 @@ This suggests that there is substantial room for improvement in hierarchical bou
 %Olda\cite{McFee2014} with SALAMI.
 
 
-\section{Discussion}\label{sec:conclusions}
+\section{Discussion and Conclusions}\label{sec:conclusions}
 
 The implementation of $T$-measures depends upon two critical parameters: the time window
 $w$, and whether to use the \emph{reduced} or \emph{full} metrics.  While the setting of
@@ -779,7 +782,7 @@ dataset, the results on SALAMI suggest that $w=15$ provides a reasonable balance
 between capturing high-level structure and resilience to long-range interactions.
 As illustrated in \cref{sec:largeover}, when $w$ is large enough to capture multiple short
 segments, the transitive reduction approach can also be used to enhance the range
-of the metric while eliminating redundant comparisons.
+of the metrics while eliminating redundant comparisons.
 
 In this paper, we focused only on the problem of evaluating estimated boundaries.
 In future work, we plan to extend general ideas behind $T$-measures to other structural 
