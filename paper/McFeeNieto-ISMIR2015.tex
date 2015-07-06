@@ -5,6 +5,7 @@
 
 \documentclass{article}
 \usepackage{ismir,amsmath,cite}
+\usepackage{url}
 \usepackage{graphicx}
 \usepackage{color}
 \usepackage{amsfonts}
@@ -17,6 +18,8 @@
 %\def\shag{\ensuremath{\mathpzc{H}}}
 \def\shag{\ensuremath{\mathpzc{T}}}
 \DeclareMathAlphabet{\mathpzc}{OT1}{pzc}{m}{it}
+\usepackage{authblk}
+\renewcommand\Authfont{\bfseries}
 
 % Title.
 % ------
@@ -25,9 +28,17 @@
 % Single address
 % To use with only one author or several with the same address
 % ---------------
-\oneauthor
- {Brian McFee, Oriol Nieto, and Juan Pablo Bello}
- {Music and Audio Research Lab\\ New York University\\ {\tt \{brian.mcfee, oriol, jpbello\}@nyu.edu}}
+%\oneauthor
+% {Brian McFee, Oriol Nieto, and Juan Pablo Bello}
+% {Music and Audio Research Lab\\ New York University\\ {\tt \{brian.mcfee, oriol, jpbello\}@nyu.edu}}
+\author[1,2,*]{Brian McFee}
+\author[2]{Oriol Nieto}
+\author[2]{Juan P. Bello}
+\affil[1]{Center for Data Science \\ New York University}
+\affil[2]{Music and Audio Research Laboratory \\ New York University}
+
+\def\authorname{Brian McFee, Oriol Nieto, Juan P. Bello}
+
 
 % Two addresses
 % --------------
@@ -53,6 +64,11 @@
 \begin{document}
 %
 \maketitle
+%
+\let\oldthefootnote\thefootnote
+\renewcommand{\thefootnote}{\fnsymbol{footnote}}
+\footnotetext[1]{Please direct correspondence to \url{brian.mcfee@nyu.edu}}
+\let\thefootnote\oldthefootnote
 %
 \begin{abstract}
 Structure in music is traditionally analyzed hierarchically: large-scale sections can be sub-divided and refined down to the short melodic ideas at the motivic level. 
@@ -255,7 +271,7 @@ $H(q, i) \prec H(q, j)$: \ie, the pair $(q,i)$ merge deeper in the hierarchy tha
 This leads to the following generalization of \Cref{flatrecall}:
 \begin{equation}
     g(q ; H_E, H_R) \defeq \hspace{-1.5em} \sum_{\substack{(i, j),\\ i \neq q,\\ H_R(q, i) \prec H_R(q, j)}}
-    \hspace{-1.5em} \frac{\ind{H_E(q, i) \prec H_E(q, j)}}{Z_q}.\label{hierrecall}
+    \hspace{-1.5em} \frac{\ind{H_E(q, i) \prec H_E(q, j)}}{Z_q},\label{hierrecall}
 \end{equation}
 where $Z_q$ is suitably modified to count the number of terms in the summation.
 This definition is equivalent to \Cref{flatrecall} for flat hierarchies, but it applies more generally to 
@@ -787,6 +803,9 @@ of the metrics while eliminating redundant comparisons.
 In this paper, we focused only on the problem of evaluating estimated boundaries.
 In future work, we plan to extend general ideas behind $T$-measures to other structural 
 annotation problems, such as segment label agreement.
+
+\section{Acknowledgements}
+BM acknowledges support from the Moore-Sloan Data Science Environment at NYU.
 
 \bibliography{refs}
 
