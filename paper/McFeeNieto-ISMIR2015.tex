@@ -34,8 +34,8 @@
 \author[1,2,*]{Brian McFee}
 \author[2]{Oriol Nieto}
 \author[2]{Juan P. Bello}
-\affil[1]{Center for Data Science \\ New York University}
-\affil[2]{Music and Audio Research Laboratory \\ New York University}
+\affil[1]{Center for Data Science, New York University}
+\affil[2]{Music and Audio Research Laboratory, New York University}
 
 \def\authorname{Brian McFee, Oriol Nieto, Juan P. Bello}
 
@@ -65,10 +65,10 @@
 %
 \maketitle
 %
-\let\oldthefootnote\thefootnote
+\let\oldthefootnote\thefootnote%
 \renewcommand{\thefootnote}{\fnsymbol{footnote}}
 \footnotetext[1]{Please direct correspondence to \url{brian.mcfee@nyu.edu}}
-\let\thefootnote\oldthefootnote
+\let\thefootnote\oldthefootnote%
 %
 \begin{abstract}
 Structure in music is traditionally analyzed hierarchically: large-scale sections can be sub-divided and refined down to the short melodic ideas at the motivic level. 
@@ -84,17 +84,16 @@ examples drawn from the SALAMI dataset.
 %
 \section{Introduction}\label{sec:introduction}
 
-The analysis of structure in music has been a principal area of interest by musicologists for many years.
-Its goal is to identify and categorize the form of a musical piece by investigating the organization of its components, such as sections, phrases, melodies, or recurring motives.
-Traditional analyses usually provide multiple levels of annotation (\eg, Schenkerian analysis), which suggest that music is structured hierarchically~\cite{Lerdahl1983a}.
-These structures are commonly modeled and analyzed using tree representations~\cite{Lerdahl1983}.
-Even though not all music can necessarily be modeled using trees~\cite{Wiggins2015}, they are a useful device for moving beyond flat segmentations.
+The analysis of structure in music is a principal area of interest to musicologists.
+Its goal is to identify and characterize the form of a musical piece by investigating the organization of its components, such as sections, phrases, melodies, or recurring motives.
+Traditional analyses usually provide multiple levels of annotation (\eg, Schenkerian analysis), which suggest that music is structured hierarchically~\cite{Lerdahl1983a},
+and can be modeled and analyzed using tree representations~\cite{Lerdahl1983}.
 %Consequently, tree representations are commonly used to both model and analyze hierarchical forms in music~\cite{Lerdahl1983}.
 
 In the music information research literature, \emph{music segmentation} (also known as \emph{music structure
 analysis}) is a task that aims to automatically identify the structure of a musical recording~\cite{Paulus2010}.
-The segmentation task has historically been geared toward algorithms which analyze a recording and produce
-flat partition segments.
+The segmentation task has historically been geared toward algorithms which produce
+a flat partition of the recording into disjoint segments.
 This formalization contrasts with our intuition that music exhibits hierarchical
 structure~\cite{Peeters2009, Smith2011}.
 Even though a large dataset of hierarchically-structured human annotations is now publicly
@@ -105,7 +104,7 @@ current evaluation methodologies are defined only for \emph{flat} segmentations.
 As a result, the dimension of \emph{depth} has been practically ignored in the evaluation of music segmentation algorithms.
 
 In contrast to segmentation, the \emph{pattern discovery} task formulation allows output segments to overlap, 
-and the output is not required to cover the entire piece.
+and the annotation is not required to cover the entire piece.
 These two tasks share multiple attributes~\cite{Nieto2014_Motives}, and steps toward a 
 general formulation musical structure analysis could be made by accounting for depth in segmentation.
 Numerous metrics to evaluate pattern discovery have been proposed~\cite{Collins2013}.
@@ -126,6 +125,8 @@ The $T$-measures integrate information from all layers of a hierarchy, trivially
 specialize to handle flat annotations, and require no explicit correspondence between the
 depth of the estimated and reference hierarchies.
 Thus, the $T$-measures encourage the development of new algorithms to produce richer representations of structure.
+Although not all music can necessarily be modeled using trees~\cite{Wiggins2015}, we argue that tree-based evaluation represents 
+a first step toward moving beyond flat structure analyses.
 We demonstrate the properties of $T$-measures with multiple synthetic, human, and algorithmic examples.
 
 %The rest of the paper is organized as follows:
@@ -159,16 +160,16 @@ However, it can be sensitive to the number of estimated boundaries.
 The precision-recall paradigm has been critical to quantifying improvements in segmentation algorithms, but it has numerous limitations with hierarchical annotations.
 The most obvious limitation is that both the reference and estimated annotations must have flat structure.
 This is sometimes resolved by collecting multiple flat reference annotations for each track, 
-each corresponding to a different level of analysis~\cite{Smith2011}.
+each corresponding to different levels of analysis~\cite{Smith2011}.
 
 When only the estimation is flat, it is still not obvious how to compute accuracy against multiple layers.
-Direct aggregation of reference boundaries across all layers prior to evaluation would imply 
+Aggregating reference boundaries across layers prior to evaluation would imply 
 that all boundaries are equally informative.
-Hierarchical constraints imply that boundaries at low levels outnumber those at high levels.
 However, high-level boundaries often convey more information about the overall structure of the piece, but
-their contribution to the total score may be diluted by the abundance of low-level boundaries.
+their contribution to the total score may be diluted by the abundance of low-level boundaries, which necessarily
+outnumber high-level boundaries in hierarchical annotations.
 
-On the other hand, flat scoring before aggregation across layers can be problematic as well, 
+Flat evaluation followed by aggregation across layers can be similarly problematic, 
 since it discards the relational structure between layers in the reference annotation.
 This can complicate interpretation of the scores by conflating inaccurate boundary detection
 with mismatch between the target levels of the estimate and reference annotations~\cite{Smith2013}.
@@ -176,7 +177,7 @@ with mismatch between the target levels of the estimate and reference annotation
 Finally, the above strategies provide no means to directly compare two hierarchical annotations.
 While one may imagine simple comparison strategies when both hierarchies have a small
 number of layers with an obvious layer-wise correspondence 
---- \eg, SALAMI's \emph{large}- and \emph{small}-scale annotations --- it may not be clear how to proceed in
+--- \eg, SALAMI's \emph{large}- and \emph{small}-scale annotations --- it is unclear how to proceed in
 more general settings.
 % Talk about how good performance at one vs. the other leads to difficult interpretation, eg 0.5 vs. 3s in smith 2014
 
@@ -233,7 +234,7 @@ j \in H(j, j) \prec H(j, k) \prec H(i, j) = H(i, k).
   \centering
   \includegraphics[width=\columnwidth]{figs/hier-example.pdf}
   \caption{An example of a three-level hierarchical segmentation.
-  Example frames $i, j$, and $k$ are indicated along the $x$-axis, and their containing segments are indicated
+  Frames $i, j$, and $k$ are indicated along the $x$-axis, and their containing segments are indicated
   within the figure, \eg, $H(j, k)$.}\label{fig:hier-example}
 \end{figure}
 
@@ -367,11 +368,11 @@ We refer to the resulting metrics as \emph{reduced} $T$-measures.
 \section{Synthetic examples}\label{sec:examples}
 
 In this section we discuss the behavior of the $T$-measures by showing various synthetic examples, and comparing them against other existing methods when possible.
-%We show the two grades of $T$-measures (undersegmentation, oversegmentation) for all the examples in this sections
+%We show the two grades of $T$-measures (under-segmentation, over-segmentation) for all the examples in this sections
 %Two different versions of each metric are used to evaluate these examples: Estimated against Reference boundaries (E2R), and the Reference boundaries against the Estimated ones (R2E).
 %These results will help us illustrate the variation of the scores when swapping the references with the estimations, which, in the case of $T$-measures, has a significant impact.
 For each example in this section, we illustrate the behavior of our proposed metric under different window times $w$.
-This section is subdivided by type of annotations under consideration.
+This section is subdivided by the types of annotations under consideration.
 
 \subsection{Flat vs.\ flat annotations}
 
